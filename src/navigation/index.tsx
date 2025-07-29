@@ -1,13 +1,23 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+
 import { BackIcon, HeaderLogo, ProfileHead, SettingsGear } from '../assets';
 import { Header } from '../components';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Login: undefined;
+  Signup: undefined;
+  Home: undefined;
+  Settings: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -23,19 +33,20 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{
+          options={({ navigation }) => ({
             headerShown: true,
             header: () => (
               <Header
-                LeftIcon={<SettingsGear width={24} height={24} />}
-                RightIcon={<ProfileHead width={24} height={24} />}
+                LeftIcon={<SettingsGear />}
+                RightIcon={<ProfileHead />}
                 MainLogo={<HeaderLogo />}
-                onLeftPress={() => console.log('Back')}
+                onLeftPress={() => navigation.navigate('Settings')}
                 onRightPress={() => console.log('Profile')}
               />
             ),
-          }}
+          })}
         />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
