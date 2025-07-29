@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Platform, Image } from 'react-native';
-import Header from '../components/Header';
-import CustomInput from '../components/CustomInput';
-import CustomButton from '../components/CustomButton';
-import GoogleButton from '../components/GoogleButton';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  Image,
+} from 'react-native';
+
 import Logo from '../assets/images/Logo.png';
+import { CustomInput, CustomButton, GoogleButton } from '../components';
 
 interface SignupScreenProps {
   navigation: any;
@@ -15,40 +22,48 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{email?: string; password?: string; confirmPassword?: string}>({});
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
 
   const handleSignup = async () => {
     // Reset errors
     setErrors({});
-    
+
     // Validation
-    const newErrors: {email?: string; password?: string; confirmPassword?: string} = {};
-    
+    const newErrors: {
+      email?: string;
+      password?: string;
+      confirmPassword?: string;
+    } = {};
+
     if (!email) {
       newErrors.email = "Can't be empty";
     } else if (!email.includes('@')) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = 'Invalid email format';
     }
-    
+
     if (!password) {
-      newErrors.password = "At least 8 characters";
+      newErrors.password = 'At least 8 characters';
     } else if (password.length < 8) {
-      newErrors.password = "At least 8 characters";
+      newErrors.password = 'At least 8 characters';
     }
-    
+
     if (!confirmPassword) {
-      newErrors.confirmPassword = "At least 8 characters";
+      newErrors.confirmPassword = 'At least 8 characters';
     } else if (password !== confirmPassword) {
       newErrors.confirmPassword = "Passwords don't match";
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     setLoading(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
@@ -63,7 +78,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
@@ -71,11 +86,13 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
           <View style={styles.logo}>
             <Image source={Logo} />
           </View>
-          
+
           <View style={styles.formContainer}>
             <Text style={styles.title}>Create account</Text>
-            <Text style={styles.subtitle}>Let's get you started sharing your links!</Text>
-            
+            <Text style={styles.subtitle}>
+              Let's get you started sharing your links!
+            </Text>
+
             <CustomInput
               label="Email address"
               iconName="email"
@@ -87,7 +104,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
               error={errors.email}
               hasError={!!errors.email}
             />
-            
+
             <CustomInput
               label="Create password"
               iconName="lock"
@@ -98,7 +115,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
               error={errors.password}
               hasError={!!errors.password}
             />
-            
+
             <CustomInput
               label="Confirm password"
               iconName="lock"
@@ -109,19 +126,19 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
               error={errors.confirmPassword}
               hasError={!!errors.confirmPassword}
             />
-            
+
             <Text style={styles.passwordNote}>
               Password must contain at least 8 characters
             </Text>
-            
+
             <CustomButton
               title="Create new account"
               onPress={handleSignup}
               loading={loading}
             />
-            
+
             <GoogleButton onPress={handleGoogleSignup} />
-            
+
             <View style={styles.linkContainer}>
               <Text style={styles.linkText}>Already have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
@@ -183,7 +200,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: {marginBottom: 40, alignSelf: 'center'}
+  logo: { marginBottom: 40, alignSelf: 'center' },
 });
 
 export default SignupScreen;

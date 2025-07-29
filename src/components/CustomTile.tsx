@@ -10,12 +10,15 @@ import {
 import {
   CommentLogo,
   FBLogo,
+  LikeFilledLogo,
   LikeLogo,
+  SaveFilledLogo,
   SaveLogo,
   WhatsappLogo,
   XLogo,
   YoutubeLogo,
 } from '../assets';
+import CustomText from './CustomText';
 // import { FontAwesome, MaterialCommunityIcons, Feather, AntDesign, Entypo } from '@expo/vector-icons';
 
 interface CustomTileProps {
@@ -30,6 +33,9 @@ interface CustomTileProps {
   onSavePress: () => void;
   onXPress: () => void;
   onYoutubePress: () => void;
+  onImagePress: () => void;
+  isLiked: boolean;
+  isSaved: boolean;
   style?: ViewStyle;
 }
 
@@ -45,30 +51,37 @@ const CustomTile: React.FC<CustomTileProps> = ({
   onSavePress,
   onXPress,
   onYoutubePress,
+  onImagePress,
+  isLiked,
+  isSaved,
   style,
 }) => {
   return (
     <View style={[styles.container, style]}>
-      <Image
-        source={{ uri: imageUrl }}
-        style={styles.image}
-        resizeMode="cover"
-      />
+      <Pressable onPress={onImagePress}>
+        <Image
+          source={{ uri: imageUrl }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      </Pressable>
       <View style={styles.infoContainer}>
-        <Text style={styles.source}>
+        <CustomText style={styles.source}>
           Source: <Text style={{ color: '#0F62FE' }}>{source}</Text>
-        </Text>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.date}>Date: {date}</Text>
+        </CustomText>
+        <CustomText style={styles.title} fontFamily="Gilroy-Bold">
+          {title}
+        </CustomText>
+        <CustomText style={styles.date}>Date: {date}</CustomText>
         <View style={styles.iconsContainer}>
           <Pressable onPress={onCommentPress}>
             <CommentLogo />
           </Pressable>
           <Pressable onPress={onLikePress}>
-            <LikeLogo />
+            {isLiked ? <LikeFilledLogo /> : <LikeLogo />}
           </Pressable>
           <Pressable onPress={onSavePress}>
-            <SaveLogo />
+            {isSaved ? <SaveFilledLogo /> : <SaveLogo />}
           </Pressable>
           <Pressable onPress={onXPress}>
             <XLogo />
@@ -92,7 +105,7 @@ const CustomTile: React.FC<CustomTileProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#F3F4F6', // light gray
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     padding: 10,
     margin: 10,
@@ -103,17 +116,18 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   image: {
+    aspectRatio: 1,
     width: 100,
-    height: 70,
     borderRadius: 8,
   },
   infoContainer: {
     flex: 1,
-    marginLeft: 10,
+    marginHorizontal: 10,
+    alignItems: 'flex-end',
   },
   source: {
     fontSize: 12,
-    color: '#6B7280',
+    color: '#0F62FE',
   },
   title: {
     fontWeight: 'bold',
@@ -126,8 +140,8 @@ const styles = StyleSheet.create({
   },
   iconsContainer: {
     flexDirection: 'row',
-    marginTop: 6,
-    gap: 10,
+    marginTop: 10,
+    gap: 6,
   },
   shareLabel: {
     fontSize: 10,
