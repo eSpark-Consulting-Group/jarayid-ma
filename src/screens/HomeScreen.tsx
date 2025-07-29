@@ -1,65 +1,93 @@
-import React, { useState } from 'react';
-import {
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Image,
-  ImageBackground,
-  FlatList,
-} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 
 import {
-  CategoryCard,
   CategoryCardList,
   CustomCard,
-  CustomText,
+  CustomTab,
+  Divider,
   CustomTile,
-  NewsCard,
   NewsCardList,
 } from '../components';
-import { PlayBtn } from '../assets';
+import { TABS_COUNTRIES, TABS_CATEGORIES, TILES_DATA } from '../constants';
 
 interface HomeScreenProps {
   navigation: any;
 }
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+const HomeScreen: React.FC<HomeScreenProps> = () => {
+  const [tileStates, setTileStates] = useState<
+    Record<string, { isLiked: boolean; isSaved: boolean }>
+  >({});
 
-  const handleLikeToggle = () => {
-    setIsLiked(!isLiked);
-  };
-  const handleSaveToggle = () => {
-    setIsSaved(!isSaved);
-  };
+  const toggleTileState = useCallback(
+    (key: string, field: 'isLiked' | 'isSaved') => {
+      setTileStates(prev => ({
+        ...prev,
+        [key]: {
+          ...prev[key],
+          [field]: !prev[key]?.[field],
+        },
+      }));
+    },
+    [],
+  );
+
+  const handleTabPress = useCallback((value: string) => {
+    console.log('Selected:', value);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* <CustomCard>
-        <CustomText fontFamily="Inter_24pt-Regular">
-          This is inside the custom gray card.
-        </CustomText>
-      </CustomCard> */}
-
-      <CustomCard style={{ marginTop: 10 }}>
-        <CustomTile
-          onImagePress={() => console.log('navigate')}
-          imageUrl="https://res.cloudinary.com/drnkzxfzu/image/upload/v1753779966/main-sample.png"
-          source="CNN"
-          title="SCCI finalizes preparations"
-          date="02-08-20"
-          onCommentPress={() => console.log('Comment')}
-          onLikePress={handleLikeToggle}
-          onSavePress={handleSaveToggle}
-          onFacebookPress={() => console.log('Facebook')}
-          onWhatsappPress={() => console.log('WhatsApp')}
-          onXPress={() => console.log('X')}
-          onYoutubePress={() => console.log('YT')}
-          isLiked={isLiked}
-          isSaved={isSaved}
-        />
-      </CustomCard>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={{ alignItems: 'center' }}>
+          <CustomTab data={TABS_COUNTRIES} onTabPress={handleTabPress} />
+          <Divider />
+          <CustomTab data={TABS_CATEGORIES} onTabPress={handleTabPress} round />
+        </View>
+        <NewsCardList />
+        <CategoryCardList />
+        <View style={styles.card}>
+          <View>
+            {TILES_DATA.map((tile, idx) => {
+              const key = `${tile.source}-${idx}`;
+              const tileState = tileStates[key] || {
+                isLiked: false,
+                isSaved: false,
+              };
+              return (
+                <View key={key}>
+                  <CustomTile
+                    {...tile}
+                    isLiked={tileState.isLiked}
+                    isSaved={tileState.isSaved}
+                    onImagePress={() => console.log('navigate')}
+                    onCommentPress={() => console.log('Comment')}
+                    onLikePress={() => toggleTileState(key, 'isLiked')}
+                    onSavePress={() => toggleTileState(key, 'isSaved')}
+                    onFacebookPress={() => console.log('Facebook')}
+                    onWhatsappPress={() => console.log('WhatsApp')}
+                    onXPress={() => console.log('X')}
+                    onYoutubePress={() => console.log('YT')}
+                  />
+                  {idx == TILES_DATA.length - 1 ? null : (
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: '#8F8F8F66',
+                        marginVertical: 20,
+                      }}
+                    />
+                  )}
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -68,15 +96,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingHorizontal: 10,
   },
-  keyboardView: {
-    flex: 1,
+  scrollContent: {
+    // paddingTop: 20,
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
+  card: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    gap: 10,
   },
 });
 

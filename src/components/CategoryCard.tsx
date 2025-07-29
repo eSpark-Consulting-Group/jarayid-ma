@@ -25,7 +25,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       >
         <Image source={{ uri: imageUrl }} style={styles.image} />
       </TouchableOpacity>
-      <CustomText text={categoryName} size={18} />
+      <CustomText text={categoryName} size={16} fontFamily="Gilroy-SemiBold" />
     </View>
   );
 };
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     gap: 5,
-    margin: 10,
+    marginHorizontal: 10,
   },
-  imageContainer: { width: '100%', height: 120 },
+  imageContainer: { width: '100%', height: 100 },
   image: { flex: 1, width: '100%', borderRadius: 10 },
 });

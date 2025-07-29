@@ -20,7 +20,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ imageUrl, title, onPress }) => {
       >
         <Image
           source={{ uri: imageUrl }}
-          style={{ borderRadius: 5, width: 150, height: 220 }}
+          style={{ borderRadius: 15, width: 150, height: 220 }}
         />
         <View style={styles.imageShade} />
         <PlayBtn style={{ position: 'absolute' }} />
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     opacity: 0.3,
-    borderRadius: 5,
+    borderRadius: 15,
   },
 });
