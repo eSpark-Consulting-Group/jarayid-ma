@@ -13,33 +13,67 @@ import Header from '../components/Header';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import Logo from '../assets/images/Logo.png';
-interface ForgotPasswordEmailProps {
-  navigation: any;
-}
+import { useNavigation } from '@react-navigation/native';
+import { RootStackNavigationProp } from '../navigation/navigation';
+interface ForgotPasswordEmailProps {}
 
-const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({
-  navigation,
-}) => {
+const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
+  const navigation =
+    useNavigation<RootStackNavigationProp<'ForgotPasswordEmail'>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string, confirmPassword?: string }>(
-    {},
-  );
   const [codeSent, setCodeSent] = useState(false);
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text && text.includes('@')) {
+        delete newErrors.email;
+      }
+      return newErrors;
+    });
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text.length >= 8) {
+        delete newErrors.password;
+      }
+      return newErrors;
+    });
+  };
+
+  const handleConfirmPasswordChange = (text: string) => {
+    setConfirmPassword(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text.length >= 8 && text === password) {
+        delete newErrors.confirmPassword;
+      }
+      return newErrors;
+    });
+  };
 
   const handleForgot = async () => {
-    if(!codeSent) {
+    if (!codeSent) {
       setCodeSent(true);
-    }else {
-      navigation.navigate("SelectLanguage")
+    } else {
+      navigation.navigate('SelectLanguage');
     }
     return;
-    // Reset errors
+
     setErrors({});
 
-    // Validation
     const newErrors: {
       email?: string;
       password?: string;
@@ -70,10 +104,8 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({
 
       setLoading(true);
 
-      // Simulate API call
       setTimeout(() => {
         setLoading(false);
-        // Handle login success/failure
       }, 2000);
     }
   };
@@ -94,51 +126,56 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({
               Let’s get you started sharing your links!
             </Text>
 
-            {!codeSent ? <CustomInput
-              label="Email address"
-              iconName="email"
-              placeholder="e.g. alex@email.com"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              error={errors.email}
-              hasError={!!errors.email}
-            />: 
-            <>
-            <CustomInput
-                label="Create password"
-                iconName="lock"
-                placeholder="At least 8 characters"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                error={errors.password}
-                hasError={!!errors.password}
-              />
+            {!codeSent ? (
               <CustomInput
-                label="Confirm password"
-                iconName="lock"
-                placeholder="At least 8 characters"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry
-                error={errors.confirmPassword}
-                hasError={!!errors.confirmPassword}
+                label="Email address"
+                iconName="email"
+                placeholder="e.g. alex@email.com"
+                value={email}
+                onChangeText={handleEmailChange}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                error={errors.email}
+                hasError={!!errors.email}
               />
-            </>}
+            ) : (
+              <>
+                <CustomInput
+                  label="Create password"
+                  iconName="lock"
+                  placeholder="At least 8 characters"
+                  value={password}
+                  onChangeText={handlePasswordChange}
+                  secureTextEntry
+                  error={errors.password}
+                  hasError={!!errors.password}
+                />
+                <CustomInput
+                  label="Confirm password"
+                  iconName="lock"
+                  placeholder="At least 8 characters"
+                  value={confirmPassword}
+                  onChangeText={handleConfirmPasswordChange}
+                  secureTextEntry
+                  error={errors.confirmPassword}
+                  hasError={!!errors.confirmPassword}
+                />
+              </>
+            )}
 
             <CustomButton
-              title={!codeSent ? "Send Code" : "Save"}
+              title={!codeSent ? 'Send Code' : 'Save'}
               onPress={handleForgot}
               loading={loading}
             />
 
-            {!codeSent && <View style={styles.linkContainer}>
-              <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                <Text style={styles.linkText}>Try Another way?</Text>
-              </TouchableOpacity>
-            </View>}
+            {!codeSent && (
+              <View style={styles.linkContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                  <Text style={styles.linkText}>Try Another way?</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
       </KeyboardAvoidingView>

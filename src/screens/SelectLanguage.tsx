@@ -14,6 +14,8 @@ import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import Logo from '../assets/images/Logo.png';
 import CustomSelector, { SelectorOption } from '../components/CustomSelector';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackNavigationProp } from '../navigation/navigation';
 
 interface Language {
   code: string;
@@ -21,15 +23,14 @@ interface Language {
   nativeName: string;
 }
 
-interface SelectLanguageProps {
-  navigation: any;
-}
+interface SelectLanguageProps {}
 
-const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({
-  navigation,
-}) => {
+const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
+  const navigation = useNavigation<RootStackNavigationProp<'SelectLanguage'>>();
   const [loading, setLoading] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(undefined);
+  const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(
+    undefined,
+  );
 
   const languages: Language[] = [
     { code: 'en', name: 'English', nativeName: 'English' },
@@ -80,7 +81,13 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({
               searchable={true}
               modalTitle="Select Language"
             />
-            <CustomButton title="Select" onPress={() => {navigation.navigate("Login")}} loading={loading} />
+            <CustomButton
+              title="Select"
+              onPress={() => {
+                navigation.navigate('Login');
+              }}
+              loading={loading}
+            />
           </View>
         </View>
       </KeyboardAvoidingView>

@@ -1,58 +1,105 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Platform, Image, ScrollView } from 'react-native';
-import Header from '../components/Header';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  Image,
+  ScrollView,
+} from 'react-native';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import GoogleButton from '../components/GoogleButton';
 import Logo from '../assets/images/Logo.png';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackNavigationProp } from '../navigation/navigation';
 
-interface SignupScreenProps {
-  navigation: any;
-}
+interface SignupScreenProps {}
 
-const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
+const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
+  const navigation = useNavigation<RootStackNavigationProp<'Signup'>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{email?: string; password?: string; confirmPassword?: string}>({});
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text && text.includes('@')) {
+        delete newErrors.email;
+      }
+      return newErrors;
+    });
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text.length >= 8) {
+        delete newErrors.password;
+      }
+      return newErrors;
+    });
+  };
+
+  const handleConfirmPasswordChange = (text: string) => {
+    setConfirmPassword(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text.length >= 8 && text === password) {
+        delete newErrors.confirmPassword;
+      }
+      return newErrors;
+    });
+  };
 
   const handleSignup = async () => {
-    // Reset errors
     setErrors({});
-    
-    // Validation
-    const newErrors: {email?: string; password?: string; confirmPassword?: string} = {};
-    
+
+    const newErrors: {
+      email?: string;
+      password?: string;
+      confirmPassword?: string;
+    } = {};
+
     if (!email) {
       newErrors.email = "Can't be empty";
     } else if (!email.includes('@')) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = 'Invalid email format';
     }
-    
+
     if (!password) {
-      newErrors.password = "At least 8 characters";
+      newErrors.password = 'At least 8 characters';
     } else if (password.length < 8) {
-      newErrors.password = "At least 8 characters";
+      newErrors.password = 'At least 8 characters';
     }
-    
+
     if (!confirmPassword) {
-      newErrors.confirmPassword = "At least 8 characters";
+      newErrors.confirmPassword = 'At least 8 characters';
     } else if (password !== confirmPassword) {
       newErrors.confirmPassword = "Passwords don't match";
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     setLoading(true);
-    
-    // Simulate API call
+
     setTimeout(() => {
       setLoading(false);
-      // Handle signup success/failure
     }, 2000);
   };
 
@@ -67,20 +114,25 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+          keyboardShouldPersistTaps="handled"
+        >
           <View style={styles.content}>
             <View style={styles.logo}>
               <Image source={Logo} />
             </View>
             <View style={styles.formContainer}>
               <Text style={styles.title}>Create account</Text>
-              <Text style={styles.subtitle}>Let's get you started sharing your links!</Text>
+              <Text style={styles.subtitle}>
+                Let's get you started sharing your links!
+              </Text>
               <CustomInput
                 label="Email address"
                 iconName="email"
                 placeholder="e.g. alex@email.com"
                 value={email}
-                onChangeText={setEmail}
+                onChangeText={handleEmailChange}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 error={errors.email}
@@ -91,7 +143,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
                 iconName="lock"
                 placeholder="At least 8 characters"
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={handlePasswordChange}
                 secureTextEntry
                 error={errors.password}
                 hasError={!!errors.password}
@@ -101,7 +153,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
                 iconName="lock"
                 placeholder="At least 8 characters"
                 value={confirmPassword}
-                onChangeText={setConfirmPassword}
+                onChangeText={handleConfirmPasswordChange}
                 secureTextEntry
                 error={errors.confirmPassword}
                 hasError={!!errors.confirmPassword}

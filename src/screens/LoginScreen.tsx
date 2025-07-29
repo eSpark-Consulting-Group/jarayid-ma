@@ -13,23 +13,43 @@ import Header from '../components/Header';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import Logo from '../assets/images/Logo.png';
-interface LoginScreenProps {
-  navigation: any;
-}
+import { useNavigation } from '@react-navigation/native';
+import { RootStackNavigationProp } from '../navigation/navigation';
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+interface LoginScreenProps {}
+
+const LoginScreen: React.FC<LoginScreenProps> = () => {
+  const navigation = useNavigation<RootStackNavigationProp<'Login'>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {},
-  );
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text && text.includes('@')) {
+        delete newErrors.email;
+      }
+      return newErrors;
+    });
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text) {
+        delete newErrors.password;
+      }
+      return newErrors;
+    });
+  };
 
   const handleLogin = async () => {
-    // Reset errors
     setErrors({});
 
-    // Validation
     const newErrors: { email?: string; password?: string } = {};
 
     if (!email) {
@@ -48,12 +68,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     }
 
     setLoading(true);
+    navigation.navigate('Home');
+    setLoading(false);
 
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      // Handle login success/failure
-    }, 2000);
   };
 
   return (
@@ -77,7 +94,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               iconName="email"
               placeholder="e.g. alex@email.com"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={handleEmailChange}
               keyboardType="email-address"
               autoCapitalize="none"
               error={errors.email}
@@ -89,7 +106,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               iconName="lock"
               placeholder="Enter your password"
               value={password}
-              onChangeText={setPassword}
+              onChangeText={handlePasswordChange}
               secureTextEntry
               error={errors.password}
               hasError={!!errors.password}
