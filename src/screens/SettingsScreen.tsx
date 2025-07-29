@@ -49,7 +49,7 @@ const SettingsScreen = () => {
               {icon}
               <CustomText style={styles.label}>{label}</CustomText>
             </View>
-            <Divider />
+            <Divider color="#8F8F8F" />
           </TouchableOpacity>
         ))}
       </ScrollView>
