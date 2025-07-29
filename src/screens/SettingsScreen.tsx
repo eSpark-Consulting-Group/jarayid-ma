@@ -38,7 +38,7 @@ const SettingsScreen = () => {
         <CustomText
           size={20}
           fontFamily="Gilroy-ExtraBold"
-          style={{ textAlign: 'center', paddingTop: 10 }}
+          style={{ textAlign: 'center', paddingVertical: 10 }}
           color="#004A99"
         >
           Other Settings
