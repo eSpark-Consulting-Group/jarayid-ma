@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 
+// Stack Navigation Types
 export type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -15,3 +16,17 @@ export type RootStackNavigationProp<
 
 export type RootStackRouteProp<T extends keyof RootStackParamList = 'Home'> =
   RouteProp<RootStackParamList, T>;
+
+
+// Main Tab Navigation Types
+export type MainTabParamList = {
+  HomeTab: undefined;
+  NotificationTab: undefined;
+  ChatbotTab: undefined;
+};
+
+export type MainTabNavigationProp<T extends keyof MainTabParamList = 'HomeTab'> = 
+  BottomTabNavigationProp<MainTabParamList, T>;
+
+export type MainTabRouteProp<T extends keyof MainTabParamList = 'HomeTab'> =
+  RouteProp<MainTabParamList, T>;
