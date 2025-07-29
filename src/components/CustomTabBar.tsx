@@ -1,0 +1,158 @@
+import React from 'react';
+import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { HomeIcon, NotificationIcon, SearchIcon } from '../assets';
+import CustomText from './CustomText';
+
+interface CustomTabBarProps {
+  state: any;
+  descriptors: any;
+  navigation: any;
+}
+
+const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigation }) => {
+  const getTabConfig = (routeName: string) => {
+    switch (routeName) {
+      case 'Notification':
+        return {
+          iconName: 'notifications',
+          label: 'Notification',
+        };
+      case 'Home':
+        return {
+          iconName: 'home',
+          label: 'Home',
+        };
+      case 'Search':
+        return {
+          iconName: 'chat',
+          label: 'Chatbot',
+        };
+      default:
+        return {
+          iconName: 'help-outline',
+          label: routeName,
+        };
+    }
+  };
+
+  const renderIcon = (iconName: string, isFocused: boolean) => {
+// #484C52
+    if (iconName === 'home') {
+      return <HomeIcon height={28} width={28} />;
+    }
+    if (iconName === 'notifications') {
+      return <NotificationIcon height={24} width={24} color={isFocused ? '#005BBC' : '#484C52'} />;
+    }
+    if (iconName === 'chat') {
+      return <SearchIcon height={24} width={24} color={isFocused ? '#005BBC' : '#484C52'} />;
+    }
+    return <Icon name={iconName} size={24} color={isFocused ? '#005BBC' : '#555555'} />;
+  }
+
+  return (
+    <View style={styles.container}>
+      {state.routes.map((route: any, index: number) => {
+        const { options } = descriptors[route.key];
+        const isFocused = state.index === index;
+        const { iconName, label } = getTabConfig(route.name);
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const isCenter = route.name === 'Home';
+
+        return (
+          <TouchableOpacity
+            key={route.key}
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            style={[styles.tabButton, isCenter && styles.centerTabButton]}
+            activeOpacity={0.8}
+          >
+            <View style={isCenter ? {...styles.centerIconWrapper, backgroundColor: isFocused ? '#005BBC' : '#484C52'} : styles.defaultIconWrapper}>
+              {renderIcon(iconName, isFocused)}
+            </View>
+            {!isCenter && (
+              <CustomText
+                fontFamily='Poppins-Medium'
+                style={[
+                  styles.label,
+                  isFocused ? styles.activeLabel : styles.inactiveLabel,
+                ]}
+              >
+                {label}
+              </CustomText>
+            )}
+            {isCenter && <CustomText fontFamily='Poppins-Medium' style={styles.centerLabel}>{label}</CustomText>}
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    paddingBottom: Platform.OS === 'ios' ? 20 : 10,
+    height: Platform.OS === 'ios' ? 80 : 70,
+    alignItems: 'flex-end',
+    justifyContent: 'space-around',
+  },
+  tabButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  defaultIconWrapper: {
+    marginBottom: 2,
+  },
+  centerTabButton: {
+    marginBottom: 10,
+  },
+  centerIconWrapper: {
+    backgroundColor: '#005BBC',
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  activeLabel: {
+    color: '#005BBC',
+  },
+  inactiveLabel: {
+    color: '#555555',
+  },
+  centerLabel: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#222',
+    marginTop: 4,
+  },
+});
+
+export default CustomTabBar;

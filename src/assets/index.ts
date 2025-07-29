@@ -29,3 +29,6 @@ export { default as Vector13 } from './svgs/Vector-13.svg';
 export { default as Vector14 } from './svgs/Vector-14.svg';
 export { default as Vector15 } from './svgs/Vector-15.svg';
 export { default as Vector16 } from './svgs/Vector-16.svg';
+export { default as HomeIcon } from './svgs/HomeIcon.svg';
+export { default as NotificationIcon } from './svgs/NotificationIcon.svg';
+export { default as SearchIcon } from './svgs/SearchIcon.svg';
