@@ -1,0 +1,45 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Gilroy-Bold.ttf",
+      "sha1": "7fe4d8cf5325dd47363d0f80fefb40ac7df5d5a6"
+    },
+    {
+      "path": "assets/fonts/Gilroy-ExtraBold.ttf",
+      "sha1": "eb2b7042895e0fe98ea023f3e45048f9d152127e"
+    },
+    {
+      "path": "assets/fonts/Gilroy-Medium.ttf",
+      "sha1": "d7f893124bd4fff78805e69df31385ae113368be"
+    },
+    {
+      "path": "assets/fonts/Gilroy-Regular.ttf",
+      "sha1": "a737c19356e50cb9a50eb64ca7446c80dd3aa3e3"
+    },
+    {
+      "path": "assets/fonts/Gilroy-SemiBold.ttf",
+      "sha1": "8663a356eb9bc23b77696208f74376daf59687ea"
+    },
+    {
+      "path": "assets/fonts/Inter_24pt-Regular.ttf",
+      "sha1": "b9984093c0b2b612da5e58e4d4e1ba8c255353dc"
+    },
+    {
+      "path": "assets/fonts/Mondia-Thin.otf",
+      "sha1": "d3712f7f58cdf0ac28b02ae30650beb893d59ec2"
+    },
+    {
+      "path": "assets/fonts/Poppins-Medium.ttf",
+      "sha1": "283f21b44efbdbf276ba802be2d949a36bbc4233"
+    },
+    {
+      "path": "assets/fonts/Poppins-Regular.ttf",
+      "sha1": "fdd3002e7d814ee47c1c1b8487c72c6bbb3a2d00"
+    },
+    {
+      "path": "assets/fonts/Poppins-SemiBold.ttf",
+      "sha1": "8a4ace9392d06bcb7f8ea2f5169b07e4c383a90d"
+    }
+  ]
+}
