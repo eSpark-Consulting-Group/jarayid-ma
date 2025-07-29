@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Platform, Image, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
@@ -63,73 +63,67 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
-        <View style={styles.content}>
-          <View style={styles.logo}>
-            <Image source={Logo} />
-          </View>
-          
-          <View style={styles.formContainer}>
-            <Text style={styles.title}>Create account</Text>
-            <Text style={styles.subtitle}>Let's get you started sharing your links!</Text>
-            
-            <CustomInput
-              label="Email address"
-              iconName="email"
-              placeholder="e.g. alex@email.com"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              error={errors.email}
-              hasError={!!errors.email}
-            />
-            
-            <CustomInput
-              label="Create password"
-              iconName="lock"
-              placeholder="At least 8 characters"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              error={errors.password}
-              hasError={!!errors.password}
-            />
-            
-            <CustomInput
-              label="Confirm password"
-              iconName="lock"
-              placeholder="At least 8 characters"
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              secureTextEntry
-              error={errors.confirmPassword}
-              hasError={!!errors.confirmPassword}
-            />
-            
-            <Text style={styles.passwordNote}>
-              Password must contain at least 8 characters
-            </Text>
-            
-            <CustomButton
-              title="Create new account"
-              onPress={handleSignup}
-              loading={loading}
-            />
-            
-            <GoogleButton onPress={handleGoogleSignup} />
-            
-            <View style={styles.linkContainer}>
-              <Text style={styles.linkText}>Already have an account? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.link}>Login</Text>
-              </TouchableOpacity>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }} keyboardShouldPersistTaps="handled">
+          <View style={styles.content}>
+            <View style={styles.logo}>
+              <Image source={Logo} />
+            </View>
+            <View style={styles.formContainer}>
+              <Text style={styles.title}>Create account</Text>
+              <Text style={styles.subtitle}>Let's get you started sharing your links!</Text>
+              <CustomInput
+                label="Email address"
+                iconName="email"
+                placeholder="e.g. alex@email.com"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                error={errors.email}
+                hasError={!!errors.email}
+              />
+              <CustomInput
+                label="Create password"
+                iconName="lock"
+                placeholder="At least 8 characters"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                error={errors.password}
+                hasError={!!errors.password}
+              />
+              <CustomInput
+                label="Confirm password"
+                iconName="lock"
+                placeholder="At least 8 characters"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+                error={errors.confirmPassword}
+                hasError={!!errors.confirmPassword}
+              />
+              <Text style={styles.passwordNote}>
+                Password must contain at least 8 characters
+              </Text>
+              <CustomButton
+                title="Create new account"
+                onPress={handleSignup}
+                loading={loading}
+              />
+              <GoogleButton onPress={handleGoogleSignup} />
+              <View style={styles.linkContainer}>
+                <Text style={styles.linkText}>Already have an account? </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                  <Text style={styles.link}>Login</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -149,7 +143,17 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   formContainer: {
-    flex: 1,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderRadius: 8,
+    backgroundColor: '#FFF',
   },
   title: {
     fontSize: 28,
@@ -167,7 +171,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     marginBottom: 20,
-    textAlign: 'center',
+    // textAlign: 'center',
   },
   linkContainer: {
     flexDirection: 'row',
@@ -183,7 +187,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: {marginBottom: 40, alignSelf: 'center'}
+  logo: { marginBottom: 40, alignSelf: 'center' },
 });
 
 export default SignupScreen;
