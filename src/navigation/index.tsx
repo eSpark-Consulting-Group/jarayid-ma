@@ -8,16 +8,14 @@ import LoginScreen from '../screens/LoginScreen';
 import ForgotPasswordEmail from '../screens/ForgotPasswordEmail';
 import SelectLanguageScreen from '../screens/SelectLanguage';
 import HomeScreen from '../screens/HomeScreen';
-
 import SettingsScreen from '../screens/SettingsScreen';
+import CustomTabBar from '../components/CustomTabBar';
+import NotificationScreen from '../screens/NotificationScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 import { HeaderLogo, ProfileHead, SettingsGear } from '../assets';
 import { Header } from '../components';
 import { RootStackParamList } from '../types/navigationParams';
-
-import CustomTabBar from '../components/CustomTabBar';
-import NotificationScreen from '../screens/NotificationScreen';
-import SearchScreen from '../screens/SearchScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
