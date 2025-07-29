@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   scrollContent: {
-    paddingTop: 20,
+    // paddingTop: 20,
   },
   card: {
     marginTop: 10,

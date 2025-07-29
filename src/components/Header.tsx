@@ -1,13 +1,41 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  LeftIcon?: React.ReactNode;
+  RightIcon?: React.ReactNode;
+  MainLogo: React.ReactNode;
+  onLeftPress?: () => void;
+  onRightPress?: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({
+  LeftIcon,
+  RightIcon,
+  MainLogo,
+  onLeftPress,
+  onRightPress,
+}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.rssText}>RSS ملخص</Text>
-      <View style={styles.brandContainer}>
-        <Text style={styles.brandText}>JARAYID</Text>
-        <Text style={styles.brandDomain}>.com</Text>
+      <View style={styles.side}>
+        {LeftIcon ? (
+          <TouchableOpacity onPress={onLeftPress}>{LeftIcon}</TouchableOpacity>
+        ) : (
+          <View style={styles.placeholder} />
+        )}
+      </View>
+
+      <View style={styles.center}>{MainLogo}</View>
+
+      <View style={styles.side}>
+        {RightIcon ? (
+          <TouchableOpacity onPress={onRightPress}>
+            {RightIcon}
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.placeholder} />
+        )}
       </View>
     </View>
   );
@@ -15,27 +43,28 @@ const Header: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  rssText: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
-  },
-  brandContainer: {
+    // height: 60,
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    backgroundColor: '#fff',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#eee',
   },
-  brandText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#000',
+  side: {
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  brandDomain: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#4A90E2',
+  center: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  placeholder: {
+    width: 24,
+    height: 24,
   },
 });
 

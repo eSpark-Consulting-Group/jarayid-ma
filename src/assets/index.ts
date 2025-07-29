@@ -7,3 +7,8 @@ export { default as SaveFilledLogo } from './svgs/saveFilled.svg';
 export { default as WhatsappLogo } from './svgs/whatsapp.svg';
 export { default as XLogo } from './svgs/xLogo.svg';
 export { default as YoutubeLogo } from './svgs/youtube.svg';
+export { default as HeaderLogo } from './svgs/header-logo.svg';
+export { default as SettingsGear } from './svgs/settingsLogo.svg';
+export { default as ProfileHead } from './svgs/profileLogo.svg';
+export { default as BackIcon } from './svgs/back.svg';
+export { default as RedirectSign } from './svgs/redirect.svg';
