@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Platform, Image } from 'react-native';
-import Header from '../components/Header';
-import CustomInput from '../components/CustomInput';
-import CustomButton from '../components/CustomButton';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  Image,
+} from 'react-native';
+
 import Logo from '../assets/images/Logo.png';
+import { CustomInput, CustomButton } from '../components';
 interface LoginScreenProps {
   navigation: any;
 }
@@ -12,32 +20,34 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{email?: string; password?: string}>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
 
   const handleLogin = async () => {
     // Reset errors
     setErrors({});
-    
+
     // Validation
-    const newErrors: {email?: string; password?: string} = {};
-    
+    const newErrors: { email?: string; password?: string } = {};
+
     if (!email) {
       newErrors.email = "Can't be empty";
     } else if (!email.includes('@')) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = 'Invalid email format';
     }
-    
+
     if (!password) {
-      newErrors.password = "Please check again";
+      newErrors.password = 'Please check again';
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     setLoading(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
@@ -47,7 +57,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
@@ -57,8 +67,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           </View>
           <View style={styles.formContainer}>
             <Text style={styles.title}>Login</Text>
-            <Text style={styles.subtitle}>Add your details below to get back into the app</Text>
-            
+            <Text style={styles.subtitle}>
+              Add your details below to get back into the app
+            </Text>
+
             <CustomInput
               label="Email address"
               iconName="email"
@@ -70,7 +82,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               error={errors.email}
               hasError={!!errors.email}
             />
-            
+
             <CustomInput
               label="Password"
               iconName="lock"
@@ -81,13 +93,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               error={errors.password}
               hasError={!!errors.password}
             />
-            
+
             <CustomButton
               title="Login"
               onPress={handleLogin}
               loading={loading}
             />
-            
+
             <View style={styles.linkContainer}>
               <Text style={styles.linkText}>Don't have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
