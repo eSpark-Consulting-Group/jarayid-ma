@@ -7,15 +7,9 @@ import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
-import { BackIcon, HeaderLogo, ProfileHead, SettingsGear } from '../assets';
+import { HeaderLogo, ProfileHead, SettingsGear } from '../assets';
 import { Header } from '../components';
-
-export type RootStackParamList = {
-  Login: undefined;
-  Signup: undefined;
-  Home: undefined;
-  Settings: undefined;
-};
+import { RootStackParamList } from '../types/navigationParams';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
