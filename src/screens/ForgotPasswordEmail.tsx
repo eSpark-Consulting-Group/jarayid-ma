@@ -15,6 +15,7 @@ import CustomButton from '../components/CustomButton';
 import Logo from '../assets/images/Logo.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
+import { CustomText } from '../components';
 interface ForgotPasswordEmailProps {}
 
 const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
@@ -121,10 +122,10 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
             <Image source={Logo} />
           </View>
           <View style={styles.formContainer}>
-            <Text style={styles.title}>Forgot Password</Text>
-            <Text style={styles.subtitle}>
+            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Forgot Password</CustomText>
+            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
               Let’s get you started sharing your links!
-            </Text>
+            </CustomText>
 
             {!codeSent ? (
               <CustomInput
@@ -172,7 +173,7 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
             {!codeSent && (
               <View style={styles.linkContainer}>
                 <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                  <Text style={styles.linkText}>Try Another way?</Text>
+                  <CustomText style={styles.linkText}>Try Another way?</CustomText>
                 </TouchableOpacity>
               </View>
             )}

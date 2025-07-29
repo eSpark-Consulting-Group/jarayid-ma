@@ -16,6 +16,7 @@ import Logo from '../assets/images/Logo.png';
 import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
+import { CustomText } from '../components';
 
 interface Language {
   code: string;
@@ -67,10 +68,10 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
             <Image source={Logo} />
           </View>
           <View style={styles.formContainer}>
-            <Text style={styles.title}>Choose Language</Text>
-            <Text style={styles.subtitle}>
+            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Choose Language</CustomText>
+            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
               Add your details below to get back into the app
-            </Text>
+            </CustomText>
 
             <CustomSelector
               label={'Select Language'}

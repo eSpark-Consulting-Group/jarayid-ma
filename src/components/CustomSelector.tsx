@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CustomText from './CustomText';
 
 export interface SelectorOption {
   value: string;
@@ -73,9 +74,9 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
           <Icon name={item.icon} size={20} color="#666" style={styles.optionIcon} />
         )}
         <View style={styles.optionText}>
-          <Text style={styles.optionLabel}>{item.label}</Text>
+          <CustomText fontFamily='Gilroy-Medium' style={styles.optionLabel}>{item.label}</CustomText>
           {item.subtitle && (
-            <Text style={styles.optionSubtitle}>{item.subtitle}</Text>
+            <CustomText fontFamily='Gilroy-Regular' style={styles.optionSubtitle}>{item.subtitle}</CustomText>
           )}
         </View>
       </View>
@@ -87,8 +88,8 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      
+      <CustomText fontFamily='Gilroy-Medium' style={styles.label}>{label}</CustomText>
+
       <TouchableOpacity
         style={[
           styles.selector,
@@ -98,13 +99,13 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
         onPress={openModal}
         disabled={disabled}
       >
-        <Text style={[
+        <CustomText style={[
           styles.selectorText,
           !selectedOption && styles.placeholderText,
           hasError && styles.selectorTextError,
         ]}>
           {selectedOption ? selectedOption.label : placeholder}
-        </Text>
+        </CustomText>
         <Icon 
           name="keyboard-arrow-down" 
           size={24} 
@@ -113,7 +114,7 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
         />
       </TouchableOpacity>
 
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {error && <CustomText style={styles.errorText}>{error}</CustomText>}
 
       <Modal
         visible={isModalVisible}
@@ -124,9 +125,9 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>
+              <CustomText style={styles.modalTitle}>
                 {modalTitle || `Select ${label}`}
-              </Text>
+              </CustomText>
               <TouchableOpacity
                 onPress={closeModal}
                 style={styles.closeButton}
@@ -156,7 +157,7 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
               showsVerticalScrollIndicator={false}
               ListEmptyComponent={
                 <View style={styles.emptyContainer}>
-                  <Text style={styles.emptyText}>No options found</Text>
+                  <CustomText style={styles.emptyText}>No options found</CustomText>
                 </View>
               }
             />
@@ -295,7 +296,6 @@ const styles = StyleSheet.create({
   optionLabel: {
     fontSize: 16,
     color: '#333',
-    fontWeight: '500',
   },
   optionSubtitle: {
     fontSize: 14,

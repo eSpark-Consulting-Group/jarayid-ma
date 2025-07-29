@@ -16,6 +16,7 @@ import GoogleButton from '../components/GoogleButton';
 import Logo from '../assets/images/Logo.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
+import { CustomText } from '../components';
 
 interface SignupScreenProps {}
 
@@ -123,10 +124,10 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               <Image source={Logo} />
             </View>
             <View style={styles.formContainer}>
-              <Text style={styles.title}>Create account</Text>
-              <Text style={styles.subtitle}>
+              <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Create account</CustomText>
+              <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
                 Let's get you started sharing your links!
-              </Text>
+              </CustomText>
               <CustomInput
                 label="Email address"
                 iconName="email"
@@ -158,9 +159,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 error={errors.confirmPassword}
                 hasError={!!errors.confirmPassword}
               />
-              <Text style={styles.passwordNote}>
+              <CustomText style={styles.passwordNote}>
                 Password must contain at least 8 characters
-              </Text>
+              </CustomText>
               <CustomButton
                 title="Create new account"
                 onPress={handleSignup}
@@ -168,9 +169,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               />
               <GoogleButton onPress={handleGoogleSignup} />
               <View style={styles.linkContainer}>
-                <Text style={styles.linkText}>Already have an account? </Text>
+                <CustomText style={styles.linkText}>Already have an account? </CustomText>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                  <Text style={styles.link}>Login</Text>
+                  <CustomText style={styles.link}>Login</CustomText>
                 </TouchableOpacity>
               </View>
             </View>

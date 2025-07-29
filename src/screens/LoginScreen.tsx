@@ -15,6 +15,7 @@ import CustomButton from '../components/CustomButton';
 import Logo from '../assets/images/Logo.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
+import { CustomText } from '../components';
 
 interface LoginScreenProps {}
 
@@ -84,10 +85,10 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             <Image source={Logo} />
           </View>
           <View style={styles.formContainer}>
-            <Text style={styles.title}>Login</Text>
-            <Text style={styles.subtitle}>
+            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Login</CustomText>
+            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
               Add your details below to get back into the app
-            </Text>
+            </CustomText>
 
             <CustomInput
               label="Email address"
@@ -116,7 +117,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               onPress={() => navigation.navigate('ForgotPasswordEmail')}
               style={styles.forgotPasswordContainer}
             >
-              <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+              <CustomText style={styles.forgotPasswordText}>Forgot password?</CustomText>
             </TouchableOpacity>
 
             <CustomButton
@@ -126,9 +127,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             />
 
             <View style={styles.linkContainer}>
-              <Text style={styles.linkText}>Don't have an account? </Text>
+              <CustomText style={styles.linkText}>Don't have an account? </CustomText>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                <Text style={styles.link}>Create account</Text>
+                <CustomText style={styles.link}>Create account</CustomText>
               </TouchableOpacity>
             </View>
           </View>
