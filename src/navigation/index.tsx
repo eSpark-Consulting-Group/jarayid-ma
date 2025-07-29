@@ -30,7 +30,22 @@ function MainTabNavigator() {
       }}
     >
       <Tab.Screen name="Notification" component={NotificationScreen} />
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => navigation.navigate('Settings')}
+              onRightPress={() => console.log('Profile')}
+            />
+          ),
+        })}
+        name="Home"
+        component={HomeScreen}
+      />
       <Tab.Screen name="Search" component={SearchScreen} />
     </Tab.Navigator>
   );
@@ -48,27 +63,12 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={({ navigation }) => ({
-            headerShown: true,
-            header: () => (
-              <Header
-                LeftIcon={<SettingsGear />}
-                RightIcon={<ProfileHead />}
-                MainLogo={<HeaderLogo />}
-                onLeftPress={() => navigation.navigate('Settings')}
-                onRightPress={() => console.log('Profile')}
-              />
-            ),
-          })}
-        />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-        <Stack.Screen
           name="ForgotPasswordEmail"
           component={ForgotPasswordEmail}
         />
         <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
+        
+        <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Home" component={MainTabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
