@@ -9,26 +9,48 @@ import {
   Platform,
   Image,
 } from 'react-native';
-
+import Header from '../components/Header';
+import CustomInput from '../components/CustomInput';
+import CustomButton from '../components/CustomButton';
 import Logo from '../assets/images/Logo.png';
-import { CustomInput, CustomButton } from '../components';
-interface LoginScreenProps {
-  navigation: any;
-}
+import { useNavigation } from '@react-navigation/native';
+import { RootStackNavigationProp } from '../navigation/navigation';
+import { CustomText } from '../components';
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+interface LoginScreenProps {}
+
+const LoginScreen: React.FC<LoginScreenProps> = () => {
+  const navigation = useNavigation<RootStackNavigationProp<'Login'>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {},
-  );
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text && text.includes('@')) {
+        delete newErrors.email;
+      }
+      return newErrors;
+    });
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text) {
+        delete newErrors.password;
+      }
+      return newErrors;
+    });
+  };
 
   const handleLogin = async () => {
-    // Reset errors
     setErrors({});
 
-    // Validation
     const newErrors: { email?: string; password?: string } = {};
 
     if (!email) {
@@ -47,12 +69,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     }
 
     setLoading(true);
+    navigation.navigate('Home');
+    setLoading(false);
 
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      // Handle login success/failure
-    }, 2000);
   };
 
   return (
@@ -66,17 +85,17 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             <Image source={Logo} />
           </View>
           <View style={styles.formContainer}>
-            <Text style={styles.title}>Login</Text>
-            <Text style={styles.subtitle}>
+            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Login</CustomText>
+            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
               Add your details below to get back into the app
-            </Text>
+            </CustomText>
 
             <CustomInput
               label="Email address"
               iconName="email"
               placeholder="e.g. alex@email.com"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={handleEmailChange}
               keyboardType="email-address"
               autoCapitalize="none"
               error={errors.email}
@@ -88,11 +107,18 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
               iconName="lock"
               placeholder="Enter your password"
               value={password}
-              onChangeText={setPassword}
+              onChangeText={handlePasswordChange}
               secureTextEntry
               error={errors.password}
               hasError={!!errors.password}
             />
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ForgotPasswordEmail')}
+              style={styles.forgotPasswordContainer}
+            >
+              <CustomText style={styles.forgotPasswordText}>Forgot password?</CustomText>
+            </TouchableOpacity>
 
             <CustomButton
               title="Login"
@@ -101,9 +127,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             />
 
             <View style={styles.linkContainer}>
-              <Text style={styles.linkText}>Don't have an account? </Text>
+              <CustomText style={styles.linkText}>Don't have an account? </CustomText>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                <Text style={styles.link}>Create account</Text>
+                <CustomText style={styles.link}>Create account</CustomText>
               </TouchableOpacity>
             </View>
           </View>
@@ -137,6 +163,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 8,
+    backgroundColor: '#FFF',
   },
   title: {
     fontSize: 28,
@@ -165,6 +192,15 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   logo: { marginBottom: 40, alignSelf: 'center' },
+  forgotPasswordContainer: {
+    alignSelf: 'flex-end',
+    marginBottom: 12,
+  },
+  forgotPasswordText: {
+    color: '#4A90E2',
+    fontSize: 14,
+    fontWeight: '500',
+  },
 });
 
 export default LoginScreen;

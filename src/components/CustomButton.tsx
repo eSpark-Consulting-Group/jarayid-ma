@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle } from 'react-native';
+import CustomText from './CustomText';
 
 interface CustomButtonProps {
   title: string;
@@ -32,12 +33,12 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       {loading ? (
         <ActivityIndicator color="#FFF" size="small" />
       ) : (
-        <Text style={[
+        <CustomText style={[
           styles.buttonText,
           variant === 'secondary' && styles.secondaryButtonText,
         ]}>
           {title}
-        </Text>
+        </CustomText>
       )}
     </TouchableOpacity>
   );
@@ -46,18 +47,18 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 const styles = StyleSheet.create({
   button: {
     height: 50,
-    borderRadius: 8,
+    // borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
   },
   primaryButton: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: '#3281CA',
   },
   secondaryButton: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#4A90E2',
+    borderColor: '#3281CA',
   },
   disabledButton: {
     opacity: 0.6,
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   secondaryButtonText: {
-    color: '#4A90E2',
+    color: '#3281CA',
   },
 });
 
