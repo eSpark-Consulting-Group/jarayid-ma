@@ -1,7 +1,24 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, SafeAreaView } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Image,
+  ImageBackground,
+  FlatList,
+} from 'react-native';
 
-import { CustomCard, CustomText, CustomTile } from '../components';
+import {
+  CategoryCard,
+  CategoryCardList,
+  CustomCard,
+  CustomText,
+  CustomTile,
+  NewsCard,
+  NewsCardList,
+} from '../components';
+import { PlayBtn } from '../assets';
 
 interface HomeScreenProps {
   navigation: any;
@@ -24,6 +41,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           This is inside the custom gray card.
         </CustomText>
       </CustomCard> */}
+
       <CustomCard style={{ marginTop: 10 }}>
         <CustomTile
           onImagePress={() => console.log('navigate')}
