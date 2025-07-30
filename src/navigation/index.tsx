@@ -134,7 +134,7 @@ function MainTabNavigator() {
           ),
         })}
       />
-      
+
       <Tab.Screen
         name="FAQScreen"
         component={FAQScreen}
@@ -239,7 +239,9 @@ const HomeStackNavigator = () => {
               LeftIcon={<BackIcon />}
               RightIcon={<RedirectSign />}
               MainLogo={<HeaderLogo />}
-              onLeftPress={() => console.log('open menu 1')}
+              onLeftPress={() =>
+                navigation?.canGoBack?.() && navigation.goBack()
+              }
               onRightPress={() => console.log('open menu 2')}
             />
           ),
