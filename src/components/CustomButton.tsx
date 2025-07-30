@@ -1,5 +1,12 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle } from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  ViewStyle,
+  View,
+} from 'react-native';
+
 import CustomText from './CustomText';
 
 interface CustomButtonProps {
@@ -9,6 +16,8 @@ interface CustomButtonProps {
   disabled?: boolean;
   style?: ViewStyle;
   variant?: 'primary' | 'secondary';
+  titleColor?: string;
+  iconLeft?: React.ReactNode;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -18,6 +27,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   disabled = false,
   style,
   variant = 'primary',
+  titleColor = variant == 'secondary' ? '#3281CA' : '#FFF',
+  iconLeft,
 }) => {
   return (
     <TouchableOpacity
@@ -33,12 +44,12 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       {loading ? (
         <ActivityIndicator color="#FFF" size="small" />
       ) : (
-        <CustomText style={[
-          styles.buttonText,
-          variant === 'secondary' && styles.secondaryButtonText,
-        ]}>
-          {title}
-        </CustomText>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <CustomText color={titleColor} style={styles.buttonText}>
+            {title}
+          </CustomText>
+          {iconLeft}
+        </View>
       )}
     </TouchableOpacity>
   );
@@ -47,7 +58,6 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 const styles = StyleSheet.create({
   button: {
     height: 50,
-    // borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
@@ -66,10 +76,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFF',
-  },
-  secondaryButtonText: {
-    color: '#3281CA',
   },
 });
 
