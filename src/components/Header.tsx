@@ -30,6 +30,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import LogoutConfirmationModal from './LogoutConfirmationModal';
 import { MainTabNavigationProp } from '../navigation/navigation';
+import ExperienceRatingModal from './ExperienceRatingModal';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -50,10 +51,15 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>()
   const [showLogout, setShowLogout] = React.useState(false);
+  const [showRate, setShowRate] = React.useState(false);
 
   const MenuData = [
-    { label: 'Edit Profile', icon: <Vector0 /> },
-    { label: 'Setting', icon: <Vector1 /> },
+    {
+      label: 'Edit Profile',
+      icon: <Vector0 />,
+      onPress: () => navigation.navigate('ProfileScreen'),
+    },
+    // { label: 'Setting', icon: <Vector1 /> },
     {
       label: 'Edit New Source',
       icon: <Vector2 />,
@@ -67,7 +73,15 @@ const Header: React.FC<HeaderProps> = ({
     },
     { label: 'Jarayid Social Media Accounts', icon: <Vector5 /> },
     { label: 'Advertise here', icon: <Vector6 /> },
-    { label: 'Rate Jarayid.com', icon: <Vector7 /> },
+    {
+      label: 'Rate Jarayid.com',
+      icon: <Vector7 />,
+      onPress: () => {
+        setTimeout(() => {
+          setShowRate(true);
+        }, 500);
+      },
+    },
     {
       label: 'Subscription Jarayid Plus',
       icon: <Vector8 />,
@@ -76,9 +90,21 @@ const Header: React.FC<HeaderProps> = ({
     { label: 'Share The App', icon: <Vector9 /> },
     { label: 'Dark Mode', icon: <Vector10 /> },
     { label: 'Font Size', icon: <Vector11 /> },
-    { label: 'FAQs', icon: <Vector12 /> },
-    { label: 'Terms of Use', icon: <Vector13 /> },
-    { label: 'Privacy Policy', icon: <Vector14 /> },
+    {
+      label: 'FAQs',
+      icon: <Vector12 />,
+      onPress: () => navigation.navigate('FAQScreen'),
+    },
+    {
+      label: 'Terms of Use',
+      icon: <Vector13 />,
+      onPress: () => navigation.navigate('TermOfUse'),
+    },
+    {
+      label: 'Privacy Policy',
+      icon: <Vector14 />,
+      onPress: () => navigation.navigate('PrivacyPolicy'),
+    },
     { label: 'Contact Us', icon: <Vector15 /> },
     {
       label: 'Logout',
@@ -170,6 +196,15 @@ const Header: React.FC<HeaderProps> = ({
         onConfirm={() => {
           setShowLogout(false);
           // Add your logout logic here
+        }}
+      />
+
+      <ExperienceRatingModal 
+        visible={showRate}
+        onClose={() => setShowRate(false)}
+        onSelect={() => {
+          setShowRate(false);
+          // Add your rating submission logic here
         }}
       />
     </View>
