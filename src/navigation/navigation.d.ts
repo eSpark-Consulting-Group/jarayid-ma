@@ -28,6 +28,10 @@ export type MainTabParamList = {
   SubscriptionScreen: undefined;
   NotificationSettings: undefined;
   EditNewSource: undefined;
+  FAQScreen: undefined;
+  ProfileScreen: undefined;
+  TermOfUse: undefined;
+  PrivacyPolicy: undefined;
 };
 
 export type MainTabNavigationProp<
