@@ -33,6 +33,7 @@ import FAQScreen from '../screens/FAQScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TermOfUse from '../screens/TermOfUse';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
+import { navigationRef } from './RootNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -255,7 +256,7 @@ export default function App() {
   return (
     <MenuProvider>
       <SafeAreaView style={{ flex: 1 }}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <Stack.Navigator
             initialRouteName="Home"
             screenOptions={{
