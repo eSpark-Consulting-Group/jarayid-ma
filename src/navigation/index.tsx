@@ -13,9 +13,17 @@ import CustomTabBar from '../components/CustomTabBar';
 import NotificationScreen from '../screens/NotificationScreen';
 import SearchScreen from '../screens/SearchScreen';
 
-import { HeaderLogo, ProfileHead, SettingsGear } from '../assets';
+import {
+  BackIcon,
+  HeaderLogo,
+  ProfileHead,
+  RedirectSign,
+  SettingsGear,
+} from '../assets';
 import { Header } from '../components';
-import { RootStackParamList } from '../types/navigationParams';
+import ArticleScreen from '../screens/ArticleScreen';
+import { HomeStackParamList, RootStackParamList } from './navigation';
+import { MenuProvider } from 'react-native-popup-menu';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -31,46 +39,80 @@ function MainTabNavigator() {
     >
       <Tab.Screen name="Notification" component={NotificationScreen} />
       <Tab.Screen
-        options={({ navigation }) => ({
-          headerShown: true,
-          header: () => (
-            <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
-              onLeftPress={() => navigation.navigate('Settings')}
-              onRightPress={() => console.log('Profile')}
-            />
-          ),
-        })}
         name="Home"
-        component={HomeScreen}
+        component={HomeStackNavigator} // <-- use the nested stack
       />
       <Tab.Screen name="Search" component={SearchScreen} />
     </Tab.Navigator>
   );
 }
 
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
+
+const HomeStackNavigator = () => {
+  return (
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen
+        name="Home"
+        component={HomeScreen}
+        // options={({ navigation }) => ({
+        //   headerShown: true,
+        //   header: () => (
+        //     <Header
+        //       LeftIcon={<SettingsGear />}
+        //       RightIcon={<ProfileHead />}
+        //       MainLogo={<HeaderLogo />}
+        //       onLeftPress={() => console.log('open menu 1')}
+        //       onRightPress={() => console.log('open menu 2')}
+        //     />
+        //   ),
+        // })}
+      />
+      <HomeStack.Screen
+        name="Article"
+        component={ArticleScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<BackIcon />}
+              RightIcon={<RedirectSign />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('open menu 1')}
+              onRightPress={() => console.log('open menu 2')}
+            />
+          ),
+        })}
+      />
+    </HomeStack.Navigator>
+  );
+};
+
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen
-          name="ForgotPasswordEmail"
-          component={ForgotPasswordEmail}
-        />
-        <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
-        
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-        <Stack.Screen name="Home" component={MainTabNavigator} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <MenuProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="ForgotPasswordEmail"
+            component={ForgotPasswordEmail}
+          />
+          <Stack.Screen
+            name="SelectLanguage"
+            component={SelectLanguageScreen}
+          />
+
+          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="Home" component={MainTabNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MenuProvider>
   );
 }

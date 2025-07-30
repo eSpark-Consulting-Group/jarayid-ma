@@ -57,7 +57,7 @@ const SettingsScreen = () => {
   );
 };
 
-const settingsData = [
+export const settingsData = [
   { label: 'Edit Profile', icon: <Vector0 /> },
   { label: 'Setting', icon: <Vector1 /> },
   { label: 'Edit New Source', icon: <Vector2 /> },
