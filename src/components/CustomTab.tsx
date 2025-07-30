@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   FlatList,
   Dimensions,
   StyleSheet,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 import CustomText from './CustomText';
 
 interface CustomTabProps {
@@ -47,6 +47,8 @@ const CustomTab: React.FC<CustomTabProps> = ({
       width: TAB_WIDTH,
       height: round ? TAB_HEIGHT - 5 : TAB_HEIGHT,
       borderRadius: round ? 5 : 0,
+      borderWidth: isSelected ? 0 : 1,
+      borderColor: round ? '#EBE5E5' : '#808080a4',
     };
 
     const content = (
@@ -55,7 +57,6 @@ const CustomTab: React.FC<CustomTabProps> = ({
           styles.tab,
           sharedStyle,
           isSelected ? styles.tabSelected : styles.tabUnselected,
-          !isSelected && !round && styles.tabBorder,
         ]}
       >
         <CustomText
@@ -120,10 +121,6 @@ const styles = StyleSheet.create({
   },
   tabSelected: {
     backgroundColor: 'transparent',
-  },
-  tabBorder: {
-    borderWidth: 1,
-    borderColor: '#808080a4',
   },
   tabText: {
     fontWeight: '500',

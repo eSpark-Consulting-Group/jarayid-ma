@@ -1,5 +1,4 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -27,6 +26,9 @@ import {
   SettingsGear,
 } from '../assets';
 import { Header } from '../components';
+import NotificationSettings from '../screens/NotificationSettings';
+import EditNewSource from '../screens/EditNewSource';
+import { SafeAreaView } from 'react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -36,9 +38,6 @@ function MainTabNavigator() {
     <Tab.Navigator
       tabBar={props => <CustomTabBar {...props} />}
       initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-      }}
     >
       <Tab.Screen
         options={({ navigation }) => ({
@@ -60,7 +59,23 @@ function MainTabNavigator() {
         name="Home"
         component={HomeStackNavigator} // <-- use the nested stack
       />
-      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<BackIcon />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() =>
+                navigation?.canGoBack?.() && navigation.goBack()
+              }
+              onRightPress={() => console.log('Profile')}
+            />
+          ),
+        })}
+        name="Search"
+        component={SearchScreen}
+      />
       <Tab.Screen
         options={({ navigation }) => ({
           headerShown: true,
@@ -148,6 +163,40 @@ export default function App() {
             />
 
             <Stack.Screen name="Home" component={MainTabNavigator} />
+            <Stack.Screen
+              name="NotificationSettings"
+              component={NotificationSettings}
+              options={({ navigation }) => ({
+                headerShown: true,
+                header: () => (
+                  <Header
+                    LeftIcon={<SettingsGear />}
+                    RightIcon={<ProfileHead />}
+                    MainLogo={<HeaderLogo />}
+                    onLeftPress={() => console.log('Settings')}
+                    onRightPress={() => console.log('Profile')}
+                    isProfileMenu
+                  />
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="EditNewSource"
+              component={EditNewSource}
+              options={({ navigation }) => ({
+                headerShown: true,
+                header: () => (
+                  <Header
+                    LeftIcon={<SettingsGear />}
+                    RightIcon={<ProfileHead />}
+                    MainLogo={<HeaderLogo />}
+                    onLeftPress={() => console.log('Settings')}
+                    onRightPress={() => console.log('Profile')}
+                    isProfileMenu
+                  />
+                ),
+              })}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

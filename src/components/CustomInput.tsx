@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, TextInput, Text, StyleSheet, TextInputProps } from 'react-native';
+import { View, TextInput, Text, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface CustomInputProps extends TextInputProps {
-  label: string;
-  iconName: string;
+  label?: string;
+  iconName?: string;
   error?: string;
   hasError?: boolean;
+  icon?: React.ReactNode;
+  style?: ViewStyle
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -14,18 +16,24 @@ const CustomInput: React.FC<CustomInputProps> = ({
   iconName,
   error,
   hasError = false,
+  icon,
+  style,
   ...props
 }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={[styles.inputContainer, hasError && styles.inputError]}>
-        <Icon 
-          name={iconName} 
-          size={20} 
-          color={hasError ? '#E74C3C' : '#999'} 
-          style={styles.icon} 
-        />
+      {label ? <Text style={styles.label}>{label}</Text> : null}
+      <View style={[styles.inputContainer, hasError && styles.inputError, style]}>
+        {icon ? (
+          <>{icon}</>
+        ) : (
+          <Icon
+            name={iconName ?? 'email'}
+            size={20}
+            color={hasError ? '#E74C3C' : '#999'}
+            style={styles.icon}
+          />
+        )}
         <TextInput
           style={[styles.input, hasError && styles.inputTextError]}
           placeholderTextColor={hasError ? '#E74C3C' : '#999'}
