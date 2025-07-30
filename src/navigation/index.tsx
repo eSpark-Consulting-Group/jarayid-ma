@@ -49,6 +49,7 @@ function MainTabNavigator() {
               MainLogo={<HeaderLogo />}
               onLeftPress={() => navigation.navigate('Settings')}
               onRightPress={() => console.log('Profile')}
+              isProfileMenu
             />
           ),
         })}
@@ -59,7 +60,6 @@ function MainTabNavigator() {
         name="Home"
         component={HomeStackNavigator}
         options={{ headerShown: false }}
-        // <-- use the nested stack
       />
       <Tab.Screen
         options={({ navigation }) => ({
