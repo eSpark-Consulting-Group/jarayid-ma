@@ -64,7 +64,21 @@ function MainTabNavigator() {
         name="Home"
         component={HomeScreen}
       />
-      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<BackIcon />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => navigation?.canGoBack?.() && navigation.goBack()}
+              onRightPress={() => console.log('Profile')}
+            />
+          ),
+        })}
+        name="Search"
+        component={SearchScreen}
+      />
       <Tab.Screen
         options={({ navigation }) => ({
           headerShown: true,
