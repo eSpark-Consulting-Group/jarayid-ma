@@ -38,3 +38,5 @@ export { default as Share } from './svgs/share.svg';
 export { default as Checkbox } from './svgs/checkbox.svg';
 export { default as ChevUp } from './svgs/chevUp.svg';
 export { default as ChevDown } from './svgs/chevDown.svg';
+export { default as ArrowTopRight } from './svgs/ArrowTopRight.svg';
+export { default as SearchTabIcon } from './svgs/SearchTabIcon.svg';

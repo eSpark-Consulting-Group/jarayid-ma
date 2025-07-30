@@ -7,4 +7,5 @@ export type RootStackParamList = {
   ForgotPasswordEmail: undefined;
   NotificationSettings: undefined;
   EditNewSource: undefined;
+  SubscriptionScreen: undefined;
 };

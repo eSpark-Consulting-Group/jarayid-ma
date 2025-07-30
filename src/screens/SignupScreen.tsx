@@ -13,7 +13,7 @@ import {
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import GoogleButton from '../components/GoogleButton';
-import Logo from '../assets/images/Logo.png';
+import LogoAuth from '../assets/images/LogoAuth.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
@@ -120,8 +120,8 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.content}>
-            <View style={styles.logo}>
-              <Image source={Logo} />
+            <View>
+              <Image source={LogoAuth} style={styles.logo} />
             </View>
             <View style={styles.formContainer}>
               <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Create account</CustomText>
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center' },
+  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
 });
 
 export default SignupScreen;

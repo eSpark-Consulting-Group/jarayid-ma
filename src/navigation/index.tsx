@@ -1,7 +1,9 @@
 import React from 'react';
+import { SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -13,11 +15,12 @@ import CustomTabBar from '../components/CustomTabBar';
 import NotificationScreen from '../screens/NotificationScreen';
 import SearchScreen from '../screens/SearchScreen';
 import NotificationSettings from '../screens/NotificationSettings';
+import EditNewSource from '../screens/EditNewSource';
+import SubscriptionScreen from '../screens/SubscriptionScreen';
 
-import { HeaderLogo, ProfileHead, SettingsGear } from '../assets';
+import { BackIcon, HeaderLogo, ProfileHead, SettingsGear } from '../assets';
 import { Header } from '../components';
 import { RootStackParamList } from '../types/navigationParams';
-import EditNewSource from '../screens/EditNewSource';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -28,26 +31,10 @@ function MainTabNavigator() {
       tabBar={props => <CustomTabBar {...props} />}
       initialRouteName="Home"
     >
-      <Tab.Screen name="Notification" component={NotificationScreen} />
       <Tab.Screen
         options={({ navigation }) => ({
           headerShown: true,
-        })}
-        name="Home"
-        component={HomeScreen}
-      />
-      <Tab.Screen name="Search" component={SearchScreen} />
-    </Tab.Navigator>
-  );
-}
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          header: ({ navigation }) => (
+          header: () => (
             <Header
               LeftIcon={<SettingsGear />}
               RightIcon={<ProfileHead />}
@@ -56,24 +43,105 @@ export default function App() {
               onRightPress={() => console.log('Profile')}
             />
           ),
-        }}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen
-          name="ForgotPasswordEmail"
-          component={ForgotPasswordEmail}
-        />
-        <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
+        })}
+        name="Notification"
+        component={NotificationScreen}
+      />
+      <Tab.Screen
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => navigation.navigate('Settings')}
+              onRightPress={() => console.log('Profile')}
+            />
+          ),
+        })}
+        name="Home"
+        component={HomeScreen}
+      />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<BackIcon />}
+              RightIcon={<Ionicon name="share-outline" size={25} />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() =>
+                navigation?.canGoBack?.() && navigation.goBack()
+              }
+              onRightPress={() => console.log('Profile')}
+            />
+          ),
+        })}
+        name="SubscriptionScreen"
+        component={SubscriptionScreen}
+      />
+    </Tab.Navigator>
+  );
+}
 
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-        <Stack.Screen name="Home" component={MainTabNavigator} />
-        <Stack.Screen
-          name="NotificationSettings"
-          component={NotificationSettings}
-        />
-        <Stack.Screen name="EditNewSource" component={EditNewSource} />
-      </Stack.Navigator>
-    </NavigationContainer>
+export default function App() {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="ForgotPasswordEmail"
+            component={ForgotPasswordEmail}
+          />
+          <Stack.Screen
+            name="SelectLanguage"
+            component={SelectLanguageScreen}
+          />
+
+          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="Home" component={MainTabNavigator} />
+          <Stack.Screen
+            name="NotificationSettings"
+            component={NotificationSettings}
+            options={({ navigation }) => ({
+              headerShown: true,
+              header: () => (
+                <Header
+                  LeftIcon={<SettingsGear />}
+                  RightIcon={<ProfileHead />}
+                  MainLogo={<HeaderLogo />}
+                  onLeftPress={() => navigation.navigate('Settings')}
+                  onRightPress={() => console.log('Profile')}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="EditNewSource"
+            component={EditNewSource}
+            options={({ navigation }) => ({
+              headerShown: true,
+              header: () => (
+                <Header
+                  LeftIcon={<SettingsGear />}
+                  RightIcon={<ProfileHead />}
+                  MainLogo={<HeaderLogo />}
+                  onLeftPress={() => navigation.navigate('Settings')}
+                  onRightPress={() => console.log('Profile')}
+                />
+              ),
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
