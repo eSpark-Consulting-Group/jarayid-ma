@@ -6,6 +6,7 @@ import {
   MenuOptions,
   MenuOption,
 } from 'react-native-popup-menu';
+import { useNavigation } from '@react-navigation/native';
 
 import CustomText from './CustomText'; // or wherever it's located
 import Divider from './Divider'; // import your divider
@@ -30,25 +31,9 @@ import {
 } from '../assets'; // make sure to import all your vector icons
 import { CountryCategories } from '.';
 
-const MenuData = [
-  { label: 'Edit Profile', icon: <Vector0 /> },
-  { label: 'Setting', icon: <Vector1 /> },
-  { label: 'Edit New Source', icon: <Vector2 /> },
-  { label: 'Read Late', icon: <Vector3 /> },
-  { label: 'Edit Notification', icon: <Vector4 /> },
-  { label: 'Jarayid Social Media Accounts', icon: <Vector5 /> },
-  { label: 'Advertise here', icon: <Vector6 /> },
-  { label: 'Rate Jarayid.com', icon: <Vector7 /> },
-  { label: 'Subscription Jarayid Plus', icon: <Vector8 /> },
-  { label: 'Share The App', icon: <Vector9 /> },
-  { label: 'Dark Mode', icon: <Vector10 /> },
-  { label: 'Font Size', icon: <Vector11 /> },
-  { label: 'FAQs', icon: <Vector12 /> },
-  { label: 'Terms of Use', icon: <Vector13 /> },
-  { label: 'Privacy Policy', icon: <Vector14 /> },
-  { label: 'Contact Us', icon: <Vector15 /> },
-  { label: 'Logout', icon: <Vector16 /> },
-];
+import LogoutConfirmationModal from './LogoutConfirmationModal';
+import { MainTabNavigationProp } from '../navigation/navigation';
+import ExperienceRatingModal from './ExperienceRatingModal';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -57,6 +42,7 @@ interface HeaderProps {
   onLeftPress?: () => void;
   onRightPress?: () => void;
   isProfileMenu?: boolean;
+  isCountryCates?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -66,20 +52,95 @@ const Header: React.FC<HeaderProps> = ({
   onLeftPress,
   onRightPress,
   isProfileMenu,
+  isCountryCates,
 }) => {
+  const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>();
+  const [showLogout, setShowLogout] = React.useState(false);
+  const [showRate, setShowRate] = React.useState(false);
+
+  const MenuData = [
+    {
+      label: 'Edit Profile',
+      icon: <Vector0 />,
+      onPress: () => navigation.navigate('ProfileScreen'),
+    },
+    // { label: 'Setting', icon: <Vector1 /> },
+    {
+      label: 'Edit New Source',
+      icon: <Vector2 />,
+      onPress: () => navigation.navigate('EditNewSource'),
+    },
+    { label: 'Read Late', icon: <Vector3 /> },
+    {
+      label: 'Edit Notification',
+      icon: <Vector4 />,
+      onPress: () => navigation.navigate('NotificationSettings'),
+    },
+    { label: 'Jarayid Social Media Accounts', icon: <Vector5 /> },
+    { label: 'Advertise here', icon: <Vector6 /> },
+    {
+      label: 'Rate Jarayid.com',
+      icon: <Vector7 />,
+      onPress: () => {
+        setTimeout(() => {
+          setShowRate(true);
+        }, 500);
+      },
+    },
+    {
+      label: 'Subscription Jarayid Plus',
+      icon: <Vector8 />,
+      onPress: () => navigation.navigate('SubscriptionScreen'),
+    },
+    { label: 'Share The App', icon: <Vector9 /> },
+    { label: 'Dark Mode', icon: <Vector10 /> },
+    { label: 'Font Size', icon: <Vector11 /> },
+    {
+      label: 'FAQs',
+      icon: <Vector12 />,
+      onPress: () => navigation.navigate('FAQScreen'),
+    },
+    {
+      label: 'Terms of Use',
+      icon: <Vector13 />,
+      onPress: () => navigation.navigate('TermOfUse'),
+    },
+    {
+      label: 'Privacy Policy',
+      icon: <Vector14 />,
+      onPress: () => navigation.navigate('PrivacyPolicy'),
+    },
+    { label: 'Contact Us', icon: <Vector15 /> },
+    {
+      label: 'Logout',
+      icon: <Vector16 />,
+      onPress: () => {
+        setTimeout(() => {
+          setShowLogout(true);
+        }, 500);
+      },
+    },
+  ];
+
   const renderMenuOption = ({
     item,
   }: {
-    item: { label: string; icon: JSX.Element };
-  }) => (
-    <MenuOption onSelect={() => console.log(item.label)}>
-      <View style={styles.menuItem}>
-        {item.icon}
-        <CustomText>{item.label}</CustomText>
-      </View>
-      <Divider color="#8F8F8F" />
-    </MenuOption>
-  );
+    item: { label: string; icon: JSX.Element; onPress?: () => void };
+  }) => {
+    return (
+      <MenuOption
+        onSelect={() => {
+          item?.onPress?.();
+        }}
+      >
+        <View style={styles.menuItem}>
+          {item.icon}
+          <CustomText>{item.label}</CustomText>
+        </View>
+        <Divider color="#8F8F8F" />
+      </MenuOption>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -89,25 +150,31 @@ const Header: React.FC<HeaderProps> = ({
         ) : (
           <View style={styles.placeholder} />
         )} */}
-        <Menu>
-          <MenuTrigger>{LeftIcon}</MenuTrigger>
-          <MenuOptions
-            customStyles={{
-              optionsContainer: {
-                width: '75%',
-                maxHeight: '80%',
-                marginTop: 32,
-                borderRadius: 20,
-                padding: 20,
-              },
-              optionsWrapper: {
-                maxHeight: '100%',
-              },
-            }}
-          >
-            <CountryCategories />
-          </MenuOptions>
-        </Menu>
+        {isCountryCates && LeftIcon ? (
+          <Menu>
+            <MenuTrigger>{LeftIcon}</MenuTrigger>
+            <MenuOptions
+              customStyles={{
+                optionsContainer: {
+                  width: '75%',
+                  maxHeight: '80%',
+                  marginTop: 32,
+                  borderRadius: 20,
+                  padding: 20,
+                },
+                optionsWrapper: {
+                  maxHeight: '100%',
+                },
+              }}
+            >
+              <CountryCategories />
+            </MenuOptions>
+          </Menu>
+        ) : LeftIcon ? (
+          <TouchableOpacity onPress={onLeftPress}>{LeftIcon}</TouchableOpacity>
+        ) : (
+          <View style={styles.placeholder} />
+        )}
       </View>
 
       <View style={styles.center}>{MainLogo}</View>
@@ -154,6 +221,24 @@ const Header: React.FC<HeaderProps> = ({
           <View style={styles.placeholder} />
         )}
       </View>
+
+      <LogoutConfirmationModal
+        visible={showLogout}
+        onCancel={() => setShowLogout(false)}
+        onConfirm={() => {
+          setShowLogout(false);
+          // Add your logout logic here
+        }}
+      />
+
+      <ExperienceRatingModal
+        visible={showRate}
+        onClose={() => setShowRate(false)}
+        onSelect={() => {
+          setShowRate(false);
+          // Add your rating submission logic here
+        }}
+      />
     </View>
   );
 };

@@ -27,12 +27,16 @@ const CustomInput: React.FC<CustomInputProps> = ({
         {icon ? (
           <>{icon}</>
         ) : (
-          <Icon
-            name={iconName ?? 'email'}
-            size={20}
-            color={hasError ? '#E74C3C' : '#999'}
-            style={styles.icon}
-          />
+          <>
+            {iconName ? (
+              <Icon
+                name={iconName ?? 'email'}
+                size={20}
+                color={hasError ? '#E74C3C' : '#999'}
+                style={styles.icon}
+              />
+            ) : null}
+          </>
         )}
         <TextInput
           style={[styles.input, hasError && styles.inputTextError]}

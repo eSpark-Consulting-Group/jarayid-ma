@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 // Stack Navigation Types
 export type RootStackParamList = {
@@ -8,7 +9,6 @@ export type RootStackParamList = {
   Signup: undefined;
   ForgotPasswordEmail: undefined;
   SelectLanguage: undefined;
-  SubscriptionScreen: undefined;
   NotificationSettings: undefined;
   EditNewSource: undefined;
 };
@@ -25,6 +25,13 @@ export type MainTabParamList = {
   HomeTab: undefined;
   NotificationTab: undefined;
   ChatbotTab: undefined;
+  SubscriptionScreen: undefined;
+  NotificationSettings: undefined;
+  EditNewSource: undefined;
+  FAQScreen: undefined;
+  ProfileScreen: undefined;
+  TermOfUse: undefined;
+  PrivacyPolicy: undefined;
 };
 
 export type MainTabNavigationProp<
