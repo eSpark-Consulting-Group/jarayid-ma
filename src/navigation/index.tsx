@@ -57,7 +57,9 @@ function MainTabNavigator() {
       />
       <Tab.Screen
         name="Home"
-        component={HomeStackNavigator} // <-- use the nested stack
+        component={HomeStackNavigator}
+        options={{ headerShown: false }}
+        // <-- use the nested stack
       />
       <Tab.Screen
         options={({ navigation }) => ({
