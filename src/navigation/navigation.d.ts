@@ -8,7 +8,7 @@ export type RootStackParamList = {
   Signup: undefined;
   ForgotPasswordEmail: undefined;
   SelectLanguage: undefined;
-  Settings: undefined;
+  SubscriptionScreen: undefined;
 };
 
 export type RootStackNavigationProp<

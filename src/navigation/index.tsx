@@ -10,7 +10,6 @@ import LoginScreen from '../screens/LoginScreen';
 import ForgotPasswordEmail from '../screens/ForgotPasswordEmail';
 import SelectLanguageScreen from '../screens/SelectLanguage';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import CustomTabBar from '../components/CustomTabBar';
 import NotificationScreen from '../screens/NotificationScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -92,18 +91,19 @@ const HomeStackNavigator = () => {
       <HomeStack.Screen
         name="Home"
         component={HomeScreen}
-        // options={({ navigation }) => ({
-        //   headerShown: true,
-        //   header: () => (
-        //     <Header
-        //       LeftIcon={<SettingsGear />}
-        //       RightIcon={<ProfileHead />}
-        //       MainLogo={<HeaderLogo />}
-        //       onLeftPress={() => console.log('open menu 1')}
-        //       onRightPress={() => console.log('open menu 2')}
-        //     />
-        //   ),
-        // })}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('open menu 1')}
+              onRightPress={() => console.log('open menu 2')}
+              isProfileMenu
+            />
+          ),
+        })}
       />
       <HomeStack.Screen
         name="Article"
@@ -147,7 +147,6 @@ export default function App() {
               component={SelectLanguageScreen}
             />
 
-            <Stack.Screen name="Settings" component={SettingsScreen} />
             <Stack.Screen name="Home" component={MainTabNavigator} />
           </Stack.Navigator>
         </NavigationContainer>
