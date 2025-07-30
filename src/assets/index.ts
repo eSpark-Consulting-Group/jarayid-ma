@@ -35,3 +35,5 @@ export { default as NotificationIcon } from './svgs/NotificationIcon.svg';
 export { default as SearchIcon } from './svgs/SearchIcon.svg';
 export { default as Cross } from './svgs/cross.svg';
 export { default as Share } from './svgs/share.svg';
+export { default as ArrowTopRight } from './svgs/ArrowTopRight.svg';
+export { default as SearchTabIcon } from './svgs/SearchTabIcon.svg';
