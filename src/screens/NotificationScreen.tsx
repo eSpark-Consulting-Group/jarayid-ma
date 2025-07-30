@@ -1,23 +1,46 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
-import { CustomText } from "../components";
+import React from 'react';
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import { CustomText } from '../components';
+import NotificationItem from '../components/NotificationItem';
 
 const NotificationScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-        <View>
-        <CustomText>Notification Screen</CustomText>
-        <CustomText>This is the notification screen.</CustomText>
-        </View>
+      <CustomText
+        fontFamily="Gilroy-Bold"
+        style={{ fontSize: 23, marginBottom: 10, paddingHorizontal: 20 }}
+      >
+        Notifications
+      </CustomText>
+
+      <FlatList
+        data={Array.from({ length: 10 }, (_, i) => ({
+          id: i.toString(),
+          initials: 'AB',
+          message: 'Lorem Ipsum is simply dummy text of the printing',
+          time: '15h',
+        }))}
+        renderItem={({ item }) => (
+          <NotificationItem
+            key={item?.id}
+            initials={item.initials}
+            message={item.message}
+            time={item.time}
+            onViewPress={() => console.log('View pressed')}
+            onOptionsPress={() => console.log('Options pressed')}
+          />
+        )}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingHorizontal: 10,
   },
 });
 
