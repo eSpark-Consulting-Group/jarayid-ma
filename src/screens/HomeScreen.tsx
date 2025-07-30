@@ -9,7 +9,6 @@ import {
 
 import {
   CategoryCardList,
-  CustomCard,
   CustomTab,
   Divider,
   CustomTile,
@@ -66,6 +65,7 @@ const MenuData = [
   { label: 'Contact Us', icon: <Vector15 /> },
   { label: 'Logout', icon: <Vector16 /> },
 ];
+// make sure to import all your vector icons
 
 interface HomeScreenProps {
   navigation: any;
@@ -81,7 +81,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         <Header
           LeftIcon={<SettingsGear />}
           RightIcon={
-            <Menu style={{}}>
+            <Menu>
               <MenuTrigger>{<ProfileHead />}</MenuTrigger>
               <MenuOptions
                 customStyles={{
@@ -91,6 +91,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                     // paddingVertical: 8,
                     marginTop: 32,
                     borderRadius: 20,
+                    paddingHorizontal: 10,
                   },
                   optionsWrapper: {
                     maxHeight: '100%', // scrollable height
