@@ -47,7 +47,7 @@ function MainTabNavigator() {
               LeftIcon={<SettingsGear />}
               RightIcon={<ProfileHead />}
               MainLogo={<HeaderLogo />}
-              onLeftPress={() => navigation.navigate('Settings')}
+              onLeftPress={() => navigation.navigate('Home')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
             />
@@ -71,7 +71,6 @@ function MainTabNavigator() {
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
               }
-              onRightPress={() => console.log('Profile')}
             />
           ),
         })}
