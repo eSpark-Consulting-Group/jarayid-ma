@@ -29,6 +29,10 @@ import { Header } from '../components';
 import NotificationSettings from '../screens/NotificationSettings';
 import EditNewSource from '../screens/EditNewSource';
 import { SafeAreaView } from 'react-native';
+import FAQScreen from '../screens/FAQScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import TermOfUse from '../screens/TermOfUse';
+import PrivacyPolicy from '../screens/PrivacyPolicy';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -117,6 +121,75 @@ function MainTabNavigator() {
       <Tab.Screen
         name="EditNewSource"
         component={EditNewSource}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+      
+      <Tab.Screen
+        name="FAQScreen"
+        component={FAQScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+      <Tab.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+      <Tab.Screen
+        name="TermOfUse"
+        component={TermOfUse}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+      <Tab.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicy}
         options={({ navigation }) => ({
           headerShown: true,
           header: () => (
