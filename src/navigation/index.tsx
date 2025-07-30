@@ -95,6 +95,42 @@ function MainTabNavigator() {
         name="SubscriptionScreen"
         component={SubscriptionScreen}
       />
+
+      <Tab.Screen
+        name="NotificationSettings"
+        component={NotificationSettings}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+
+      <Tab.Screen
+        name="EditNewSource"
+        component={EditNewSource}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
     </Tab.Navigator>
   );
 }
@@ -137,6 +173,7 @@ const HomeStackNavigator = () => {
           ),
         })}
       />
+
     </HomeStack.Navigator>
   );
 };
@@ -164,40 +201,6 @@ export default function App() {
             />
 
             <Stack.Screen name="Home" component={MainTabNavigator} />
-            <Stack.Screen
-              name="NotificationSettings"
-              component={NotificationSettings}
-              options={({ navigation }) => ({
-                headerShown: true,
-                header: () => (
-                  <Header
-                    LeftIcon={<SettingsGear />}
-                    RightIcon={<ProfileHead />}
-                    MainLogo={<HeaderLogo />}
-                    onLeftPress={() => console.log('Settings')}
-                    onRightPress={() => console.log('Profile')}
-                    isProfileMenu
-                  />
-                ),
-              })}
-            />
-            <Stack.Screen
-              name="EditNewSource"
-              component={EditNewSource}
-              options={({ navigation }) => ({
-                headerShown: true,
-                header: () => (
-                  <Header
-                    LeftIcon={<SettingsGear />}
-                    RightIcon={<ProfileHead />}
-                    MainLogo={<HeaderLogo />}
-                    onLeftPress={() => console.log('Settings')}
-                    onRightPress={() => console.log('Profile')}
-                    isProfileMenu
-                  />
-                ),
-              })}
-            />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
