@@ -14,6 +14,7 @@ import {
   LikeLogo,
   SaveFilledLogo,
   SaveLogo,
+  Share,
   WhatsappLogo,
   XLogo,
   YoutubeLogo,
@@ -58,7 +59,7 @@ const CustomTile: React.FC<CustomTileProps> = ({
 }) => {
   return (
     <View style={[styles.container, style]}>
-      <Pressable onPress={onImagePress}>
+      <Pressable onPress={onImagePress} style={{ width: '35%' }}>
         <Image
           source={{ uri: imageUrl }}
           style={styles.image}
@@ -66,37 +67,32 @@ const CustomTile: React.FC<CustomTileProps> = ({
         />
       </Pressable>
       <View style={styles.infoContainer}>
-        <CustomText style={styles.source}>
-          Source: <Text style={{ color: '#0F62FE' }}>{source}</Text>
-        </CustomText>
-        <CustomText style={styles.title} fontFamily="Gilroy-Bold">
+        <CustomText style={styles.title} size={16} fontFamily="Gilroy-Bold">
           {title}
         </CustomText>
-        <CustomText style={styles.date}>Date: {date}</CustomText>
-        <View style={styles.iconsContainer}>
-          <Pressable onPress={onCommentPress}>
-            <CommentLogo />
-          </Pressable>
-          <Pressable onPress={onLikePress}>
-            {isLiked ? <LikeFilledLogo /> : <LikeLogo />}
-          </Pressable>
-          <Pressable onPress={onSavePress}>
-            {isSaved ? <SaveFilledLogo /> : <SaveLogo />}
-          </Pressable>
-          <Pressable onPress={onXPress}>
-            <XLogo />
-          </Pressable>
-          <Pressable onPress={onFacebookPress}>
-            <FBLogo />
-          </Pressable>
-          <Pressable onPress={onWhatsappPress}>
-            <WhatsappLogo />
-          </Pressable>
-          <Pressable onPress={onYoutubePress}>
-            <YoutubeLogo />
-          </Pressable>
+        <View style={styles.contentContainer}>
+          <View>
+            <CustomText style={styles.source}>
+              Source: <CustomText color="#0F62FE" text={source} />
+            </CustomText>
+            <CustomText color="#6B7280" size={12} text={`Date: ${date}`} />
+          </View>
+          <View style={styles.iconsContainer}>
+            <Pressable onPress={onCommentPress}>
+              <CommentLogo width={26} height={26} />
+            </Pressable>
+            <Pressable onPress={onSavePress}>
+              {isSaved ? (
+                <SaveFilledLogo width={26} height={26} />
+              ) : (
+                <SaveLogo width={26} height={26} />
+              )}
+            </Pressable>
+            <Pressable onPress={onCommentPress}>
+              <Share width={26} height={26} />
+            </Pressable>
+          </View>
         </View>
-        <Text style={styles.shareLabel}>Share the news</Text>
       </View>
     </View>
   );
@@ -107,23 +103,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    padding: 10,
-    // margin: 10,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
   },
   image: {
-    aspectRatio: 1,
-    width: 100,
-    borderRadius: 8,
+    width: '100%',
+    height: 80,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
   },
   infoContainer: {
     flex: 1,
     marginHorizontal: 10,
-    alignItems: 'flex-end',
+    justifyContent: 'space-between',
   },
   source: {
     fontSize: 12,
@@ -131,17 +121,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 14,
-    marginVertical: 4,
   },
   date: {
-    fontSize: 12,
     color: '#6B7280',
+  },
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   iconsContainer: {
     flexDirection: 'row',
-    marginTop: 10,
-    gap: 6,
+    alignItems: 'center',
+    gap: 5,
   },
   shareLabel: {
     fontSize: 10,

@@ -95,9 +95,11 @@ const CustomTab: React.FC<CustomTabProps> = ({
       data={data}
       keyExtractor={item => item}
       renderItem={renderItem}
-      numColumns={TABS_PER_ROW}
-      scrollEnabled={false}
+      // numColumns={TABS_PER_ROW}
+      horizontal
+      // scrollEnabled={false}
       contentContainerStyle={styles.listContent}
+      showsHorizontalScrollIndicator={false}
     />
   );
 };
