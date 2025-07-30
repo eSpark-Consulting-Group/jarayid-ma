@@ -46,7 +46,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
           </CustomText>
           <CustomText style={styles.time}>{time}</CustomText>
         </View>
-        <CustomText fontFamily="Gilroy-SemiBold" style={styles.message}>
+        <CustomText fontFamily="Gilroy-Medium" style={styles.message}>
           {message}
         </CustomText>
       </View>

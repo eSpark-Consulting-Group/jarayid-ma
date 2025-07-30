@@ -12,6 +12,9 @@ import { CustomTile, CustomText } from '../components';
 import { TILES_DATA, COMMENTS_DATA } from '../constants';
 import { useNavigation } from '@react-navigation/native';
 import CommentItem from '../components/CommentItem';
+import ArticleCard from '../components/ArticleCard';
+import { BBCSvg } from '../assets';
+import AdBanner from '../components/AdBanner';
 
 interface ArticleScreenProps {
   navigation: any;
@@ -159,13 +162,29 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
       </View>
     );
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        <AdBanner
+          image={require('../assets/images/ad-banner.png')} // or { uri: 'https://example.com/banner.png' }
+          link="https://your-ad-landing-page.com"
+        />
+        <ArticleCard
+          sourceIcon={<BBCSvg />} // Your SVG Component
+          time="10:00pm"
+          image={require('../assets/images/news.png')} // or use a remote URI
+          title="Carlos Alcaraz had ‘no expectations’ ahead of tennis grass season"
+          summary="Carlos Alcaraz said he had 'no expectations' coming into the grass-court season but he installed himself as a clear favourite to retain his Wimbledon title after beating Jiri Lehecka to win the HSBC Championships."
+          notice="Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
+          articleLink="https://www.bbc.com/news/article-link"
+        />
+        <AdBanner
+          image={require('../assets/images/ad-banner.png')} // or { uri: 'https://example.com/banner.png' }
+          link="https://your-ad-landing-page.com"
+        />
         <View style={styles.header}>
           <CustomText fontFamily="Gilroy-Bold">Add Comments</CustomText>
           <CustomText fontFamily="Gilroy-Bold" color="#007BFF">
@@ -209,6 +228,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
+    paddingVertical: 10,
   },
   card: {
     paddingVertical: 10,
@@ -217,8 +237,8 @@ const styles = StyleSheet.create({
   },
   addComment: {
     paddingHorizontal: 16,
+    paddingBottom: 20,
     paddingTop: 10,
-    paddingBottom: 18,
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
