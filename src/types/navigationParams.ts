@@ -5,4 +5,5 @@ export type RootStackParamList = {
   Settings: undefined;
   SelectLanguage: undefined;
   ForgotPasswordEmail: undefined;
+  SubscriptionScreen: undefined;
 };

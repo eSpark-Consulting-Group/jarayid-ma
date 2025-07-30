@@ -12,7 +12,7 @@ import {
 import Header from '../components/Header';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import Logo from '../assets/images/Logo.png';
+import LogoAuth from '../assets/images/LogoAuth.png';
 import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
@@ -64,8 +64,8 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
         style={styles.keyboardView}
       >
         <View style={styles.content}>
-          <View style={styles.logo}>
-            <Image source={Logo} />
+          <View>
+            <Image source={LogoAuth} style={styles.logo} />
           </View>
           <View style={styles.formContainer}>
             <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Choose Language</CustomText>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center' },
+  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',
     marginBottom: 12,

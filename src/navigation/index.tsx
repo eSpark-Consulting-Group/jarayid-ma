@@ -13,9 +13,12 @@ import CustomTabBar from '../components/CustomTabBar';
 import NotificationScreen from '../screens/NotificationScreen';
 import SearchScreen from '../screens/SearchScreen';
 
-import { HeaderLogo, ProfileHead, SettingsGear } from '../assets';
+import { BackIcon, HeaderLogo, ProfileHead, SettingsGear } from '../assets';
 import { Header } from '../components';
 import { RootStackParamList } from '../types/navigationParams';
+import { SafeAreaView } from 'react-native';
+import SubscriptionScreen from '../screens/SubscriptionScreen';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -29,7 +32,22 @@ function MainTabNavigator() {
         headerShown: false,
       }}
     >
-      <Tab.Screen name="Notification" component={NotificationScreen} />
+      <Tab.Screen
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => navigation.navigate('Settings')}
+              onRightPress={() => console.log('Profile')}
+            />
+          ),
+        })}
+        name="Notification"
+        component={NotificationScreen}
+      />
       <Tab.Screen
         options={({ navigation }) => ({
           headerShown: true,
@@ -47,30 +65,53 @@ function MainTabNavigator() {
         component={HomeScreen}
       />
       <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<BackIcon />}
+              RightIcon={<Ionicon name="share-outline" size={25} />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() =>
+                navigation?.canGoBack?.() && navigation.goBack()
+              }
+              onRightPress={() => console.log('Profile')}
+            />
+          ),
+        })}
+        name="SubscriptionScreen"
+        component={SubscriptionScreen}
+      />
     </Tab.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen
-          name="ForgotPasswordEmail"
-          component={ForgotPasswordEmail}
-        />
-        <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
-        
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-        <Stack.Screen name="Home" component={MainTabNavigator} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="ForgotPasswordEmail"
+            component={ForgotPasswordEmail}
+          />
+          <Stack.Screen
+            name="SelectLanguage"
+            component={SelectLanguageScreen}
+          />
+
+          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="Home" component={MainTabNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }

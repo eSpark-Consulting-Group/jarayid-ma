@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { HomeIcon, NotificationIcon, SearchIcon } from '../assets';
+import { HomeIcon, NotificationIcon, SearchIcon, SearchTabIcon } from '../assets';
 import CustomText from './CustomText';
 
 interface CustomTabBarProps {
@@ -26,7 +26,7 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
       case 'Search':
         return {
           iconName: 'chat',
-          label: 'Chatbot',
+          label: 'Search',
         };
       default:
         return {
@@ -45,7 +45,7 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
       return <NotificationIcon height={24} width={24} color={isFocused ? '#005BBC' : '#484C52'} />;
     }
     if (iconName === 'chat') {
-      return <SearchIcon height={24} width={24} color={isFocused ? '#005BBC' : '#484C52'} />;
+      return <SearchTabIcon height={24} width={24} color={isFocused ? '#005BBC' : '#484C52'} />;
     }
     return <Icon name={iconName} size={24} color={isFocused ? '#005BBC' : '#555555'} />;
   }
@@ -53,6 +53,7 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
   return (
     <View style={styles.container}>
       {state.routes.map((route: any, index: number) => {
+        if(!["Notification", "Home", "Search"].includes(route.name)) return null;
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;
         const { iconName, label } = getTabConfig(route.name);
@@ -82,7 +83,7 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
             style={[styles.tabButton, isCenter && styles.centerTabButton]}
             activeOpacity={0.8}
           >
-            <View style={isCenter ? {...styles.centerIconWrapper, backgroundColor: isFocused ? '#005BBC' : '#484C52'} : styles.defaultIconWrapper}>
+            <View style={isCenter ? {...styles.centerIconWrapper, backgroundColor: (isFocused || !["Notification", "Search"].includes(route.name)) ? '#005BBC' : '#484C52'} : styles.defaultIconWrapper}>
               {renderIcon(iconName, isFocused)}
             </View>
             {!isCenter && (
@@ -107,9 +108,10 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#EDEDED',
     paddingBottom: Platform.OS === 'ios' ? 20 : 10,
-    height: Platform.OS === 'ios' ? 80 : 70,
+    // height: Platform.OS === 'ios' ? 80 : 70,
+    paddingTop: 15,
     alignItems: 'flex-end',
     justifyContent: 'space-around',
   },
@@ -122,12 +124,12 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   centerTabButton: {
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   centerIconWrapper: {
     backgroundColor: '#005BBC',
-    width: 58,
-    height: 58,
+    width: 50,
+    height: 50,
     borderRadius: 29,
     alignItems: 'center',
     justifyContent: 'center',
