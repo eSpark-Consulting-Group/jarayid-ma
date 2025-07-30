@@ -9,12 +9,16 @@ import {
   NewsCardList,
 } from '../components';
 import { TABS_COUNTRIES, TABS_CATEGORIES, TILES_DATA } from '../constants';
+import { useNavigation } from '@react-navigation/native';
+import { HomeStackNavigationProp } from '../navigation/navigation';
 
 interface HomeScreenProps {
   navigation: any;
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
+  const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
+
   const [tileStates, setTileStates] = useState<
     Record<string, { isLiked: boolean; isSaved: boolean }>
   >({});
@@ -62,7 +66,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                   {...tile}
                   isLiked={tileState.isLiked}
                   isSaved={tileState.isSaved}
-                  onImagePress={() => console.log('navigate')}
+                  onImagePress={() => navigation.navigate('Article')}
                   onCommentPress={() => console.log('Comment')}
                   onLikePress={() => toggleTileState(key, 'isLiked')}
                   onSavePress={() => toggleTileState(key, 'isSaved')}
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
   },
-  tabsContainer: { alignItems: 'center', gap: 5 },
+  tabsContainer: { alignItems: 'center', gap: 5, paddingHorizontal: 10 },
   scrollContent: {
     gap: 15,
   },

@@ -24,3 +24,30 @@ export const TILES_DATA = [
     date: '02-08-20',
   },
 ];
+
+export const COUNTRY_CATEGORIES = [
+  'UAE',
+  'Egypt',
+  'Saudi Arabia',
+  'Morocco',
+  'Algeria',
+  'Sirya',
+  'Iraq',
+  'Libya',
+  'Jordan',
+  'Yemen',
+  'Palestine',
+  'Soudan',
+  'Kuwait',
+  'Qatar',
+  'Lebanon',
+];
+
+export const COUNTRY_CATEGORIES_DATA = [
+  { category: 'Sports', data: [{ name: 'Riyada' }, { name: 'Taba' }] },
+  { category: 'Economy', data: [{ name: 'Iktisad' }, { name: 'Mal' }] },
+  {
+    category: 'Politics',
+    data: [{ name: 'Aldiar' }, { name: 'Aljamouriya' }, { name: 'Alwatan' }],
+  },
+];

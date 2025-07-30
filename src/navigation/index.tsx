@@ -1,26 +1,34 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import { MenuProvider } from 'react-native-popup-menu';
 
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ForgotPasswordEmail from '../screens/ForgotPasswordEmail';
 import SelectLanguageScreen from '../screens/SelectLanguage';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import CustomTabBar from '../components/CustomTabBar';
 import NotificationScreen from '../screens/NotificationScreen';
 import SearchScreen from '../screens/SearchScreen';
+import ArticleScreen from '../screens/ArticleScreen';
+import SubscriptionScreen from '../screens/SubscriptionScreen';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+
+import { HomeStackParamList, RootStackParamList } from './navigation';
+
+import {
+  BackIcon,
+  HeaderLogo,
+  ProfileHead,
+  RedirectSign,
+  SettingsGear,
+} from '../assets';
+import { Header } from '../components';
 import NotificationSettings from '../screens/NotificationSettings';
 import EditNewSource from '../screens/EditNewSource';
-import SubscriptionScreen from '../screens/SubscriptionScreen';
-
-import { BackIcon, HeaderLogo, ProfileHead, SettingsGear } from '../assets';
-import { Header } from '../components';
-import { RootStackParamList } from '../types/navigationParams';
+import { SafeAreaView } from 'react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -39,8 +47,9 @@ function MainTabNavigator() {
               LeftIcon={<SettingsGear />}
               RightIcon={<ProfileHead />}
               MainLogo={<HeaderLogo />}
-              onLeftPress={() => navigation.navigate('Settings')}
+              onLeftPress={() => navigation.navigate('Home')}
               onRightPress={() => console.log('Profile')}
+              isProfileMenu
             />
           ),
         })}
@@ -48,21 +57,26 @@ function MainTabNavigator() {
         component={NotificationScreen}
       />
       <Tab.Screen
+        name="Home"
+        component={HomeStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
         options={({ navigation }) => ({
+          headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
+              LeftIcon={<BackIcon />}
               MainLogo={<HeaderLogo />}
-              onLeftPress={() => navigation.navigate('Settings')}
-              onRightPress={() => console.log('Profile')}
+              onLeftPress={() =>
+                navigation?.canGoBack?.() && navigation.goBack()
+              }
             />
           ),
         })}
-        name="Home"
-        component={HomeScreen}
+        name="Search"
+        component={SearchScreen}
       />
-      <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen
         options={({ navigation }) => ({
           headerShown: true,
@@ -85,12 +99,54 @@ function MainTabNavigator() {
   );
 }
 
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
+
+const HomeStackNavigator = () => {
+  return (
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('open menu 1')}
+              onRightPress={() => console.log('open menu 2')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name="Article"
+        component={ArticleScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<BackIcon />}
+              RightIcon={<RedirectSign />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('open menu 1')}
+              onRightPress={() => console.log('open menu 2')}
+            />
+          ),
+        })}
+      />
+    </HomeStack.Navigator>
+  );
+};
+
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="NotificationSettings"
           screenOptions={{
             headerShown: false,
           }}
@@ -106,7 +162,6 @@ export default function App() {
             component={SelectLanguageScreen}
           />
 
-          <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="Home" component={MainTabNavigator} />
           <Stack.Screen
             name="NotificationSettings"
@@ -118,8 +173,9 @@ export default function App() {
                   LeftIcon={<SettingsGear />}
                   RightIcon={<ProfileHead />}
                   MainLogo={<HeaderLogo />}
-                  onLeftPress={() => navigation.navigate('Settings')}
+                  onLeftPress={() => console.log('Settings')}
                   onRightPress={() => console.log('Profile')}
+                  isProfileMenu
                 />
               ),
             })}
@@ -134,8 +190,9 @@ export default function App() {
                   LeftIcon={<SettingsGear />}
                   RightIcon={<ProfileHead />}
                   MainLogo={<HeaderLogo />}
-                  onLeftPress={() => navigation.navigate('Settings')}
+                  onLeftPress={() => console.log('Settings')}
                   onRightPress={() => console.log('Profile')}
+                  isProfileMenu
                 />
               ),
             })}

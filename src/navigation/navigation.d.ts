@@ -8,6 +8,9 @@ export type RootStackParamList = {
   Signup: undefined;
   ForgotPasswordEmail: undefined;
   SelectLanguage: undefined;
+  SubscriptionScreen: undefined;
+  NotificationSettings: undefined;
+  EditNewSource: undefined;
 };
 
 export type RootStackNavigationProp<
@@ -17,7 +20,6 @@ export type RootStackNavigationProp<
 export type RootStackRouteProp<T extends keyof RootStackParamList = 'Home'> =
   RouteProp<RootStackParamList, T>;
 
-
 // Main Tab Navigation Types
 export type MainTabParamList = {
   HomeTab: undefined;
@@ -25,8 +27,20 @@ export type MainTabParamList = {
   ChatbotTab: undefined;
 };
 
-export type MainTabNavigationProp<T extends keyof MainTabParamList = 'HomeTab'> = 
-  BottomTabNavigationProp<MainTabParamList, T>;
+export type MainTabNavigationProp<
+  T extends keyof MainTabParamList = 'HomeTab',
+> = BottomTabNavigationProp<MainTabParamList, T>;
 
 export type MainTabRouteProp<T extends keyof MainTabParamList = 'HomeTab'> =
   RouteProp<MainTabParamList, T>;
+
+// HomeStackParamList
+export type HomeStackParamList = {
+  Home: undefined;
+  Article: undefined;
+};
+
+// Navigation prop
+export type HomeStackNavigationProp<
+  T extends keyof HomeStackParamList = 'Home',
+> = NativeStackNavigationProp<HomeStackParamList, T>;
