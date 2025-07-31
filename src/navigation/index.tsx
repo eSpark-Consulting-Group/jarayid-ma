@@ -212,7 +212,7 @@ function MainTabNavigator() {
           ),
         })}
       />
-     
+
       <Tab.Screen
         name="ReadLaterScreen"
         component={ReadLaterScreen}
@@ -248,7 +248,7 @@ function MainTabNavigator() {
           ),
         })}
       />
-      
+
       <Tab.Screen
         name="ContactUs"
         component={ContactUsScreen}
@@ -320,7 +320,7 @@ export default function App() {
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="Login"
           screenOptions={{
             headerShown: false,
           }}

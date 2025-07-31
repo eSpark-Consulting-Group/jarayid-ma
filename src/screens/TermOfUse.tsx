@@ -1,5 +1,6 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+
 import { CustomText } from '../components';
 
 const TermOfUse: React.FC = () => {
@@ -14,7 +15,11 @@ const TermOfUse: React.FC = () => {
         </CustomText>
         <View style={styles.subContainer}>
           <ScrollView
-            contentContainerStyle={{ paddingHorizontal: 20, flexGrow: 1 }}
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+              paddingVertical: 15,
+              flexGrow: 1,
+            }}
             showsVerticalScrollIndicator={false}
           >
             <CustomText

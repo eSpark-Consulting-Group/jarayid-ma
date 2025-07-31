@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Image,
 } from 'react-native';
-import Header from '../components/Header';
+import { useNavigation } from '@react-navigation/native';
+
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import LogoAuth from '../assets/images/LogoAuth.png';
-import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import { HeaderLogo } from '../assets';
 interface ForgotPasswordEmailProps {}
 
 const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
@@ -118,12 +116,12 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
         style={styles.keyboardView}
       >
         <View style={styles.content}>
-          <View>
-            <Image source={LogoAuth} style={styles.logo} />
-          </View>
+          <HeaderLogo height={70} width={210} style={styles.logo} />
           <View style={styles.formContainer}>
-            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Forgot Password</CustomText>
-            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
+            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+              Forgot Password
+            </CustomText>
+            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
               Let’s get you started sharing your links!
             </CustomText>
 
@@ -173,7 +171,9 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
             {!codeSent && (
               <View style={styles.linkContainer}>
                 <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                  <CustomText style={styles.linkText}>Try Another way?</CustomText>
+                  <CustomText style={styles.linkText}>
+                    Try Another way?
+                  </CustomText>
                 </TouchableOpacity>
               </View>
             )}

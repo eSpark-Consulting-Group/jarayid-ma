@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Image,
 } from 'react-native';
-import Header from '../components/Header';
+
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import LogoAuth from '../assets/images/LogoAuth.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import { HeaderLogo } from '../assets';
 
 interface LoginScreenProps {}
 
@@ -24,7 +22,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
@@ -71,7 +71,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
     setLoading(true);
     navigation.navigate('Home');
     setLoading(false);
-
   };
 
   return (
@@ -81,12 +80,12 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         style={styles.keyboardView}
       >
         <View style={styles.content}>
-          <View style={styles.logo}>
-            <Image source={LogoAuth} style={styles.logo} />
-          </View>
+          <HeaderLogo height={70} width={210} style={styles.logo} />
           <View style={styles.formContainer}>
-            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Login</CustomText>
-            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
+            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+              Login
+            </CustomText>
+            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
               Add your details below to get back into the app
             </CustomText>
 
@@ -117,7 +116,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               onPress={() => navigation.navigate('ForgotPasswordEmail')}
               style={styles.forgotPasswordContainer}
             >
-              <CustomText style={styles.forgotPasswordText}>Forgot password?</CustomText>
+              <CustomText style={styles.forgotPasswordText}>
+                Forgot password?
+              </CustomText>
             </TouchableOpacity>
 
             <CustomButton
@@ -127,7 +128,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             />
 
             <View style={styles.linkContainer}>
-              <CustomText style={styles.linkText}>Don't have an account? </CustomText>
+              <CustomText style={styles.linkText}>
+                Don't have an account?{' '}
+              </CustomText>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <CustomText style={styles.link}>Create account</CustomText>
               </TouchableOpacity>
@@ -191,7 +194,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
+  logo: { marginBottom: 40, alignSelf: 'center' },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',
     marginBottom: 12,

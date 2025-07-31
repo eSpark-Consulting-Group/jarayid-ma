@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Image,
 } from 'react-native';
-import Header from '../components/Header';
-import CustomInput from '../components/CustomInput';
-import CustomButton from '../components/CustomButton';
-import LogoAuth from '../assets/images/LogoAuth.png';
-import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { useNavigation } from '@react-navigation/native';
+
+import CustomButton from '../components/CustomButton';
+import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import { HeaderLogo } from '../assets';
 
 interface Language {
   code: string;
@@ -64,12 +60,12 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
         style={styles.keyboardView}
       >
         <View style={styles.content}>
-          <View>
-            <Image source={LogoAuth} style={styles.logo} />
-          </View>
+          <HeaderLogo height={70} width={210} style={styles.logo} />
           <View style={styles.formContainer}>
-            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Choose Language</CustomText>
-            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
+            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+              Choose Language
+            </CustomText>
+            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
               Add your details below to get back into the app
             </CustomText>
 
@@ -148,7 +144,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
+  logo: { marginBottom: 40, alignSelf: 'center' },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',
     marginBottom: 12,

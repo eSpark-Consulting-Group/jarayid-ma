@@ -29,6 +29,7 @@ const EditNewSource: React.FC = () => {
         onPress={() => navigation.goBack()}
         color={['#007BFF', '#004A99']}
         gradientStyle={styles.saveBtn}
+        textStyle={{ textAlign: 'center' }}
       />
     </View>
   );
@@ -41,9 +42,7 @@ const styles = StyleSheet.create({
   saveBtn: {
     width: 138,
     height: 50,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 20,
     alignSelf: 'flex-end',
+    marginBottom: 20,
   },
 });
