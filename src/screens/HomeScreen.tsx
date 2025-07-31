@@ -9,7 +9,7 @@ import {
   NewsCardList,
 } from '../components';
 import { TABS_COUNTRIES, TABS_CATEGORIES, TILES_DATA } from '../constants';
-import { useNavigation } from '@react-navigation/native';
+import { Theme, useNavigation, useTheme } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
 
@@ -19,7 +19,7 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
-
+  const theme = useTheme();
   const [tileStates, setTileStates] = useState<
     Record<string, { isLiked: boolean; isSaved: boolean }>
   >({});
@@ -42,12 +42,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles(theme).container}>
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={styles().scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.tabsContainer}>
+        <View style={styles().tabsContainer}>
           <CustomTab data={TABS_COUNTRIES} onTabPress={handleTabPress} />
           <Divider />
           <CustomTab data={TABS_CATEGORIES} onTabPress={handleTabPress} round />
@@ -62,7 +62,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           ]}
           interval={3000}
         />
-        <View style={styles.card}>
+        <View style={styles().card}>
           {TILES_DATA.map((tile, idx) => {
             const key = `${tile.source}-${idx}`;
             const tileState = tileStates[key] || {
@@ -102,18 +102,19 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF',
-  },
-  tabsContainer: { alignItems: 'center', gap: 5, paddingHorizontal: 10 },
-  scrollContent: {
-    gap: 15,
-  },
-  card: {
-    paddingHorizontal: 20,
-  },
-});
+const styles = (theme?: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme?.colors.background,
+    },
+    tabsContainer: { alignItems: 'center', gap: 5, paddingHorizontal: 10 },
+    scrollContent: {
+      gap: 15,
+    },
+    card: {
+      paddingHorizontal: 20,
+    },
+  });
 
 export default HomeScreen;
