@@ -86,6 +86,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         console.log('res', res);
         dispatch(setUser(res.data));
         await AsyncStorage.setItem('accessToken', res?.data?.token);
+        await AsyncStorage.setItem('userDetails', JSON.stringify(res?.data?.user));
         navigation.replace('Home');
         setLoading(false);
       } else {

@@ -1,17 +1,21 @@
 export const TABS_COUNTRIES = [
-  'Lebanon',
-  'UAE',
-  'Egypt',
-  'Saudia',
-  'Jordan',
-  'Yemen',
+  {id: 1, name: 'Lebanon'},
+  {id: 2, name: 'UAE'},
+  {id: 3, name: 'Egypt'},
+  {id: 4, name: 'Saudia'},
+  {id: 5, name: 'Jordan'},
+  {id: 6, name: 'Yemen'},
 ];
-export const TABS_CATEGORIES = ['Economy', 'Sports', 'Politics'];
+export const TABS_CATEGORIES = [
+  {id: "1", name: 'Economy'},
+  {id: "2", name: 'Sports'},
+  {id: "3", name: 'Politics'},
+];
 
 export const TILES_DATA = [
   {
     imageUrl:
-      'https://res.cloudinary.com/drnkzxfzu/image/upload/v1753779966/main-sample.png',
+      'https://res.cloudinary.com/drnkzxfzu/image/upload/v"1"753779966/main-sample.png',
     source: 'CNN',
     title: 'SCCI finalizes preparations',
     date: '02-08-20',

@@ -39,6 +39,9 @@ import ContactUsScreen from '../screens/ContactUsScreen';
 import { navigationRef } from './RootNavigation';
 import { MenuProvider } from 'react-native-popup-menu';
 import { useThemeContext } from '../context/ThemeContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/slices/authSlice';
+import { RootState } from '../redux/store';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -322,15 +325,30 @@ const HomeStackNavigator = () => {
 
 export default function App() {
   const { theme } = useThemeContext();
-
-
-    const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
+  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const { token } = useSelector((state: RootState) => state.auth);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     const checkToken = async () => {
       try {
         const token = await AsyncStorage.getItem('accessToken');
+        const userDetails = await AsyncStorage.getItem('userDetails');
+        if (token && userDetails) {
+          let user = null;
+          try {
+            user = JSON.parse(userDetails);
+          } catch (e) {
+            user = null;
+          }
+          dispatch(
+            setUser({
+              token,
+              user,
+            })
+          );
+        }
         setInitialRoute(token ? 'Home' : 'Login');
       } catch (e) {
         setInitialRoute('Login');
@@ -343,10 +361,15 @@ export default function App() {
 
   if (checkingAuth || !initialRoute) {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF' }}>
-        <MenuProvider>
-          <ActivityIndicator size="large" color="#4A90E2" />
-        </MenuProvider>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#FFF',
+        }}
+      >
+        <ActivityIndicator size="large" color="#4A90E2" />
       </SafeAreaView>
     );
   }
@@ -360,17 +383,22 @@ export default function App() {
             headerShown: false,
           }}
         >
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen
-            name="ForgotPasswordEmail"
-            component={ForgotPasswordEmail}
-          />
-          <Stack.Screen
-            name="SelectLanguage"
-            component={SelectLanguageScreen}
-          />
-          <Stack.Screen name="Home" component={MainTabNavigator} />
+          {!token ? (
+            <Stack.Group>
+              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Signup" component={SignupScreen} />
+              <Stack.Screen
+                name="ForgotPasswordEmail"
+                component={ForgotPasswordEmail}
+              />
+              <Stack.Screen
+                name="SelectLanguage"
+                component={SelectLanguageScreen}
+              />
+            </Stack.Group>
+          ) : (
+            <Stack.Screen name="Home" component={MainTabNavigator} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
