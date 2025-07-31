@@ -32,6 +32,7 @@ import FAQScreen from '../screens/FAQScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TermOfUse from '../screens/TermOfUse';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
+import ReadLaterScreen from '../screens/ReadLaterScreen';
 import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
 
@@ -206,6 +207,25 @@ function MainTabNavigator() {
           ),
         })}
       />
+     
+      <Tab.Screen
+        name="ReadLaterScreen"
+        component={ReadLaterScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+
       <Tab.Screen
         name="AdvertiseHere"
         component={AdvertiseHereScreen}
@@ -223,6 +243,7 @@ function MainTabNavigator() {
           ),
         })}
       />
+      
       <Tab.Screen
         name="ContactUs"
         component={ContactUsScreen}
