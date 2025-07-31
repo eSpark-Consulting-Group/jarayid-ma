@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MenuProvider } from 'react-native-popup-menu';
 
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -32,6 +31,7 @@ import FAQScreen from '../screens/FAQScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TermOfUse from '../screens/TermOfUse';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
+import ReadLaterScreen from '../screens/ReadLaterScreen';
 import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
 import { useThemeContext } from '../context/ThemeContext';
@@ -116,6 +116,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -134,6 +135,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -152,6 +154,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -169,6 +172,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -186,6 +190,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -203,10 +208,30 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
       />
+     
+      <Tab.Screen
+        name="ReadLaterScreen"
+        component={ReadLaterScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+
       <Tab.Screen
         name="AdvertiseHere"
         component={AdvertiseHereScreen}
@@ -224,6 +249,7 @@ function MainTabNavigator() {
           ),
         })}
       />
+      
       <Tab.Screen
         name="ContactUs"
         component={ContactUsScreen}
@@ -263,6 +289,7 @@ const HomeStackNavigator = () => {
               onLeftPress={() => console.log('open menu 1')}
               onRightPress={() => console.log('open menu 2')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
