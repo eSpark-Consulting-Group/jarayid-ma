@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import SignupScreen from '../screens/SignupScreen';
+import { ActivityIndicator } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
 import ForgotPasswordEmail from '../screens/ForgotPasswordEmail';
 import SelectLanguageScreen from '../screens/SelectLanguage';
@@ -34,6 +36,9 @@ import PrivacyPolicy from '../screens/PrivacyPolicy';
 import ReadLaterScreen from '../screens/ReadLaterScreen';
 import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
+import { navigationRef } from './RootNavigation';
+import { MenuProvider } from 'react-native-popup-menu';
+import { useThemeContext } from '../context/ThemeContext';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -316,11 +321,49 @@ const HomeStackNavigator = () => {
 };
 
 export default function App() {
+  const { theme } = useThemeContext();
+
+  const [initialRoute, setInitialRoute] = useState<
+    keyof RootStackParamList | null
+  >(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('accessToken');
+        setInitialRoute(token ? 'Home' : 'Login');
+      } catch (e) {
+        setInitialRoute('Login');
+      } finally {
+        setCheckingAuth(false);
+      }
+    };
+    checkToken();
+  }, []);
+
+  if (checkingAuth || !initialRoute) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#FFF',
+        }}
+      >
+        <MenuProvider>
+          <ActivityIndicator size="large" color="#4A90E2" />
+        </MenuProvider>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer theme={theme}>
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName={initialRoute || 'Login'}
           screenOptions={{
             headerShown: false,
           }}

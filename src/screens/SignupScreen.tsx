@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
@@ -16,20 +17,38 @@ import GoogleButton from '../components/GoogleButton';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
 import { HeaderLogo } from '../assets';
+import { signup } from '../services/authService';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/slices/authSlice';
 
 interface SignupScreenProps {}
 
 const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'Signup'>>();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{
+    name?: string;
     email?: string;
     password?: string;
     confirmPassword?: string;
   }>({});
+
+  const dispatch = useDispatch();
+
+  const handleNameChange = (text: string) => {
+    setName(text);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (text) {
+        delete newErrors.name;
+      }
+      return newErrors;
+    });
+  };
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
@@ -68,10 +87,15 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
     setErrors({});
 
     const newErrors: {
+      name?: string;
       email?: string;
       password?: string;
       confirmPassword?: string;
     } = {};
+
+    if (!name) {
+      newErrors.name = "Can't be empty";
+    }
 
     if (!email) {
       newErrors.email = "Can't be empty";
@@ -96,11 +120,30 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
       return;
     }
 
-    setLoading(true);
+    try {
+      setLoading(true);
+      const res = await signup({
+        name,
+        email,
+        password,
+        loginType: 'local',
+      });
 
-    setTimeout(() => {
+      console.log('res', res);
+
+      if (res?.status == 'success') {
+        dispatch(setUser(res.data));
+        await AsyncStorage.setItem('accessToken', res?.data?.token);
+        navigation.replace('Home');
+        setLoading(false);
+      } else {
+        setLoading(false);
+        console.error('Signup failed:', res.message);
+      }
+    } catch (error) {
       setLoading(false);
-    }, 2000);
+      console.error('Signup error:', error);
+    }
   };
 
   const handleGoogleSignup = () => {
@@ -127,6 +170,17 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
                 Let's get you started sharing your links!
               </CustomText>
+              <CustomInput
+                label="Name"
+                iconName="badge"
+                placeholder="e.g. Alex Johnson"
+                value={name}
+                onChangeText={handleNameChange}
+                keyboardType="name-phone-pad"
+                autoCapitalize="none"
+                error={errors.name}
+                hasError={!!errors.name}
+              />
               <CustomInput
                 label="Email address"
                 iconName="email"

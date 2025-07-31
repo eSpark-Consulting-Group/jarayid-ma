@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { navigationRef } from '../navigation/RootNavigation';
 import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import {
   Menu,
@@ -6,7 +7,7 @@ import {
   MenuOptions,
   MenuOption,
 } from 'react-native-popup-menu';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 import CustomText from './CustomText'; // or wherever it's located
 import Divider from './Divider'; // import your divider
@@ -32,11 +33,15 @@ import {
 import { CountryCategories } from '.';
 
 import LogoutConfirmationModal from './LogoutConfirmationModal';
+import { useDispatch } from 'react-redux';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
+import { useThemeContext } from '../context/ThemeContext';
 import FontSizeModal from './FontSizeModal';
 import SocialShareModal from './SocialShareModal';
 import SocialMediaModal from './SocialMediaModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logout } from '../redux/slices/authSlice';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -58,8 +63,11 @@ const Header: React.FC<HeaderProps> = ({
   isCountryCates,
 }) => {
   const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>();
+  const dispatch = useDispatch();
   const [showLogout, setShowLogout] = React.useState(false);
   const [showRate, setShowRate] = React.useState(false);
+  const { colors } = useTheme();
+  const { toggleTheme, isDark } = useThemeContext();
   const [showFontSizer, setShowFontSizer] = React.useState(false);
   const [showSocialModal, setShowSocialModal] = React.useState(false);
   const [showSocialMedia, setShowSocialMedia] = React.useState(false);
@@ -123,7 +131,11 @@ const Header: React.FC<HeaderProps> = ({
         }, 500);
       },
     },
-    { label: 'Dark Mode', icon: <Vector10 /> },
+    {
+      label: isDark ? 'Light Mode' : 'Dark Mode',
+      icon: <Vector10 />,
+      onPress: toggleTheme,
+    },
     {
       label: 'Font Size',
       icon: <Vector11 />,
@@ -263,9 +275,16 @@ const Header: React.FC<HeaderProps> = ({
       <LogoutConfirmationModal
         visible={showLogout}
         onCancel={() => setShowLogout(false)}
-        onConfirm={() => {
+        onConfirm={async () => {
           setShowLogout(false);
-          // Add your logout logic here
+          await AsyncStorage.removeItem('accessToken');
+          dispatch(logout());
+          if (navigationRef?.current) {
+            setShowLogout(false)
+            navigationRef.current.navigate('Login');
+          }else {
+            setShowLogout(false)
+          }
         }}
       />
 

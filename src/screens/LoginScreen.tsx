@@ -7,25 +7,30 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
 import { HeaderLogo } from '../assets';
+import { login } from '../services/authService';
+import { setUser } from '../redux/slices/authSlice';
 
 interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
   const navigation = useNavigation<RootStackNavigationProp<'Login'>>();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('muhammadahsanty@gmail.com');
+  const [password, setPassword] = useState('String1234$');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
 
+  const dispatch = useDispatch();
   const handleEmailChange = (text: string) => {
     setEmail(text);
     setErrors(prev => {
@@ -68,9 +73,29 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
       return;
     }
 
-    setLoading(true);
-    navigation.navigate('Home');
-    setLoading(false);
+    try {
+      setLoading(true);
+      const res = await login({
+        email: email,
+        password: password,
+        loginType: 'local',
+      });
+
+      if (res?.status == 'success') {
+        console.log('res', res);
+        dispatch(setUser(res.data));
+        await AsyncStorage.setItem('accessToken', res?.data?.token);
+        navigation.replace('Home');
+        setLoading(false);
+      } else {
+        setLoading(false);
+        console.error('Login failed:', res.message);
+      }
+    } catch (err) {
+      setLoading(false);
+
+      console.error('Login error:', err);
+    }
   };
 
   return (
