@@ -40,3 +40,6 @@ export { default as ChevUp } from './svgs/chevUp.svg';
 export { default as ChevDown } from './svgs/chevDown.svg';
 export { default as ArrowTopRight } from './svgs/ArrowTopRight.svg';
 export { default as SearchTabIcon } from './svgs/SearchTabIcon.svg';
+export { default as DislikeFilled } from './svgs/dislike.svg';
+export { default as DislikeLogo } from './svgs/dislikeBorder.svg';
+export { default as BBCSvg } from './svgs/BBC.svg';

@@ -14,7 +14,6 @@ import NotificationScreen from '../screens/NotificationScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ArticleScreen from '../screens/ArticleScreen';
 import SubscriptionScreen from '../screens/SubscriptionScreen';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { HomeStackParamList, RootStackParamList } from './navigation';
 
@@ -87,7 +86,7 @@ function MainTabNavigator() {
           header: () => (
             <Header
               LeftIcon={<BackIcon />}
-              RightIcon={<Ionicon name="share-outline" size={25} />}
+              RightIcon={<RedirectSign />}
               MainLogo={<HeaderLogo />}
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
@@ -135,7 +134,7 @@ function MainTabNavigator() {
           ),
         })}
       />
-      
+
       <Tab.Screen
         name="FAQScreen"
         component={FAQScreen}
@@ -240,13 +239,14 @@ const HomeStackNavigator = () => {
               LeftIcon={<BackIcon />}
               RightIcon={<RedirectSign />}
               MainLogo={<HeaderLogo />}
-              onLeftPress={() => console.log('open menu 1')}
+              onLeftPress={() =>
+                navigation?.canGoBack?.() && navigation.goBack()
+              }
               onRightPress={() => console.log('open menu 2')}
             />
           ),
         })}
       />
-
     </HomeStack.Navigator>
   );
 };
