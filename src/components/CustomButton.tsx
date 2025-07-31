@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   ViewStyle,
   View,
+  TextStyle,
 } from 'react-native';
 
 import CustomText from './CustomText';
@@ -18,6 +19,7 @@ interface CustomButtonProps {
   variant?: 'primary' | 'secondary';
   titleColor?: string;
   iconLeft?: React.ReactNode;
+  titleStyle?: TextStyle;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -29,6 +31,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   variant = 'primary',
   titleColor = variant == 'secondary' ? '#3281CA' : '#FFF',
   iconLeft,
+  titleStyle,
 }) => {
   return (
     <TouchableOpacity
@@ -46,7 +49,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         <ActivityIndicator color="#FFF" size="small" />
       ) : (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <CustomText color={titleColor} style={styles.buttonText}>
+          <CustomText
+            color={titleColor}
+            style={[styles.buttonText, titleStyle]}
+          >
             {title}
           </CustomText>
           {iconLeft}

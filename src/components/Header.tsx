@@ -35,6 +35,9 @@ import LogoutConfirmationModal from './LogoutConfirmationModal';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
 import { useThemeContext } from '../context/ThemeContext';
+import FontSizeModal from './FontSizeModal';
+import SocialShareModal from './SocialShareModal';
+import SocialMediaModal from './SocialMediaModal';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -60,6 +63,9 @@ const Header: React.FC<HeaderProps> = ({
   const [showRate, setShowRate] = React.useState(false);
   const { colors } = useTheme();
   const { toggleTheme, isDark } = useThemeContext();
+  const [showFontSizer, setShowFontSizer] = React.useState(false);
+  const [showSocialModal, setShowSocialModal] = React.useState(false);
+  const [showSocialMedia, setShowSocialMedia] = React.useState(false);
 
   const MenuData = [
     {
@@ -73,13 +79,25 @@ const Header: React.FC<HeaderProps> = ({
       icon: <Vector2 />,
       onPress: () => navigation.navigate('EditNewSource'),
     },
-    { label: 'Read Late', icon: <Vector3 /> },
+    {
+      label: 'Read Later',
+      icon: <Vector3 />,
+      onPress: () => navigation.navigate('ReadLaterScreen'),
+    },
     {
       label: 'Edit Notification',
       icon: <Vector4 />,
       onPress: () => navigation.navigate('NotificationSettings'),
     },
-    { label: 'Jarayid Social Media Accounts', icon: <Vector5 /> },
+    {
+      label: 'Jarayid Social Media Accounts',
+      icon: <Vector5 />,
+      onPress: () => {
+        setTimeout(() => {
+          setShowSocialMedia(true);
+        }, 500);
+      },
+    },
     {
       label: 'Advertise here',
       icon: <Vector6 />,
@@ -99,13 +117,25 @@ const Header: React.FC<HeaderProps> = ({
       icon: <Vector8 />,
       onPress: () => navigation.navigate('SubscriptionScreen'),
     },
-    { label: 'Share The App', icon: <Vector9 /> },
+    {
+      label: 'Share The App',
+      icon: <Vector9 />,
+      onPress: () => {
+        setTimeout(() => {
+          setShowSocialModal(true);
+        }, 500);
+      },
+    },
     {
       label: isDark ? 'Light Mode' : 'Dark Mode',
       icon: <Vector10 />,
       onPress: toggleTheme,
     },
-    { label: 'Font Size', icon: <Vector11 /> },
+    {
+      label: 'Font Size',
+      icon: <Vector11 />,
+      onPress: () => setShowFontSizer(true),
+    },
     {
       label: 'FAQs',
       icon: <Vector12 />,
@@ -252,6 +282,31 @@ const Header: React.FC<HeaderProps> = ({
         onSelect={() => {
           setShowRate(false);
           // Add your rating submission logic here
+        }}
+      />
+
+      <FontSizeModal
+        visible={showFontSizer}
+        onCancel={() => setShowFontSizer(false)}
+        onChange={() => {
+          setShowFontSizer(false);
+        }}
+      />
+      <SocialShareModal
+        visible={showSocialModal}
+        onClose={() => setShowSocialModal(false)}
+        onShare={() => {
+          setShowSocialModal(false);
+          // Add your share logic here
+        }}
+      />
+
+      <SocialMediaModal
+        visible={showSocialMedia}
+        onClose={() => setShowSocialMedia(false)}
+        onShare={() => {
+          setShowSocialMedia(false);
+          // Add your social media logic here
         }}
       />
     </View>
