@@ -198,6 +198,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           </View>
           <TextInput
             placeholder="Add a comment..."
+            placeholderTextColor="#00000064"
             style={styles.commentInput}
           />
         </View>
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#434A54',
     width: 52,
     height: 52,
-    borderRadius: 24,
+    borderRadius: 26,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,

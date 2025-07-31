@@ -81,3 +81,10 @@ export const COMMENTS_DATA = [
     dislikeCount: 0,
   },
 ];
+
+export const FONT_SIZES = [
+  { name: 'Small', size: 15 },
+  { name: 'Normal', size: 20 },
+  { name: 'Meduim', size: 25 },
+  { name: 'Large', size: 30 },
+];

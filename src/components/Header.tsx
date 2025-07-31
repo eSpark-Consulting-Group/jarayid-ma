@@ -34,6 +34,7 @@ import { CountryCategories } from '.';
 import LogoutConfirmationModal from './LogoutConfirmationModal';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
+import FontSizeModal from './FontSizeModal';
 import SocialShareModal from './SocialShareModal';
 import SocialMediaModal from './SocialMediaModal';
 
@@ -59,6 +60,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>();
   const [showLogout, setShowLogout] = React.useState(false);
   const [showRate, setShowRate] = React.useState(false);
+  const [showFontSizer, setShowFontSizer] = React.useState(false);
   const [showSocialModal, setShowSocialModal] = React.useState(false);
   const [showSocialMedia, setShowSocialMedia] = React.useState(false);
 
@@ -122,7 +124,11 @@ const Header: React.FC<HeaderProps> = ({
       },
     },
     { label: 'Dark Mode', icon: <Vector10 /> },
-    { label: 'Font Size', icon: <Vector11 /> },
+    {
+      label: 'Font Size',
+      icon: <Vector11 />,
+      onPress: () => setShowFontSizer(true),
+    },
     {
       label: 'FAQs',
       icon: <Vector12 />,
@@ -272,6 +278,13 @@ const Header: React.FC<HeaderProps> = ({
         }}
       />
 
+      <FontSizeModal
+        visible={showFontSizer}
+        onCancel={() => setShowFontSizer(false)}
+        onChange={() => {
+          setShowFontSizer(false);
+        }}
+      />
       <SocialShareModal
         visible={showSocialModal}
         onClose={() => setShowSocialModal(false)}

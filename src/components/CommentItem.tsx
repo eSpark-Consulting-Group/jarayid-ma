@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#434A54',
     width: 52,
     height: 52,
-    borderRadius: 24,
+    borderRadius: 26,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
+    marginBottom: 5,
   },
   message: {
     fontSize: 14,
     color: '#383535',
-    marginBottom: 5,
   },
   time: {
     color: '#9DA3B4',

@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MenuProvider } from 'react-native-popup-menu';
 
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -116,6 +115,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -134,6 +134,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -152,6 +153,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -169,6 +171,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -186,6 +189,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -203,6 +207,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -283,6 +288,7 @@ const HomeStackNavigator = () => {
               onLeftPress={() => console.log('open menu 1')}
               onRightPress={() => console.log('open menu 2')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
