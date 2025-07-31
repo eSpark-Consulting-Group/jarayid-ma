@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MenuProvider } from 'react-native-popup-menu';
 
 import SignupScreen from '../screens/SignupScreen';
 import { ActivityIndicator } from 'react-native';
@@ -38,6 +37,8 @@ import ReadLaterScreen from '../screens/ReadLaterScreen';
 import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
 import { navigationRef } from './RootNavigation';
+import { MenuProvider } from 'react-native-popup-menu';
+import { useThemeContext } from '../context/ThemeContext';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -119,6 +120,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -137,6 +139,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -155,6 +158,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -172,6 +176,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -189,6 +194,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -206,6 +212,7 @@ function MainTabNavigator() {
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -286,6 +293,7 @@ const HomeStackNavigator = () => {
               onLeftPress={() => console.log('open menu 1')}
               onRightPress={() => console.log('open menu 2')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -313,7 +321,10 @@ const HomeStackNavigator = () => {
 };
 
 export default function App() {
-  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
+  const { theme } = useThemeContext();
+
+
+    const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
@@ -341,30 +352,27 @@ export default function App() {
   }
 
   return (
-    <MenuProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator
-            initialRouteName={initialRoute ?? 'Login'}
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
-            <Stack.Screen
-              name="ForgotPasswordEmail"
-              component={ForgotPasswordEmail}
-            />
-            <Stack.Screen
-              name="SelectLanguage"
-              component={SelectLanguageScreen}
-            />
-
-            <Stack.Screen name="Home" component={MainTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </MenuProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer theme={theme}>
+        <Stack.Navigator
+          initialRouteName={initialRoute || 'Login'}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="ForgotPasswordEmail"
+            component={ForgotPasswordEmail}
+          />
+          <Stack.Screen
+            name="SelectLanguage"
+            component={SelectLanguageScreen}
+          />
+          <Stack.Screen name="Home" component={MainTabNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }

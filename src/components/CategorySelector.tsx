@@ -15,6 +15,7 @@ const CategorySelector: React.FC = () => {
         title="Category"
         onPress={() => setShowCates(!showCates)}
         iconLeft={showCates ? <ChevUp /> : <ChevDown />}
+        titleStyle={{ fontFamily: 'Gilroy-SemiBold', fontSize: 17 }}
       />
       <View style={{ display: showCates ? 'flex' : 'none' }}>
         <View style={styles.catesContainer}>

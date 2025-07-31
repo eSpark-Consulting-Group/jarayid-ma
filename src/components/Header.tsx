@@ -7,7 +7,7 @@ import {
   MenuOptions,
   MenuOption,
 } from 'react-native-popup-menu';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 import CustomText from './CustomText'; // or wherever it's located
 import Divider from './Divider'; // import your divider
@@ -36,6 +36,8 @@ import LogoutConfirmationModal from './LogoutConfirmationModal';
 import { useDispatch } from 'react-redux';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
+import { useThemeContext } from '../context/ThemeContext';
+import FontSizeModal from './FontSizeModal';
 import SocialShareModal from './SocialShareModal';
 import SocialMediaModal from './SocialMediaModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -64,6 +66,9 @@ const Header: React.FC<HeaderProps> = ({
   const dispatch = useDispatch();
   const [showLogout, setShowLogout] = React.useState(false);
   const [showRate, setShowRate] = React.useState(false);
+  const { colors } = useTheme();
+  const { toggleTheme, isDark } = useThemeContext();
+  const [showFontSizer, setShowFontSizer] = React.useState(false);
   const [showSocialModal, setShowSocialModal] = React.useState(false);
   const [showSocialMedia, setShowSocialMedia] = React.useState(false);
 
@@ -126,8 +131,16 @@ const Header: React.FC<HeaderProps> = ({
         }, 500);
       },
     },
-    { label: 'Dark Mode', icon: <Vector10 /> },
-    { label: 'Font Size', icon: <Vector11 /> },
+    {
+      label: isDark ? 'Light Mode' : 'Dark Mode',
+      icon: <Vector10 />,
+      onPress: toggleTheme,
+    },
+    {
+      label: 'Font Size',
+      icon: <Vector11 />,
+      onPress: () => setShowFontSizer(true),
+    },
     {
       label: 'FAQs',
       icon: <Vector12 />,
@@ -284,6 +297,13 @@ const Header: React.FC<HeaderProps> = ({
         }}
       />
 
+      <FontSizeModal
+        visible={showFontSizer}
+        onCancel={() => setShowFontSizer(false)}
+        onChange={() => {
+          setShowFontSizer(false);
+        }}
+      />
       <SocialShareModal
         visible={showSocialModal}
         onClose={() => setShowSocialModal(false)}

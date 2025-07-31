@@ -12,6 +12,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 
+import { ThemeProvider } from './src/context/ThemeContext';
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -19,6 +20,7 @@ function App() {
     <View style={styles.container}>
 
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <ThemeProvider>
       <Provider store={store}>
         <MenuProvider
           style={{ flex: 1 }}
@@ -27,6 +29,7 @@ function App() {
           <RootNavigation />
         </MenuProvider>
       </Provider>
+      </ThemeProvider>
     </View>
   );
 }
