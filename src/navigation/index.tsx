@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import SignupScreen from '../screens/SignupScreen';
+import { ActivityIndicator } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
 import ForgotPasswordEmail from '../screens/ForgotPasswordEmail';
 import SelectLanguageScreen from '../screens/SelectLanguage';
@@ -39,7 +41,12 @@ import PrivacyPolicy from '../screens/PrivacyPolicy';
 import ReadLaterScreen from '../screens/ReadLaterScreen';
 import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
+import { navigationRef } from './RootNavigation';
+import { MenuProvider } from 'react-native-popup-menu';
 import { useThemeContext } from '../context/ThemeContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/slices/authSlice';
+import { RootState } from '../redux/store';
 import useTheme from '../theme/useTheme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -327,26 +334,82 @@ const HomeStackNavigator = () => {
 
 export default function App() {
   const { theme } = useThemeContext();
+  const [initialRoute, setInitialRoute] = useState<
+    keyof RootStackParamList | null
+  >(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const { token } = useSelector((state: RootState) => state.auth);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('accessToken');
+        const userDetails = await AsyncStorage.getItem('userDetails');
+        if (token && userDetails) {
+          let user = null;
+          try {
+            user = JSON.parse(userDetails);
+          } catch (e) {
+            user = null;
+          }
+          dispatch(
+            setUser({
+              token,
+              user,
+            }),
+          );
+        }
+        setInitialRoute(token ? 'Home' : 'Login');
+      } catch (e) {
+        setInitialRoute('Login');
+      } finally {
+        setCheckingAuth(false);
+      }
+    };
+    checkToken();
+  }, []);
+
+  if (checkingAuth || !initialRoute) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#FFF',
+        }}
+      >
+        <ActivityIndicator size="large" color="#4A90E2" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer theme={theme}>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName={initialRoute || 'Login'}
           screenOptions={{
             headerShown: false,
           }}
         >
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen
-            name="ForgotPasswordEmail"
-            component={ForgotPasswordEmail}
-          />
-          <Stack.Screen
-            name="SelectLanguage"
-            component={SelectLanguageScreen}
-          />
-          <Stack.Screen name="Home" component={MainTabNavigator} />
+          {!token ? (
+            <Stack.Group>
+              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Signup" component={SignupScreen} />
+              <Stack.Screen
+                name="ForgotPasswordEmail"
+                component={ForgotPasswordEmail}
+              />
+              <Stack.Screen
+                name="SelectLanguage"
+                component={SelectLanguageScreen}
+              />
+            </Stack.Group>
+          ) : (
+            <Stack.Screen name="Home" component={MainTabNavigator} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

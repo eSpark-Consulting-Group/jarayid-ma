@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 
 import {
@@ -8,10 +8,14 @@ import {
   CustomTile,
   NewsCardList,
 } from '../components';
-import { TABS_COUNTRIES, TABS_CATEGORIES, TILES_DATA } from '../constants';
+import { TABS_CATEGORIES, TILES_DATA } from '../constants';
 import { Theme, useNavigation } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllCategories } from '../services/homeService';
+import { AppDispatch } from '../redux/store';
+import { RootState } from '../redux/store';
 import useTheme from '../theme/useTheme';
 
 interface HomeScreenProps {
@@ -20,10 +24,19 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
+
+  const user = useSelector((state: RootState) => state.auth);
+  const { categories } = useSelector((state: RootState) => state.home);
+  console.log('User:', user, 'home', categories);
   const theme = useTheme();
   const [tileStates, setTileStates] = useState<
     Record<string, { isLiked: boolean; isSaved: boolean }>
   >({});
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, []);
 
   const toggleTileState = useCallback(
     (key: string, field: 'isLiked' | 'isSaved') => {
@@ -38,7 +51,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     [],
   );
 
-  const handleTabPress = useCallback((value: string) => {
+  const handleTabPress = useCallback((value: any) => {
     console.log('Selected:', value);
   }, []);
 
@@ -49,7 +62,13 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles().tabsContainer}>
-          <CustomTab data={TABS_COUNTRIES} onTabPress={handleTabPress} />
+          <CustomTab
+            data={categories?.map((item: any) => ({
+              id: item.id,
+              name: item.name,
+            }))}
+            onTabPress={handleTabPress}
+          />
           <Divider />
           <CustomTab data={TABS_CATEGORIES} onTabPress={handleTabPress} round />
         </View>

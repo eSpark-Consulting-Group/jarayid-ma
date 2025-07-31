@@ -10,9 +10,14 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import CustomText from './CustomText';
 
+interface TabItem {
+  id: string;
+  name: string;
+}
+
 interface CustomTabProps {
-  data: string[];
-  onTabPress?: (value: string) => void;
+  data: TabItem[];
+  onTabPress?: (value: TabItem) => void;
   selectedTab?: string;
   round?: boolean;
 }
@@ -25,23 +30,23 @@ const CustomTab: React.FC<CustomTabProps> = ({
   selectedTab,
   round = false,
 }) => {
-  const [selected, setSelected] = useState<string>(selectedTab || data[0]);
+  const [selected, setSelected] = useState<string>(selectedTab || (data[0]?.id ?? ''));
 
   const TABS_PER_ROW = round ? 3 : 4;
   const TAB_WIDTH = (width - 40) / TABS_PER_ROW - 8;
   const TAB_HEIGHT = 35;
 
   const handlePress = useCallback(
-    (item: string) => {
-      setSelected(item);
+    (item: TabItem) => {
+      setSelected(item.id);
       onTabPress?.(item);
     },
     [onTabPress],
   );
 
-  const renderItem = ({ item }: { item: string }) => {
-    const isSelected = selected === item;
-    const isLong = item.length > 8;
+  const renderItem = ({ item }: { item: TabItem }) => {
+    const isSelected = selected === item.id;
+    const isLong = item.name.length > 8;
 
     const sharedStyle = {
       width: TAB_WIDTH,
@@ -68,7 +73,7 @@ const CustomTab: React.FC<CustomTabProps> = ({
           numberOfLines={1}
           adjustsFontSizeToFit
         >
-          {item}
+          {item.name}
         </CustomText>
       </View>
     );
@@ -94,7 +99,7 @@ const CustomTab: React.FC<CustomTabProps> = ({
   return (
     <FlatList
       data={data}
-      keyExtractor={item => item}
+      keyExtractor={item => item.id}
       renderItem={renderItem}
       horizontal
       contentContainerStyle={styles.listContent}

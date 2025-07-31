@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { navigate, navigationRef } from '../navigation/RootNavigation';
 import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import {
   Menu,
@@ -31,11 +32,14 @@ import {
 import { CountryCategories } from '.';
 
 import LogoutConfirmationModal from './LogoutConfirmationModal';
+import { useDispatch } from 'react-redux';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
 import FontSizeModal from './FontSizeModal';
 import SocialShareModal from './SocialShareModal';
 import SocialMediaModal from './SocialMediaModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logout } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
 import HeaderText from './HeaderText';
 
@@ -59,6 +63,7 @@ const Header: React.FC<HeaderProps> = ({
   isCountryCates,
 }) => {
   const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>();
+  const dispatch = useDispatch();
   const [showLogout, setShowLogout] = React.useState(false);
   const [showRate, setShowRate] = React.useState(false);
   const theme = useTheme();
@@ -281,9 +286,11 @@ const Header: React.FC<HeaderProps> = ({
       <LogoutConfirmationModal
         visible={showLogout}
         onCancel={() => setShowLogout(false)}
-        onConfirm={() => {
+        onConfirm={async () => {
           setShowLogout(false);
-          // Add your logout logic here
+          await AsyncStorage.removeItem('accessToken');
+          dispatch(logout());
+          setShowLogout(false);
         }}
         theme={theme.navigationTheme}
       />
