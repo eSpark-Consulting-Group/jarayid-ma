@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import CustomText from './CustomText';
 import { PlayBtn } from '../assets';
+import { useTheme } from '@react-navigation/native';
 
 interface NewsCardProps {
   imageUrl: string;
@@ -10,8 +11,9 @@ interface NewsCardProps {
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({ imageUrl, title, onPress }) => {
+  const theme = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <CustomText text={title} size={18} />
       <TouchableOpacity
         activeOpacity={0.8}

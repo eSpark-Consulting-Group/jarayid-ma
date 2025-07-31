@@ -8,7 +8,6 @@ import {
 } from 'react-native-popup-menu';
 import { useNavigation } from '@react-navigation/native';
 
-import CustomText from './CustomText'; // or wherever it's located
 import Divider from './Divider'; // import your divider
 import {
   Vector0,
@@ -34,11 +33,11 @@ import { CountryCategories } from '.';
 import LogoutConfirmationModal from './LogoutConfirmationModal';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
-import { useThemeContext } from '../context/ThemeContext';
 import FontSizeModal from './FontSizeModal';
 import SocialShareModal from './SocialShareModal';
 import SocialMediaModal from './SocialMediaModal';
 import useTheme from '../theme/useTheme';
+import HeaderText from './HeaderText';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -127,7 +126,7 @@ const Header: React.FC<HeaderProps> = ({
       },
     },
     {
-      label: theme.isDark ? 'Light Mode' : 'Dark Mode',
+      label: theme.dark ? 'Light Mode' : 'Dark Mode',
       icon: <Vector10 />,
       onPress: theme.toggleTheme,
     },
@@ -178,9 +177,14 @@ const Header: React.FC<HeaderProps> = ({
           item?.onPress?.();
         }}
       >
-        <View style={styles.menuItem}>
+        <View
+          style={[
+            styles.menuItem,
+            { backgroundColor: theme.navigationTheme.colors.background },
+          ]}
+        >
           {item.icon}
-          <CustomText>{item.label}</CustomText>
+          <HeaderText theme={theme.navigationTheme}>{item.label}</HeaderText>
         </View>
         <Divider color="#8F8F8F" />
       </MenuOption>
@@ -188,7 +192,9 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <View style={styles.side}>
         {/* {LeftIcon ? (
           <TouchableOpacity onPress={onLeftPress}>{LeftIcon}</TouchableOpacity>
@@ -206,13 +212,15 @@ const Header: React.FC<HeaderProps> = ({
                   marginTop: 32,
                   borderRadius: 20,
                   padding: 20,
+                  backgroundColor: theme.navigationTheme.colors.background,
                 },
                 optionsWrapper: {
                   maxHeight: '100%',
+                  backgroundColor: theme.navigationTheme.colors.background,
                 },
               }}
             >
-              <CountryCategories />
+              <CountryCategories theme={theme.navigationTheme} />
             </MenuOptions>
           </Menu>
         ) : LeftIcon ? (
@@ -236,20 +244,23 @@ const Header: React.FC<HeaderProps> = ({
                   marginTop: 32,
                   borderRadius: 20,
                   paddingHorizontal: 10,
+                  backgroundColor: theme.navigationTheme.colors.background,
                 },
                 optionsWrapper: {
                   maxHeight: '100%',
+                  backgroundColor: theme.navigationTheme.colors.background,
                 },
               }}
             >
-              <CustomText
+              <HeaderText
                 size={20}
                 fontFamily="Gilroy-ExtraBold"
                 style={styles.menuTitle}
                 color="#004A99"
+                theme={theme.navigationTheme}
               >
                 Other Settings
-              </CustomText>
+              </HeaderText>
               <FlatList
                 data={MenuData}
                 keyExtractor={(item, index) => `${item.label}-${index}`}
@@ -274,6 +285,7 @@ const Header: React.FC<HeaderProps> = ({
           setShowLogout(false);
           // Add your logout logic here
         }}
+        theme={theme.navigationTheme}
       />
 
       <ExperienceRatingModal
@@ -283,6 +295,7 @@ const Header: React.FC<HeaderProps> = ({
           setShowRate(false);
           // Add your rating submission logic here
         }}
+        theme={theme.navigationTheme}
       />
 
       <FontSizeModal
@@ -291,6 +304,7 @@ const Header: React.FC<HeaderProps> = ({
         onChange={() => {
           setShowFontSizer(false);
         }}
+        theme={theme.navigationTheme}
       />
       <SocialShareModal
         visible={showSocialModal}
@@ -299,6 +313,7 @@ const Header: React.FC<HeaderProps> = ({
           setShowSocialModal(false);
           // Add your share logic here
         }}
+        theme={theme.navigationTheme}
       />
 
       <SocialMediaModal
@@ -308,6 +323,7 @@ const Header: React.FC<HeaderProps> = ({
           setShowSocialMedia(false);
           // Add your social media logic here
         }}
+        theme={theme.navigationTheme}
       />
     </View>
   );
@@ -320,7 +336,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 20,
-    backgroundColor: '#fff',
   },
   side: {
     width: 40,

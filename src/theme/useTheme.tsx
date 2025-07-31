@@ -11,6 +11,7 @@ const useTheme = () => {
     dark: navigationTheme.dark,
     toggleTheme,
     isDark,
+    navigationTheme,
   };
 };
 

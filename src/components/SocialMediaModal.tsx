@@ -3,11 +3,13 @@ import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import CustomText from './CustomText';
 import ButtonGradient from './ButtonGradient';
 import Modal from 'react-native-modal';
+import HeaderText from './HeaderText';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
   onShare?: () => void;
+  theme: ReactNavigation.Theme;
 }
 
 const SOCIAL_ICONS = [
@@ -19,7 +21,12 @@ const SOCIAL_ICONS = [
   { name: 'Youtube', icon: require('../assets/images/youtube.png') },
 ];
 
-const SocialMediaModal: React.FC<Props> = ({ visible, onClose, onShare }) => {
+const SocialMediaModal: React.FC<Props> = ({
+  visible,
+  onClose,
+  onShare,
+  theme,
+}) => {
   return (
     <Modal
       isVisible={visible}
@@ -30,17 +37,37 @@ const SocialMediaModal: React.FC<Props> = ({ visible, onClose, onShare }) => {
       animationIn="slideInUp"
       animationOut="slideOutDown"
     >
-      <View style={styles.sheet}>
-        <View style={styles.handle} />
-        <CustomText fontFamily="Gilroy-SemiBold" style={styles.title}>
+      <View
+        style={[styles.sheet, { backgroundColor: theme.colors.background }]}
+      >
+        <View
+          style={[
+            styles.handle,
+            {
+              backgroundColor: theme.dark ? '#fff' : '#e5e5e5',
+            },
+          ]}
+        />
+        <HeaderText
+          theme={theme}
+          fontFamily="Gilroy-SemiBold"
+          color={theme.dark ? theme.colors.text : '#000'}
+          style={styles.title}
+        >
           Jarayid Social Media
-        </CustomText>
+        </HeaderText>
 
         <View style={styles.grid}>
           {SOCIAL_ICONS.map((item, index) => (
             <View key={index} style={styles.iconBlock}>
               <Image source={item.icon} style={styles.iconImage} />
-              <CustomText style={styles.iconLabel}>{item.name}</CustomText>
+              <HeaderText
+                theme={theme}
+                style={styles.iconLabel}
+                color={theme.dark ? theme.colors.text : '#111'}
+              >
+                {item.name}
+              </HeaderText>
             </View>
           ))}
         </View>
@@ -61,7 +88,6 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   sheet: {
-    backgroundColor: '#fff',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingHorizontal: 20,
@@ -73,14 +99,12 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#ccc',
     marginBottom: 14,
   },
   title: {
     fontSize: 23,
     fontWeight: '700',
     marginBottom: 24,
-    color: '#000',
   },
   grid: {
     flexDirection: 'row',
@@ -102,7 +126,6 @@ const styles = StyleSheet.create({
   },
   iconLabel: {
     fontSize: 13,
-    color: '#111',
     fontWeight: '500',
   },
   shareButton: {

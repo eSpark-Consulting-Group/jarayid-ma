@@ -8,13 +8,15 @@ import {
 } from 'react-native';
 import { CustomInput } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
+import { useTheme } from '@react-navigation/native';
 
 const ProfileScreen: React.FC = () => {
+  const theme = useTheme();
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-      >
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.innerContainer}>
           <Image
             style={styles.profileImage}
@@ -28,6 +30,7 @@ const ProfileScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#F5F6FA'}
           />
 
           <CustomInput
@@ -37,6 +40,7 @@ const ProfileScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#F5F6FA'}
           />
           <CustomInput
             label="Mobile Number"
@@ -45,6 +49,7 @@ const ProfileScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#F5F6FA'}
           />
           <CustomInput
             label="Your Country"
@@ -53,6 +58,7 @@ const ProfileScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#F5F6FA'}
           />
 
           <ButtonGradient
@@ -70,7 +76,6 @@ const ProfileScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
     alignItems: 'center',
   },
   scrollContent: {
@@ -91,7 +96,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     width: '100%',
-    backgroundColor: '#F5F6FA',
   },
   buttonStyle: {
     alignSelf: 'flex-end',

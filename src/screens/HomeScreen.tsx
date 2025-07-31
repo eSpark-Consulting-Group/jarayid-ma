@@ -9,9 +9,10 @@ import {
   NewsCardList,
 } from '../components';
 import { TABS_COUNTRIES, TABS_CATEGORIES, TILES_DATA } from '../constants';
-import { Theme, useNavigation, useTheme } from '@react-navigation/native';
+import { Theme, useNavigation } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
+import useTheme from '../theme/useTheme';
 
 interface HomeScreenProps {
   navigation: any;
@@ -42,7 +43,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles(theme).container}>
+    <SafeAreaView style={styles(theme.navigationTheme).container}>
       <ScrollView
         contentContainerStyle={styles().scrollContent}
         showsVerticalScrollIndicator={false}

@@ -15,7 +15,7 @@ interface CustomButtonProps {
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
-  style?: ViewStyle;
+  style?: ViewStyle | ViewStyle[];
   variant?: 'primary' | 'secondary';
   titleColor?: string;
   iconLeft?: React.ReactNode;

@@ -1,13 +1,19 @@
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 
-import CustomText from './CustomText';
 import { COUNTRY_CATEGORIES, COUNTRY_CATEGORIES_DATA } from '../constants';
 import ButtonGradient from './ButtonGradient';
 import { ArrowRight } from '../assets';
 import ToggleBtn from './ToggleBtn';
+import HeaderText from './HeaderText';
+import useTheme from '../theme/useTheme';
 
-const CountryCategories: React.FC = () => {
+interface CountryCategoriesProps {
+  theme: ReactNavigation.Theme;
+}
+
+const CountryCategories: React.FC<CountryCategoriesProps> = ({ theme }) => {
+  // const theme = useTheme();
   const [toggleOn, setToggleOn] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<{
     name: string;
@@ -17,12 +23,13 @@ const CountryCategories: React.FC = () => {
     <View>
       {!selectedCountry ? (
         <View>
-          <CustomText
+          <HeaderText
             size={24}
             fontFamily="Gilroy-ExtraBold"
             color="#004A99"
             text="Country Categories"
             style={{ textAlign: 'center' }}
+            theme={theme}
           />
           <FlatList
             data={COUNTRY_CATEGORIES}
@@ -33,11 +40,12 @@ const CountryCategories: React.FC = () => {
               <TouchableOpacity
                 onPress={() => setSelectedCountry({ name: item })}
               >
-                <CustomText
+                <HeaderText
                   key={index}
                   size={18}
                   text={item}
                   style={{ textAlign: 'center', paddingVertical: 10 }}
+                  theme={theme}
                 />
               </TouchableOpacity>
             )}
@@ -52,19 +60,22 @@ const CountryCategories: React.FC = () => {
             iconLeft={<ArrowRight />}
             textStyle={{ fontSize: 18 }}
             onPress={() => setSelectedCountry(null)}
+            theme={theme}
+            isHeader
           />
           {COUNTRY_CATEGORIES_DATA.map((item, index) => (
             <View key={index}>
-              <CustomText
+              <HeaderText
                 size={18}
                 fontFamily="Gilroy-ExtraBold"
                 color="#004A99"
                 text={item.category}
                 style={{ textAlign: 'center' }}
+                theme={theme}
               />
               {item.data.map((item, index) => (
                 <View key={index} style={styles.categoryStatus}>
-                  <CustomText size={18} text={item.name} />
+                  <HeaderText size={18} text={item.name} theme={theme} />
                   <ToggleBtn value={toggleOn} onValueChange={setToggleOn} />
                 </View>
               ))}

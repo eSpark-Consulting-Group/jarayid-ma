@@ -17,11 +17,14 @@ import LogoAuth from '../assets/images/LogoAuth.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import useTheme from '../theme/useTheme';
 
 interface SignupScreenProps {}
 
 const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'Signup'>>();
+  const theme = useTheme();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -110,7 +113,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
@@ -124,8 +127,10 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               <Image source={LogoAuth} style={styles.logo} />
             </View>
             <View style={styles.formContainer}>
-              <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Create account</CustomText>
-              <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
+              <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+                Create account
+              </CustomText>
+              <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
                 Let's get you started sharing your links!
               </CustomText>
               <CustomInput
@@ -169,7 +174,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               />
               <GoogleButton onPress={handleGoogleSignup} />
               <View style={styles.linkContainer}>
-                <CustomText style={styles.linkText}>Already have an account? </CustomText>
+                <CustomText style={styles.linkText}>
+                  Already have an account?{' '}
+                </CustomText>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                   <CustomText style={styles.link}>Login</CustomText>
                 </TouchableOpacity>

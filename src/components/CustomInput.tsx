@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomText from './CustomText';
+import useTheme from '../theme/useTheme';
 
 interface CustomInputProps extends TextInputProps {
   label?: string;
@@ -17,6 +18,7 @@ interface CustomInputProps extends TextInputProps {
   hasError?: boolean;
   icon?: React.ReactNode;
   style?: ViewStyle;
+  bgColor?: string;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -26,16 +28,30 @@ const CustomInput: React.FC<CustomInputProps> = ({
   hasError = false,
   icon,
   style,
+  bgColor,
   ...props
 }) => {
+  const theme = useTheme();
   return (
     <View style={styles.container}>
-      {label ? <CustomText style={styles.label}>{label}</CustomText> : null}
+      {label ? (
+        <CustomText
+          style={styles.label}
+          color={theme.dark ? '#e2e2e2' : '#333'}
+        >
+          {label}
+        </CustomText>
+      ) : null}
       <View
         style={[
           styles.inputContainer,
           props.multiline && styles.inputContainerMultiline,
           hasError && styles.inputError,
+
+          {
+            backgroundColor: bgColor,
+            borderColor: theme.dark ? '#494949ff' : '#E0E0E0',
+          },
           style,
         ]}
       >
@@ -58,6 +74,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             styles.input,
             props.multiline && styles.multilineInput,
             hasError && styles.inputTextError,
+            { color: theme.dark ? '#efefefff' : '#333' },
           ]}
           placeholderTextColor={hasError ? '#E74C3C' : '#999'}
           {...props}
@@ -74,7 +91,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: '#333',
     marginBottom: 8,
     fontWeight: '500',
   },
@@ -82,7 +98,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E0E0E0',
     paddingHorizontal: 12,
     height: 50,
   },

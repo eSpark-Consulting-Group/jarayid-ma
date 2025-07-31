@@ -17,6 +17,7 @@ import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import useTheme from '../theme/useTheme';
 
 interface Language {
   code: string;
@@ -32,6 +33,7 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(
     undefined,
   );
+  const theme = useTheme();
 
   const languages: Language[] = [
     { code: 'en', name: 'English', nativeName: 'English' },
@@ -58,7 +60,9 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
@@ -68,8 +72,10 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
             <Image source={LogoAuth} style={styles.logo} />
           </View>
           <View style={styles.formContainer}>
-            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Choose Language</CustomText>
-            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
+            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+              Choose Language
+            </CustomText>
+            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
               Add your details below to get back into the app
             </CustomText>
 

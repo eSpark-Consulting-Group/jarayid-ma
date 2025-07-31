@@ -2,18 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
-import CustomText from './CustomText';
+import HeaderText from './HeaderText';
+import useTheme from '../theme/useTheme';
 
 interface Props {
   visible: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  theme: ReactNavigation.Theme;
 }
 
 const LogoutConfirmationModal: React.FC<Props> = ({
   visible,
   onCancel,
   onConfirm,
+  theme,
 }) => {
   return (
     <Modal
@@ -31,18 +34,28 @@ const LogoutConfirmationModal: React.FC<Props> = ({
           <Icon name="information" size={36} color="#fff" />
         </View>
 
-        <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Are you sure you want to Logout?</CustomText>
-        <CustomText fontFamily='Gilroy-SemiBold' style={styles.subtitle}>
+        <HeaderText theme={theme} fontFamily="Gilroy-Bold" style={styles.title}>
+          Are you sure you want to Logout?
+        </HeaderText>
+        <HeaderText
+          theme={theme}
+          fontFamily="Gilroy-SemiBold"
+          style={styles.subtitle}
+        >
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard
-        </CustomText>
+        </HeaderText>
 
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.cancelBtn} onPress={onCancel}>
-            <CustomText style={styles.cancelText}>Cancel</CustomText>
+            <HeaderText theme={theme} style={styles.cancelText}>
+              Cancel
+            </HeaderText>
           </TouchableOpacity>
           <TouchableOpacity style={styles.logoutBtn} onPress={onConfirm}>
-            <CustomText style={styles.logoutText}>Logout</CustomText>
+            <HeaderText theme={theme} style={styles.logoutText}>
+              Logout
+            </HeaderText>
           </TouchableOpacity>
         </View>
       </View>

@@ -15,6 +15,7 @@ import CommentItem from '../components/CommentItem';
 import ArticleCard from '../components/ArticleCard';
 import { BBCSvg } from '../assets';
 import AdBanner from '../components/AdBanner';
+import useTheme from '../theme/useTheme';
 
 interface ArticleScreenProps {
   navigation: any;
@@ -42,6 +43,7 @@ const getInitialCommentStates = (): Record<string, CommentState> => {
 };
 
 const ArticleScreen: React.FC<ArticleScreenProps> = () => {
+  const theme = useTheme();
   const navigation = useNavigation();
   const [tileStates, setTileStates] = useState<Record<string, TileState>>({});
   const [commentStates, setCommentStates] = useState<
@@ -163,7 +165,9 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
     );
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -222,7 +226,6 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   scrollContent: {},
   header: {

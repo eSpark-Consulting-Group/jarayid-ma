@@ -7,12 +7,16 @@ import {
   CustomText,
   ScreenTitle,
 } from '../components';
+import useTheme from '../theme/useTheme';
 
 const NotificationSettings: React.FC = () => {
   const [selectedPriority, setSelectedPriority] = useState<string>('Low');
+  const theme = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScreenTitle title="Notification Settings" />
       <CategorySelector />
       <View style={{ flexDirection: 'row', gap: 10 }}>
@@ -52,7 +56,7 @@ const NotificationSettings: React.FC = () => {
 export default NotificationSettings;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: 16, backgroundColor: '#FFF' },
+  container: { flex: 1, paddingHorizontal: 16 },
   priorityBtn: {
     borderRadius: 10,
     borderWidth: 1,

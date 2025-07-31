@@ -7,14 +7,21 @@ import ScreenTitle from './ScreenTitle';
 import CustomButton from './CustomButton';
 import { ChevDown, ChevUp } from '../assets';
 import { FONT_SIZES } from '../constants';
+import HeaderText from './HeaderText';
 
 interface Props {
   visible: boolean;
   onCancel: () => void;
   onChange: () => void;
+  theme: ReactNavigation.Theme;
 }
 
-const FontSizeModal: React.FC<Props> = ({ visible, onCancel, onChange }) => {
+const FontSizeModal: React.FC<Props> = ({
+  visible,
+  onCancel,
+  onChange,
+  theme,
+}) => {
   const [showSizes, setShowSizes] = useState(false);
 
   const onBackDropAndSwipe = () => {
@@ -54,7 +61,8 @@ const FontSizeModal: React.FC<Props> = ({ visible, onCancel, onChange }) => {
                 disabled={showSizes ? false : true}
                 onPress={onChange}
               >
-                <CustomText
+                <HeaderText
+                  theme={theme}
                   fontFamily={index == 0 ? 'Gilroy-Regular' : 'Gilroy-Medium'}
                   size={item.size}
                   text={item.name}

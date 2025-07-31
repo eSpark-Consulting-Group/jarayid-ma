@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Entypo'; // For 3 dots icon
 import CustomText from './CustomText';
 import ButtonGradient from './ButtonGradient';
+import useTheme from '../theme/useTheme';
 
 interface NotificationItemProps {
   initials: string;
@@ -20,6 +21,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   onViewPress,
   onOptionsPress,
 }) => {
+  const theme = useTheme();
   return (
     <View style={styles.container}>
       {/* Avatar + Message */}
@@ -28,7 +30,13 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           <CustomText style={styles.avatarText}>{initials}</CustomText>
         </View>
         <View style={styles.messageBlock}>
-          <CustomText fontFamily='Gilroy-SemiBold' style={styles.message}>{message}</CustomText>
+          <CustomText
+            fontFamily="Gilroy-SemiBold"
+            style={styles.message}
+            color={theme.dark ? 'white' : '#383535'}
+          >
+            {message}
+          </CustomText>
           <ButtonGradient
             onPress={() => {}}
             title="View"
@@ -78,7 +86,7 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 14,
-    color: '#383535',
+    // color: '#383535',
     marginBottom: 8,
     fontWeight: '500',
   },
