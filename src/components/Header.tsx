@@ -6,7 +6,7 @@ import {
   MenuOptions,
   MenuOption,
 } from 'react-native-popup-menu';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import CustomText from './CustomText'; // or wherever it's located
 import Divider from './Divider'; // import your divider
@@ -38,6 +38,7 @@ import { useThemeContext } from '../context/ThemeContext';
 import FontSizeModal from './FontSizeModal';
 import SocialShareModal from './SocialShareModal';
 import SocialMediaModal from './SocialMediaModal';
+import useTheme from '../theme/useTheme';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -61,8 +62,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>();
   const [showLogout, setShowLogout] = React.useState(false);
   const [showRate, setShowRate] = React.useState(false);
-  const { colors } = useTheme();
-  const { toggleTheme, isDark } = useThemeContext();
+  const theme = useTheme();
   const [showFontSizer, setShowFontSizer] = React.useState(false);
   const [showSocialModal, setShowSocialModal] = React.useState(false);
   const [showSocialMedia, setShowSocialMedia] = React.useState(false);
@@ -127,9 +127,9 @@ const Header: React.FC<HeaderProps> = ({
       },
     },
     {
-      label: isDark ? 'Light Mode' : 'Dark Mode',
+      label: theme.isDark ? 'Light Mode' : 'Dark Mode',
       icon: <Vector10 />,
-      onPress: toggleTheme,
+      onPress: theme.toggleTheme,
     },
     {
       label: 'Font Size',
