@@ -32,6 +32,7 @@ export type MainTabParamList = {
   ProfileScreen: undefined;
   TermOfUse: undefined;
   PrivacyPolicy: undefined;
+  ReadLaterScreen: undefined;
 };
 
 export type MainTabNavigationProp<

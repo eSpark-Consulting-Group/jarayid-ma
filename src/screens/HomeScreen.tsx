@@ -11,6 +11,7 @@ import {
 import { TABS_COUNTRIES, TABS_CATEGORIES, TILES_DATA } from '../constants';
 import { useNavigation } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
+import CustomImageSlider from '../components/CustomImageSlider';
 
 interface HomeScreenProps {
   navigation: any;
@@ -53,6 +54,14 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         </View>
         <NewsCardList />
         <CategoryCardList />
+        <CustomImageSlider
+          images={[
+            'https://picsum.photos/200/300.jpg',
+            'https://picsum.photos/200/300.jpg',
+            'https://picsum.photos/200/300.jpg',
+          ]}
+          interval={3000}
+        />
         <View style={styles.card}>
           {TILES_DATA.map((tile, idx) => {
             const key = `${tile.source}-${idx}`;
