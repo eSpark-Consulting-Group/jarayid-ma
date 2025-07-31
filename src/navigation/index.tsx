@@ -104,7 +104,7 @@ function MainTabNavigator() {
           header: () => (
             <Header
               LeftIcon={theme.dark ? <BackIconDark /> : <BackIcon />}
-              RightIcon={<RedirectSign />}
+              RightIcon={theme.dark ? <RedirectSignDark /> : <RedirectSign />}
               MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
@@ -318,7 +318,7 @@ const HomeStackNavigator = () => {
           header: () => (
             <Header
               LeftIcon={theme.dark ? <BackIconDark /> : <BackIcon />}
-              RightIcon={<RedirectSign />}
+              RightIcon={theme.dark ? <RedirectSignDark /> : <RedirectSign />}
               MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
