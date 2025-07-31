@@ -16,16 +16,22 @@ import LogoAuth from '../assets/images/LogoAuth.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import { login } from '../services/authService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/slices/authSlice';
 
 interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
   const navigation = useNavigation<RootStackNavigationProp<'Login'>>();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('muhammadahsanty@gmail.com');
+  const [password, setPassword] = useState('String1234$');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
+  const dispatch = useDispatch();
   const handleEmailChange = (text: string) => {
     setEmail(text);
     setErrors(prev => {
@@ -68,10 +74,29 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
       return;
     }
 
-    setLoading(true);
-    navigation.navigate('Home');
-    setLoading(false);
+    try {
+      setLoading(true);
+      const res = await login({
+        email: email,
+        password: password,
+        loginType: 'local',
+      });
 
+      if (res?.status == 'success') {
+        console.log('res', res);
+        dispatch(setUser(res.data));
+        await AsyncStorage.setItem('accessToken', res?.data?.token);
+        navigation.replace('Home');
+        setLoading(false);
+      } else {
+        setLoading(false);
+        console.error('Login failed:', res.message);
+      }
+    } catch (err) {
+      setLoading(false);
+
+      console.error('Login error:', err);
+    }
   };
 
   return (
@@ -85,8 +110,10 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             <Image source={LogoAuth} style={styles.logo} />
           </View>
           <View style={styles.formContainer}>
-            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Login</CustomText>
-            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
+            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+              Login
+            </CustomText>
+            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
               Add your details below to get back into the app
             </CustomText>
 
@@ -117,7 +144,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               onPress={() => navigation.navigate('ForgotPasswordEmail')}
               style={styles.forgotPasswordContainer}
             >
-              <CustomText style={styles.forgotPasswordText}>Forgot password?</CustomText>
+              <CustomText style={styles.forgotPasswordText}>
+                Forgot password?
+              </CustomText>
             </TouchableOpacity>
 
             <CustomButton
@@ -127,7 +156,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             />
 
             <View style={styles.linkContainer}>
-              <CustomText style={styles.linkText}>Don't have an account? </CustomText>
+              <CustomText style={styles.linkText}>
+                Don't have an account?{' '}
+              </CustomText>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <CustomText style={styles.link}>Create account</CustomText>
               </TouchableOpacity>

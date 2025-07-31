@@ -9,18 +9,24 @@ import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import RootNavigation from './src/navigation/index';
 import { MenuProvider } from 'react-native-popup-menu';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
+
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <View style={styles.container}>
+
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <MenuProvider
-        style={{ flex: 1 }}
-        customStyles={{ backdrop: { backgroundColor: '#000', opacity: 0.5 } }}
-      >
-        <RootNavigation />
-      </MenuProvider>
+      <Provider store={store}>
+        <MenuProvider
+          style={{ flex: 1 }}
+          customStyles={{ backdrop: { backgroundColor: '#000', opacity: 0.5 } }}
+        >
+          <RootNavigation />
+        </MenuProvider>
+      </Provider>
     </View>
   );
 }
