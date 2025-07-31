@@ -34,6 +34,7 @@ import TermOfUse from '../screens/TermOfUse';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
+import { useThemeContext } from '../context/ThemeContext';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -289,9 +290,10 @@ const HomeStackNavigator = () => {
 };
 
 export default function App() {
+  const { theme } = useThemeContext();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer theme={theme}>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
