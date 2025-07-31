@@ -53,6 +53,7 @@ function MainTabNavigator() {
               onLeftPress={() => navigation.navigate('Home')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -253,30 +254,27 @@ const HomeStackNavigator = () => {
 
 export default function App() {
   return (
-    <MenuProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
-            <Stack.Screen
-              name="ForgotPasswordEmail"
-              component={ForgotPasswordEmail}
-            />
-            <Stack.Screen
-              name="SelectLanguage"
-              component={SelectLanguageScreen}
-            />
-
-            <Stack.Screen name="Home" component={MainTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </MenuProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="ForgotPasswordEmail"
+            component={ForgotPasswordEmail}
+          />
+          <Stack.Screen
+            name="SelectLanguage"
+            component={SelectLanguageScreen}
+          />
+          <Stack.Screen name="Home" component={MainTabNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }

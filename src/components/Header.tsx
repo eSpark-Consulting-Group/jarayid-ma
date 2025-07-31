@@ -6,6 +6,8 @@ import {
   MenuOptions,
   MenuOption,
 } from 'react-native-popup-menu';
+import { useNavigation } from '@react-navigation/native';
+
 import CustomText from './CustomText'; // or wherever it's located
 import Divider from './Divider'; // import your divider
 import {
@@ -27,7 +29,8 @@ import {
   Vector15,
   Vector16,
 } from '../assets'; // make sure to import all your vector icons
-import { useNavigation } from '@react-navigation/native';
+import { CountryCategories } from '.';
+
 import LogoutConfirmationModal from './LogoutConfirmationModal';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
@@ -39,6 +42,7 @@ interface HeaderProps {
   onLeftPress?: () => void;
   onRightPress?: () => void;
   isProfileMenu?: boolean;
+  isCountryCates?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -48,8 +52,9 @@ const Header: React.FC<HeaderProps> = ({
   onLeftPress,
   onRightPress,
   isProfileMenu,
+  isCountryCates,
 }) => {
-  const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>()
+  const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>();
   const [showLogout, setShowLogout] = React.useState(false);
   const [showRate, setShowRate] = React.useState(false);
 
@@ -120,12 +125,14 @@ const Header: React.FC<HeaderProps> = ({
   const renderMenuOption = ({
     item,
   }: {
-    item: { label: string; icon: JSX.Element, onPress?: () => void };
+    item: { label: string; icon: JSX.Element; onPress?: () => void };
   }) => {
     return (
-      <MenuOption onSelect={() => {
-        item?.onPress?.() 
-      }}>
+      <MenuOption
+        onSelect={() => {
+          item?.onPress?.();
+        }}
+      >
         <View style={styles.menuItem}>
           {item.icon}
           <CustomText>{item.label}</CustomText>
@@ -133,12 +140,37 @@ const Header: React.FC<HeaderProps> = ({
         <Divider color="#8F8F8F" />
       </MenuOption>
     );
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.side}>
-        {LeftIcon ? (
+        {/* {LeftIcon ? (
+          <TouchableOpacity onPress={onLeftPress}>{LeftIcon}</TouchableOpacity>
+        ) : (
+          <View style={styles.placeholder} />
+        )} */}
+        {isCountryCates && LeftIcon ? (
+          <Menu>
+            <MenuTrigger>{LeftIcon}</MenuTrigger>
+            <MenuOptions
+              customStyles={{
+                optionsContainer: {
+                  width: '75%',
+                  maxHeight: '80%',
+                  marginTop: 32,
+                  borderRadius: 20,
+                  padding: 20,
+                },
+                optionsWrapper: {
+                  maxHeight: '100%',
+                },
+              }}
+            >
+              <CountryCategories />
+            </MenuOptions>
+          </Menu>
+        ) : LeftIcon ? (
           <TouchableOpacity onPress={onLeftPress}>{LeftIcon}</TouchableOpacity>
         ) : (
           <View style={styles.placeholder} />
@@ -199,7 +231,7 @@ const Header: React.FC<HeaderProps> = ({
         }}
       />
 
-      <ExperienceRatingModal 
+      <ExperienceRatingModal
         visible={showRate}
         onClose={() => setShowRate(false)}
         onSelect={() => {

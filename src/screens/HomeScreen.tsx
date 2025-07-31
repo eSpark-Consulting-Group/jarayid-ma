@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
   },
-  tabsContainer: { alignItems: 'center', gap: 5 },
+  tabsContainer: { alignItems: 'center', gap: 5, paddingHorizontal: 10 },
   scrollContent: {
     gap: 15,
   },

@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import { CategorySelector, LabeledCheckbox, ScreenTitle } from '../components';
+import ButtonGradient from '../components/ButtonGradient';
 
 const EditNewSource: React.FC = () => {
   return (
@@ -20,6 +21,12 @@ const EditNewSource: React.FC = () => {
           />
         )}
       />
+      <ButtonGradient
+        title="Save"
+        onPress={() => true}
+        color={['#007BFF', '#004A99']}
+        gradientStyle={styles.saveBtn}
+      />
     </View>
   );
 };
@@ -28,4 +35,12 @@ export default EditNewSource;
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 20, backgroundColor: '#FFF' },
+  saveBtn: {
+    width: '40%',
+    height: 'auto',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginVertical: 20,
+    alignSelf: 'flex-end',
+  },
 });
