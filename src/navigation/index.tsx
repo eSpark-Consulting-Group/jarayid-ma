@@ -39,6 +39,8 @@ import ContactUsScreen from '../screens/ContactUsScreen';
 import { navigationRef } from './RootNavigation';
 import { MenuProvider } from 'react-native-popup-menu';
 import { useThemeContext } from '../context/ThemeContext';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/slices/authSlice';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -322,15 +324,29 @@ const HomeStackNavigator = () => {
 
 export default function App() {
   const { theme } = useThemeContext();
-
-
-    const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
+  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     const checkToken = async () => {
       try {
         const token = await AsyncStorage.getItem('accessToken');
+        const userDetails = await AsyncStorage.getItem('userDetails');
+        if (token && userDetails) {
+          let user = null;
+          try {
+            user = JSON.parse(userDetails);
+          } catch (e) {
+            user = null;
+          }
+          dispatch(
+            setUser({
+              token,
+              user,
+            })
+          );
+        }
         setInitialRoute(token ? 'Home' : 'Login');
       } catch (e) {
         setInitialRoute('Login');
