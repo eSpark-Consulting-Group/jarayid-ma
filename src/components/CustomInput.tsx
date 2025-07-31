@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, TextInput, Text, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  TextInputProps,
+  ViewStyle,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface CustomInputProps extends TextInputProps {
@@ -8,7 +15,7 @@ interface CustomInputProps extends TextInputProps {
   error?: string;
   hasError?: boolean;
   icon?: React.ReactNode;
-  style?: ViewStyle
+  style?: ViewStyle;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -23,7 +30,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
   return (
     <View style={styles.container}>
       {label ? <Text style={styles.label}>{label}</Text> : null}
-      <View style={[styles.inputContainer, hasError && styles.inputError, style]}>
+      <View
+        style={[styles.inputContainer, hasError && styles.inputError, style]}
+      >
         {icon ? (
           <>{icon}</>
         ) : (
