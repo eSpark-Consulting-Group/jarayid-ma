@@ -34,6 +34,7 @@ import { CountryCategories } from '.';
 import LogoutConfirmationModal from './LogoutConfirmationModal';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
+import FontSizeModal from './FontSizeModal';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -57,6 +58,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigation = useNavigation<MainTabNavigationProp<'HomeTab'>>();
   const [showLogout, setShowLogout] = React.useState(false);
   const [showRate, setShowRate] = React.useState(false);
+  const [showFontSizer, setShowFontSizer] = React.useState(false);
 
   const MenuData = [
     {
@@ -94,7 +96,11 @@ const Header: React.FC<HeaderProps> = ({
     },
     { label: 'Share The App', icon: <Vector9 /> },
     { label: 'Dark Mode', icon: <Vector10 /> },
-    { label: 'Font Size', icon: <Vector11 /> },
+    {
+      label: 'Font Size',
+      icon: <Vector11 />,
+      onPress: () => setShowFontSizer(true),
+    },
     {
       label: 'FAQs',
       icon: <Vector12 />,
@@ -237,6 +243,15 @@ const Header: React.FC<HeaderProps> = ({
         onSelect={() => {
           setShowRate(false);
           // Add your rating submission logic here
+        }}
+      />
+
+      <FontSizeModal
+        visible={showFontSizer}
+        onCancel={() => setShowFontSizer(false)}
+        onChange={() => {
+          setShowFontSizer(false);
+          // Add your logout logic here
         }}
       />
     </View>

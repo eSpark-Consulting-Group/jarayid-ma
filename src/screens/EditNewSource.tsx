@@ -3,8 +3,11 @@ import { FlatList, StyleSheet, View } from 'react-native';
 
 import { CategorySelector, LabeledCheckbox, ScreenTitle } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
+import { useNavigation } from '@react-navigation/native';
+import { MainTabNavigationProp } from '../navigation/navigation';
 
 const EditNewSource: React.FC = () => {
+  const navigation = useNavigation<MainTabNavigationProp<'EditNewSource'>>();
   return (
     <View style={styles.container}>
       <ScreenTitle title="Edit News Source" />
@@ -23,7 +26,7 @@ const EditNewSource: React.FC = () => {
       />
       <ButtonGradient
         title="Save"
-        onPress={() => true}
+        onPress={() => navigation.goBack()}
         color={['#007BFF', '#004A99']}
         gradientStyle={styles.saveBtn}
       />
