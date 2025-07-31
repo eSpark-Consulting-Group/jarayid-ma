@@ -77,7 +77,11 @@ const Header: React.FC<HeaderProps> = ({
       onPress: () => navigation.navigate('NotificationSettings'),
     },
     { label: 'Jarayid Social Media Accounts', icon: <Vector5 /> },
-    { label: 'Advertise here', icon: <Vector6 /> },
+    {
+      label: 'Advertise here',
+      icon: <Vector6 />,
+      onPress: () => navigation.navigate('AdvertiseHere'),
+    },
     {
       label: 'Rate Jarayid.com',
       icon: <Vector7 />,
@@ -110,7 +114,11 @@ const Header: React.FC<HeaderProps> = ({
       icon: <Vector14 />,
       onPress: () => navigation.navigate('PrivacyPolicy'),
     },
-    { label: 'Contact Us', icon: <Vector15 /> },
+    {
+      label: 'Contact Us',
+      icon: <Vector15 />,
+      onPress: () => navigation.navigate('ContactUs'),
+    },
     {
       label: 'Logout',
       icon: <Vector16 />,
