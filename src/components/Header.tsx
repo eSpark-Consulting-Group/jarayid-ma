@@ -1,5 +1,5 @@
 import React, { JSX } from 'react';
-import { navigationRef } from '../navigation/RootNavigation';
+import { navigate, navigationRef } from '../navigation/RootNavigation';
 import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import {
   Menu,
@@ -279,12 +279,7 @@ const Header: React.FC<HeaderProps> = ({
           setShowLogout(false);
           await AsyncStorage.removeItem('accessToken');
           dispatch(logout());
-          if (navigationRef?.current) {
-            setShowLogout(false)
-            navigationRef.current.navigate('Login');
-          }else {
-            setShowLogout(false)
-          }
+          setShowLogout(false);
         }}
       />
 
