@@ -1,8 +1,13 @@
-import React from "react";
-import { TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import CustomText from "./CustomText";
+import React from 'react';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
+import CustomText from './CustomText';
 
 interface ButtonGradientProps {
   onPress: () => void;
@@ -12,16 +17,18 @@ interface ButtonGradientProps {
   textStyle?: TextStyle | TextStyle[];
   gradientStyle?: ViewStyle | ViewStyle[];
   disabled?: boolean;
+  iconLeft?: React.ReactNode;
 }
 
 const ButtonGradient: React.FC<ButtonGradientProps> = ({
   onPress,
   title,
-  color = ["#007AFF", "#005DE0"],
+  color = ['#007AFF', '#005DE0'],
   style,
   textStyle,
   gradientStyle,
   disabled = false,
+  iconLeft,
 }) => {
   return (
     <TouchableOpacity
@@ -37,6 +44,7 @@ const ButtonGradient: React.FC<ButtonGradientProps> = ({
         style={[styles.gradient, gradientStyle]}
       >
         <CustomText style={[styles.buttonText, textStyle]}>{title}</CustomText>
+        {iconLeft}
       </LinearGradient>
     </TouchableOpacity>
   );
@@ -44,20 +52,20 @@ const ButtonGradient: React.FC<ButtonGradientProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 4,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   gradient: {
     borderRadius: 8,
     height: 32,
     width: 48,
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
   },
 });
 

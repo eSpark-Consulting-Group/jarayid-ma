@@ -32,6 +32,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 }) => {
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       style={[
         styles.button,
         variant === 'primary' ? styles.primaryButton : styles.secondaryButton,

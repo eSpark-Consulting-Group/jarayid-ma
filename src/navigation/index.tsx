@@ -14,7 +14,6 @@ import NotificationScreen from '../screens/NotificationScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ArticleScreen from '../screens/ArticleScreen';
 import SubscriptionScreen from '../screens/SubscriptionScreen';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { HomeStackParamList, RootStackParamList } from './navigation';
 
@@ -34,6 +33,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import TermOfUse from '../screens/TermOfUse';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import ReadLaterScreen from '../screens/ReadLaterScreen';
+import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
+import ContactUsScreen from '../screens/ContactUsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -55,6 +56,7 @@ function MainTabNavigator() {
               onLeftPress={() => navigation.navigate('Home')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
+              isCountryCates
             />
           ),
         })}
@@ -88,7 +90,7 @@ function MainTabNavigator() {
           header: () => (
             <Header
               LeftIcon={<BackIcon />}
-              RightIcon={<Ionicon name="share-outline" size={25} />}
+              RightIcon={<RedirectSign />}
               MainLogo={<HeaderLogo />}
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
@@ -136,7 +138,7 @@ function MainTabNavigator() {
           ),
         })}
       />
-      
+
       <Tab.Screen
         name="FAQScreen"
         component={FAQScreen}
@@ -223,6 +225,42 @@ function MainTabNavigator() {
           ),
         })}
       />
+
+      <Tab.Screen
+        name="AdvertiseHere"
+        component={AdvertiseHereScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+      
+      <Tab.Screen
+        name="ContactUs"
+        component={ContactUsScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
     </Tab.Navigator>
   );
 }
@@ -259,43 +297,41 @@ const HomeStackNavigator = () => {
               LeftIcon={<BackIcon />}
               RightIcon={<RedirectSign />}
               MainLogo={<HeaderLogo />}
-              onLeftPress={() => console.log('open menu 1')}
+              onLeftPress={() =>
+                navigation?.canGoBack?.() && navigation.goBack()
+              }
               onRightPress={() => console.log('open menu 2')}
             />
           ),
         })}
       />
-
     </HomeStack.Navigator>
   );
 };
 
 export default function App() {
   return (
-    <MenuProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
-            <Stack.Screen
-              name="ForgotPasswordEmail"
-              component={ForgotPasswordEmail}
-            />
-            <Stack.Screen
-              name="SelectLanguage"
-              component={SelectLanguageScreen}
-            />
-
-            <Stack.Screen name="Home" component={MainTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </MenuProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="ForgotPasswordEmail"
+            component={ForgotPasswordEmail}
+          />
+          <Stack.Screen
+            name="SelectLanguage"
+            component={SelectLanguageScreen}
+          />
+          <Stack.Screen name="Home" component={MainTabNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }

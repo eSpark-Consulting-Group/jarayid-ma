@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import {
@@ -9,6 +9,8 @@ import {
 } from '../components';
 
 const NotificationSettings: React.FC = () => {
+  const [selectedPriority, setSelectedPriority] = useState<string>('Low');
+
   return (
     <View style={styles.container}>
       <ScreenTitle title="Notification Settings" />
@@ -17,18 +19,30 @@ const NotificationSettings: React.FC = () => {
         {['Low', 'Medium', 'High'].map((item, index) => (
           <CustomButton
             key={index}
-            style={styles.priorityBtn}
+            style={{
+              ...styles.priorityBtn,
+              backgroundColor: item == selectedPriority ? '#B4D0EF' : '#EAF4FF',
+              borderColor: item == selectedPriority ? '#8DAAC9' : '#D1E5FA',
+            }}
             titleColor="#000"
             title={item}
-            onPress={() => true}
+            onPress={() => setSelectedPriority(item)}
           />
         ))}
       </View>
-      <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+      <View style={{ flexDirection: 'row', marginVertical: 20, gap: 3 }}>
         <CustomText text="You Will Receive" />
         <CustomText
           fontFamily="Gilroy-SemiBold"
-          text=" 3 news alerts per day"
+          text={`${
+            selectedPriority == 'Low'
+              ? 3
+              : selectedPriority == 'Medium'
+              ? 2
+              : selectedPriority == 'High'
+              ? 1
+              : 3
+          } news alerts per day`}
         />
       </View>
     </View>
@@ -42,8 +56,6 @@ const styles = StyleSheet.create({
   priorityBtn: {
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#D1E5FA',
-    backgroundColor: '#EAF4FF',
     flex: 1,
   },
 });
