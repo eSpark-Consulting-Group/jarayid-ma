@@ -12,6 +12,7 @@ import { TABS_COUNTRIES, TABS_CATEGORIES, TILES_DATA } from '../constants';
 import { Theme, useNavigation, useTheme } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
+import { useSelector } from 'react-redux';
 
 interface HomeScreenProps {
   navigation: any;
@@ -19,6 +20,8 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
+  const user = useSelector(state => state?.auth);
+  console.log('User:', user);
   const theme = useTheme();
   const [tileStates, setTileStates] = useState<
     Record<string, { isLiked: boolean; isSaved: boolean }>
