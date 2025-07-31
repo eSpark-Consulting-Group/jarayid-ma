@@ -39,8 +39,8 @@ export default EditNewSource;
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 20, backgroundColor: '#FFF' },
   saveBtn: {
-    width: '40%',
-    height: 'auto',
+    width: 138,
+    height: 50,
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginVertical: 20,

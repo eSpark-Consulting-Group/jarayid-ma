@@ -31,6 +31,9 @@ import FAQScreen from '../screens/FAQScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TermOfUse from '../screens/TermOfUse';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
+import ReadLaterScreen from '../screens/ReadLaterScreen';
+import AdvertiseHereScreen from '../screens/AdvertiseHereScreen';
+import ContactUsScreen from '../screens/ContactUsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -205,6 +208,60 @@ function MainTabNavigator() {
               onRightPress={() => console.log('Profile')}
               isProfileMenu
               isCountryCates
+            />
+          ),
+        })}
+      />
+     
+      <Tab.Screen
+        name="ReadLaterScreen"
+        component={ReadLaterScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+
+      <Tab.Screen
+        name="AdvertiseHere"
+        component={AdvertiseHereScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
+            />
+          ),
+        })}
+      />
+      
+      <Tab.Screen
+        name="ContactUs"
+        component={ContactUsScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          header: () => (
+            <Header
+              LeftIcon={<SettingsGear />}
+              RightIcon={<ProfileHead />}
+              MainLogo={<HeaderLogo />}
+              onLeftPress={() => console.log('Settings')}
+              onRightPress={() => console.log('Profile')}
+              isProfileMenu
             />
           ),
         })}

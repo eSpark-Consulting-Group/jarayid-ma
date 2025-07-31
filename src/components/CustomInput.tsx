@@ -8,6 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CustomText from './CustomText';
 
 interface CustomInputProps extends TextInputProps {
   label?: string;
@@ -29,9 +30,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+      {label ? <CustomText style={styles.label}>{label}</CustomText> : null}
       <View
-        style={[styles.inputContainer, hasError && styles.inputError, style]}
+        style={[
+          styles.inputContainer,
+          props.multiline && styles.inputContainerMultiline,
+          hasError && styles.inputError,
+          style,
+        ]}
       >
         {icon ? (
           <>{icon}</>
@@ -48,7 +54,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
           </>
         )}
         <TextInput
-          style={[styles.input, hasError && styles.inputTextError]}
+          style={[
+            styles.input,
+            props.multiline && styles.multilineInput,
+            hasError && styles.inputTextError,
+          ]}
           placeholderTextColor={hasError ? '#E74C3C' : '#999'}
           {...props}
         />
@@ -73,9 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#E0E0E0',
-    // borderRadius: 8,
     paddingHorizontal: 12,
-    // backgroundColor: '#FAFAFA',
     height: 50,
   },
   inputError: {
@@ -97,6 +105,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#E74C3C',
     marginTop: 4,
+  },
+  inputContainerMultiline: {
+    alignItems: 'flex-start',
+    paddingTop: 12,
+  },
+  multilineInput: {
+    textAlignVertical: 'top',
+    paddingTop: 0,
   },
 });
 

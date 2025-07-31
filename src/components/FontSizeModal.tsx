@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
+
 import CustomText from './CustomText';
 import ScreenTitle from './ScreenTitle';
 import CustomButton from './CustomButton';
