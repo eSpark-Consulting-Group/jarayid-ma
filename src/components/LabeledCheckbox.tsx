@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable, Image } from 'react-native';
 
 import CustomText from './CustomText';
 import { Checkbox } from '../assets';
+import useTheme from '../theme/useTheme';
 
 type LabeledCheckboxProps = {
   label: string;
@@ -31,6 +32,7 @@ const LabeledCheckbox: React.FC<LabeledCheckboxProps> = ({
   labelSize,
   imageURL,
 }) => {
+  const theme = useTheme();
   const [checked, setChecked] = useState<boolean>(false);
   return (
     <Pressable style={styles.container} onPress={() => setChecked(!checked)}>
@@ -44,7 +46,7 @@ const LabeledCheckbox: React.FC<LabeledCheckboxProps> = ({
           fontFamily={labelFontfamily}
           size={labelSize}
           text={label}
-          color={labelColor}
+          color={theme.dark ? '#D7D8DB' : labelColor}
         />
       </View>
       {imageURL ? (

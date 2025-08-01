@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -13,15 +14,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
+import LogoAuth from '../assets/images/LogoAuth.png';
+import LogoAuthDark from '../assets/images/LogoAuthDark.png';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
 import { HeaderLogo } from '../assets';
 import { login } from '../services/authService';
 import { setUser } from '../redux/slices/authSlice';
+import useTheme from '../theme/useTheme';
 
 interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
+  const theme = useTheme();
+
   const navigation = useNavigation<RootStackNavigationProp<'Login'>>();
   const [email, setEmail] = useState('muhammadahsanty@gmail.com');
   const [password, setPassword] = useState('String1234$');
@@ -85,7 +91,10 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         console.log('res', res);
         dispatch(setUser(res.data));
         await AsyncStorage.setItem('accessToken', res?.data?.token);
-        await AsyncStorage.setItem('userDetails', JSON.stringify(res?.data?.user));
+        await AsyncStorage.setItem(
+          'userDetails',
+          JSON.stringify(res?.data?.user),
+        );
         navigation.replace('Home');
         setLoading(false);
       } else {
@@ -100,21 +109,40 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
         <View style={styles.content}>
-          <HeaderLogo height={70} width={210} style={styles.logo} />
-          <View style={styles.formContainer}>
+          <View style={styles.logo}>
+            <Image
+              source={theme.dark ? LogoAuthDark : LogoAuth}
+              style={styles.logo}
+            />
+          </View>
+          <View
+            style={[
+              styles.formContainer,
+              {
+                elevation: theme.dark ? 0 : 5,
+                borderWidth: theme.dark ? 1 : 0,
+                borderColor: '#494949ff',
+              },
+            ]}
+          >
             <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
               Login
             </CustomText>
-            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
+            <CustomText
+              fontFamily="Gilroy-Regular"
+              color={theme.dark ? '#999' : '#666'}
+              style={styles.subtitle}
+            >
               Add your details below to get back into the app
             </CustomText>
-
             <CustomInput
               label="Email address"
               iconName="email"
@@ -126,7 +154,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               error={errors.email}
               hasError={!!errors.email}
             />
-
             <CustomInput
               label="Password"
               iconName="lock"
@@ -137,7 +164,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               error={errors.password}
               hasError={!!errors.password}
             />
-
             <TouchableOpacity
               onPress={() => navigation.navigate('ForgotPasswordEmail')}
               style={styles.forgotPasswordContainer}
@@ -146,15 +172,16 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                 Forgot password?
               </CustomText>
             </TouchableOpacity>
-
             <CustomButton
               title="Login"
               onPress={handleLogin}
               loading={loading}
             />
-
             <View style={styles.linkContainer}>
-              <CustomText style={styles.linkText}>
+              <CustomText
+                style={styles.linkText}
+                color={theme.dark ? '#999' : '#666'}
+              >
                 Don't have an account?{' '}
               </CustomText>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
@@ -171,7 +198,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   keyboardView: {
     flex: 1,
@@ -192,17 +218,15 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 8,
-    backgroundColor: '#FFF',
+    // backgroundColor: '#FFF',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    // color: ,
     marginBottom: 32,
     lineHeight: 22,
   },
@@ -213,14 +237,13 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#666',
   },
   link: {
     fontSize: 14,
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center' },
+  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',
     marginBottom: 12,

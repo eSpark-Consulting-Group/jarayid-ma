@@ -9,13 +9,14 @@ import {
   NewsCardList,
 } from '../components';
 import { TABS_CATEGORIES, TILES_DATA } from '../constants';
-import { Theme, useNavigation, useTheme } from '@react-navigation/native';
+import { Theme, useNavigation } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCategories, fetchArticles } from '../services/homeService';
 import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
+import useTheme from '../theme/useTheme';
 import { setSelectedCategory } from '../redux/slices/homeSlice';
 
 interface HomeScreenProps {
@@ -33,9 +34,11 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [tileStates, setTileStates] = useState<
     Record<string, { isSaved: boolean }>
   >({});
+
   const [selectedSubCategory, setSelectedSubCategory] = useState<
     (typeof TABS_CATEGORIES)[0]
   >(TABS_CATEGORIES?.[0]);
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -72,7 +75,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   );
 
   return (
-    <SafeAreaView style={styles(theme).container}>
+    <SafeAreaView style={styles(theme.navigationTheme).container}>
       <ScrollView
         contentContainerStyle={styles().scrollContent}
         showsVerticalScrollIndicator={false}
@@ -86,16 +89,16 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
             }))}
             onTabPress={handleTabPress}
           />
-          <Divider />
-          <CustomTab
-            data={TABS_CATEGORIES}
-            onTabPress={handleSubCategoryPress}
-            round
-          />
+          <Divider color={theme.dark ? '#666666' : undefined} />
         </View>
+        <CustomTab
+          data={TABS_CATEGORIES}
+          onTabPress={handleSubCategoryPress}
+          round
+        />
         {selectedCategory?.youtubeContents &&
         selectedCategory?.youtubeContents?.length > 0 ? (
-          <NewsCardList data={selectedCategory?.youtubeContents} />
+          <NewsCardList />
         ) : null}
         <CategoryCardList onPress={handleTabPress} data={categories ?? []} />
         <CustomImageSlider

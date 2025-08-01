@@ -2,10 +2,15 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 
 import { CustomText } from '../components';
+import useTheme from '../theme/useTheme';
 
 const TermOfUse: React.FC = () => {
+  const theme = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <View style={{ paddingHorizontal: 20 }}>
         <CustomText
           fontFamily="Gilroy-SemiBold"
@@ -13,7 +18,12 @@ const TermOfUse: React.FC = () => {
         >
           Terms of Use
         </CustomText>
-        <View style={styles.subContainer}>
+        <View
+          style={[
+            styles.subContainer,
+            { backgroundColor: theme.colors.background },
+          ]}
+        >
           <ScrollView
             contentContainerStyle={{
               paddingHorizontal: 20,
@@ -60,7 +70,6 @@ const TermOfUse: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   subContainer: {
     borderRadius: 8,

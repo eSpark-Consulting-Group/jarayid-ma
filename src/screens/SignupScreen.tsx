@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,12 +21,17 @@ import { HeaderLogo } from '../assets';
 import { signup } from '../services/authService';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/authSlice';
+import LogoAuth from '../assets/images/LogoAuth.png';
+import LogoAuthDark from '../assets/images/LogoAuthDark.png';
+import useTheme from '../theme/useTheme';
 
 interface SignupScreenProps {}
 
 const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'Signup'>>();
   const [name, setName] = useState('');
+  const theme = useTheme();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -152,7 +158,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
@@ -162,12 +170,30 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.content}>
-            <HeaderLogo height={70} width={210} style={styles.logo} />
-            <View style={styles.formContainer}>
+            <View>
+              <Image
+                source={theme.dark ? LogoAuthDark : LogoAuth}
+                style={styles.logo}
+              />
+            </View>
+            <View
+              style={[
+                styles.formContainer,
+                {
+                  elevation: theme.dark ? 0 : 5,
+                  borderWidth: theme.dark ? 1 : 0,
+                  borderColor: '#494949ff',
+                },
+              ]}
+            >
               <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
                 Create account
               </CustomText>
-              <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
+              <CustomText
+                fontFamily="Gilroy-Regular"
+                color={theme.dark ? '#999' : '#666'}
+                style={styles.subtitle}
+              >
                 Let's get you started sharing your links!
               </CustomText>
               <CustomInput
@@ -212,7 +238,10 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 error={errors.confirmPassword}
                 hasError={!!errors.confirmPassword}
               />
-              <CustomText style={styles.passwordNote}>
+              <CustomText
+                style={styles.passwordNote}
+                color={theme.dark ? '#999' : '#666'}
+              >
                 Password must contain at least 8 characters
               </CustomText>
               <CustomButton
@@ -222,7 +251,10 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               />
               <GoogleButton onPress={handleGoogleSignup} />
               <View style={styles.linkContainer}>
-                <CustomText style={styles.linkText}>
+                <CustomText
+                  style={styles.linkText}
+                  color={theme.dark ? '#999' : '#666'}
+                >
                   Already have an account?{' '}
                 </CustomText>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
@@ -240,7 +272,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   keyboardView: {
     flex: 1,
@@ -259,27 +290,20 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
     borderRadius: 8,
-    backgroundColor: '#FFF',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
     marginBottom: 32,
     lineHeight: 22,
   },
   passwordNote: {
     fontSize: 12,
-    color: '#666',
     marginBottom: 20,
-    // textAlign: 'center',
   },
   linkContainer: {
     flexDirection: 'row',
@@ -288,14 +312,13 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#666',
   },
   link: {
     fontSize: 14,
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center' },
+  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
 });
 
 export default SignupScreen;

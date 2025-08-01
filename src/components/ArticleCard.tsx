@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Linking } from 'react-native';
 import CustomText from './CustomText';
 import ButtonGradient from './ButtonGradient';
+import useTheme from '../theme/useTheme';
 
 interface ArticleCardProps {
   sourceIcon: React.ReactNode;
@@ -22,6 +23,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   notice,
   articleLink,
 }) => {
+  const theme = useTheme();
   const openLink = React.useCallback(() => {
     Linking.openURL(articleLink).catch(err =>
       console.error('Failed to open URL:', err),
@@ -29,7 +31,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   }, [articleLink]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <View style={styles.header}>
         {sourceIcon}
         <CustomText size={12} color="#6B7280" style={styles.time}>
@@ -43,7 +47,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         {title}
       </CustomText>
 
-      <CustomText size={15} color="#4B5563" style={styles.summary}>
+      <CustomText
+        size={15}
+        color={theme.dark ? '#d9d9d9' : '#4B5563'}
+        style={styles.summary}
+      >
         {summary}
       </CustomText>
 

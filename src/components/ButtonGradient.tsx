@@ -8,6 +8,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 import CustomText from './CustomText';
+import HeaderText from './HeaderText';
 
 interface ButtonGradientProps {
   onPress: () => void;
@@ -18,6 +19,8 @@ interface ButtonGradientProps {
   gradientStyle?: ViewStyle | ViewStyle[];
   disabled?: boolean;
   iconLeft?: React.ReactNode;
+  isHeader?: boolean;
+  theme?: ReactNavigation.Theme;
 }
 
 const ButtonGradient: React.FC<ButtonGradientProps> = ({
@@ -29,6 +32,8 @@ const ButtonGradient: React.FC<ButtonGradientProps> = ({
   gradientStyle,
   disabled = false,
   iconLeft,
+  isHeader,
+  theme,
 }) => {
   return (
     <TouchableOpacity
@@ -43,7 +48,15 @@ const ButtonGradient: React.FC<ButtonGradientProps> = ({
         end={{ x: 1, y: 1 }}
         style={[styles.gradient, gradientStyle]}
       >
-        <CustomText style={[styles.buttonText, textStyle]}>{title}</CustomText>
+        {isHeader ? (
+          <HeaderText style={[styles.buttonText, textStyle]} theme={theme!}>
+            {title}
+          </HeaderText>
+        ) : (
+          <CustomText style={[styles.buttonText, textStyle]}>
+            {title}
+          </CustomText>
+        )}
         {iconLeft}
       </LinearGradient>
     </TouchableOpacity>

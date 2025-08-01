@@ -20,6 +20,7 @@ import {
   YoutubeLogo,
 } from '../assets';
 import CustomText from './CustomText';
+import useTheme from '../theme/useTheme';
 // import { FontAwesome, MaterialCommunityIcons, Feather, AntDesign, Entypo } from '@expo/vector-icons';
 
 interface CustomTileProps {
@@ -45,8 +46,15 @@ const CustomTile: React.FC<CustomTileProps> = ({
   isSaved,
   style,
 }) => {
+  const theme = useTheme();
   return (
-    <View style={[styles.container, style]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme.colors.background },
+        style,
+      ]}
+    >
       <Pressable onPress={onImagePress} style={{ width: '35%' }}>
         <Image
           source={{
@@ -95,7 +103,7 @@ const CustomTile: React.FC<CustomTileProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     borderRadius: 10,
   },
   image: {

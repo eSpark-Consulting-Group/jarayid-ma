@@ -2,10 +2,14 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { CustomInput, ScreenTitle } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
+import useTheme from '../theme/useTheme';
 
 const ContactUsScreen: React.FC = () => {
+  const theme = useTheme();
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
@@ -19,6 +23,7 @@ const ContactUsScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
 
           <CustomInput
@@ -28,6 +33,7 @@ const ContactUsScreen: React.FC = () => {
             keyboardType="default"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Contact"
@@ -36,6 +42,7 @@ const ContactUsScreen: React.FC = () => {
             keyboardType="number-pad"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Email"
@@ -44,6 +51,7 @@ const ContactUsScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Country"
@@ -52,6 +60,7 @@ const ContactUsScreen: React.FC = () => {
             keyboardType="default"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Message"
@@ -59,8 +68,9 @@ const ContactUsScreen: React.FC = () => {
             onChangeText={() => {}}
             keyboardType="default"
             autoCapitalize="none"
-            style={{ height: 150, width: '100%', backgroundColor: '#EAF4FF' }}
+            style={{ height: 150, width: '100%' }}
             multiline
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
 
           <ButtonGradient
@@ -78,7 +88,6 @@ const ContactUsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   scrollContent: {
     flexGrow: 1,
@@ -97,7 +106,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     width: '100%',
-    backgroundColor: '#EAF4FF',
   },
   buttonStyle: {
     alignSelf: 'flex-end',

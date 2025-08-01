@@ -2,10 +2,15 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 
 import { CustomText } from '../components';
+import useTheme from '../theme/useTheme';
 
 const PrivacyPolicy: React.FC = () => {
+  const theme = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <View style={{ paddingHorizontal: 20 }}>
         <CustomText
           fontFamily="Gilroy-SemiBold"
@@ -60,7 +65,6 @@ const PrivacyPolicy: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   subContainer: {
     borderRadius: 8,
@@ -68,7 +72,6 @@ const styles = StyleSheet.create({
     borderColor: '#D9DBE9',
     marginBottom: 12,
     overflow: 'hidden',
-    backgroundColor: '#fff',
     paddingBottom: 10,
     height: '90%',
   },

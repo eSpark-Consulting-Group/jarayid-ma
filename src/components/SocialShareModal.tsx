@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
-import CustomText from './CustomText';
+import HeaderText from './HeaderText';
 import ButtonGradient from './ButtonGradient';
 import Modal from 'react-native-modal';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
+  theme: ReactNavigation.Theme;
   onShare?: () => void;
 }
 
@@ -19,7 +20,12 @@ const SOCIAL_ICONS = [
   { name: 'Youtube', icon: require('../assets/images/youtube.png') },
 ];
 
-const SocialShareModal: React.FC<Props> = ({ visible, onClose, onShare }) => {
+const SocialShareModal: React.FC<Props> = ({
+  visible,
+  onClose,
+  onShare,
+  theme,
+}) => {
   return (
     <Modal
       isVisible={visible}
@@ -32,15 +38,21 @@ const SocialShareModal: React.FC<Props> = ({ visible, onClose, onShare }) => {
     >
       <View style={styles.sheet}>
         <View style={styles.handle} />
-        <CustomText fontFamily="Gilroy-SemiBold" style={styles.title}>
+        <HeaderText
+          theme={theme}
+          fontFamily="Gilroy-SemiBold"
+          style={styles.title}
+        >
           Share Jarayid App
-        </CustomText>
+        </HeaderText>
 
         <View style={styles.grid}>
           {SOCIAL_ICONS.map((item, index) => (
             <View key={index} style={styles.iconBlock}>
               <Image source={item.icon} style={styles.iconImage} />
-              <CustomText style={styles.iconLabel}>{item.name}</CustomText>
+              <HeaderText theme={theme} style={styles.iconLabel}>
+                {item.name}
+              </HeaderText>
             </View>
           ))}
         </View>

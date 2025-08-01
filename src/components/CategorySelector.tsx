@@ -5,21 +5,37 @@ import LabeledCheckbox from './LabeledCheckbox';
 import CustomButton from './CustomButton';
 import { ChevDown, ChevUp } from '../assets';
 import { COUNTRY_CATEGORIES } from '../constants';
+import useTheme from '../theme/useTheme';
 
 const CategorySelector: React.FC = () => {
   const [showCates, setShowCates] = useState(false);
+  const theme = useTheme();
   return (
     <View>
       <CustomButton
-        style={styles.categoryBtn}
-        titleColor="#000"
+        style={[
+          styles.categoryBtn,
+          {
+            backgroundColor: theme.dark ? '#333' : '#EAF4FF',
+            borderColor: theme.dark ? '#494949ff' : '#D1E5FA',
+          },
+        ]}
+        titleColor={theme.dark ? '#e2e2e2' : '#000'}
         title="Category"
         onPress={() => setShowCates(!showCates)}
         iconLeft={showCates ? <ChevUp /> : <ChevDown />}
         titleStyle={{ fontFamily: 'Gilroy-SemiBold', fontSize: 17 }}
       />
       <View style={{ display: showCates ? 'flex' : 'none' }}>
-        <View style={styles.catesContainer}>
+        <View
+          style={[
+            styles.catesContainer,
+            {
+              backgroundColor: theme.dark ? '#333' : '#EAF4FF',
+              borderColor: theme.dark ? '#494949ff' : '#D1E5FA',
+            },
+          ]}
+        >
           <FlatList
             data={COUNTRY_CATEGORIES}
             contentContainerStyle={styles.catesList}
@@ -46,8 +62,6 @@ const styles = StyleSheet.create({
   categoryBtn: {
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#D1E5FA',
-    backgroundColor: '#EAF4FF',
   },
   catesContainer: {
     padding: 10,
@@ -55,8 +69,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
-    borderColor: '#D1E5FA',
-    backgroundColor: '#EAF4FF',
     position: 'absolute',
     zIndex: 100,
   },

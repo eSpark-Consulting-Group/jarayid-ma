@@ -5,11 +5,15 @@ import { CategorySelector, LabeledCheckbox, ScreenTitle } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
 import { useNavigation } from '@react-navigation/native';
 import { MainTabNavigationProp } from '../navigation/navigation';
+import useTheme from '../theme/useTheme';
 
 const EditNewSource: React.FC = () => {
   const navigation = useNavigation<MainTabNavigationProp<'EditNewSource'>>();
+  const theme = useTheme();
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScreenTitle title="Edit News Source" />
       <CategorySelector />
       <FlatList
@@ -38,7 +42,7 @@ const EditNewSource: React.FC = () => {
 export default EditNewSource;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: 20, backgroundColor: '#FFF' },
+  container: { flex: 1, paddingHorizontal: 20 },
   saveBtn: {
     width: 138,
     height: 50,
