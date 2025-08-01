@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import { CustomInput, CustomText, CustomTile } from "../components";
-import { SearchTabIcon } from "../assets";
-import { TILES_DATA } from "../constants";
-
+import React, { useState } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import { CustomInput, CustomText, CustomTile } from '../components';
+import { SearchTabIcon } from '../assets';
+import { TILES_DATA } from '../constants';
+import useTheme from '../theme/useTheme';
 
 const SearchScreen: React.FC = () => {
-  const [searchText, setSearchText] = useState("");
+  const theme = useTheme();
+  const [searchText, setSearchText] = useState('');
 
   const filteredTiles = TILES_DATA.filter(
-    (item) =>
+    item =>
       item.source.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.title.toLowerCase().includes(searchText.toLowerCase())
+      item.title.toLowerCase().includes(searchText.toLowerCase()),
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <CustomText
-        fontFamily="Gilroy-SemiBold"
-        style={styles.headerText}
-      >
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <CustomText fontFamily="Gilroy-SemiBold" style={styles.headerText}>
         Search
       </CustomText>
 
@@ -27,6 +27,7 @@ const SearchScreen: React.FC = () => {
         <CustomInput
           icon={<SearchTabIcon color={'#484C52'} style={styles.iconStyle} />}
           style={styles.inputStyle}
+          bgColor={theme.dark ? '#1e1e1e' : '#F2F2F2'}
           iconName="email"
           keyboardType="email-address"
           autoCapitalize="none"
@@ -43,8 +44,12 @@ const SearchScreen: React.FC = () => {
               isSaved={true}
               onImagePress={() => console.log('navigate')}
               onCommentPress={() => console.log('Comment')}
-              onLikePress={() => { console.log('Like') }}
-              onSavePress={() => { console.log('Save') }}
+              onLikePress={() => {
+                console.log('Like');
+              }}
+              onSavePress={() => {
+                console.log('Save');
+              }}
               onFacebookPress={() => console.log('Facebook')}
               onWhatsappPress={() => console.log('WhatsApp')}
               onXPress={() => console.log('X')}
@@ -58,13 +63,11 @@ const SearchScreen: React.FC = () => {
       </View>
     </SafeAreaView>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
     paddingHorizontal: 10,
   },
   headerText: {
@@ -76,7 +79,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   inputStyle: {
-    backgroundColor: '#F2F2F2',
     borderRadius: 7,
   },
   iconStyle: {

@@ -21,9 +21,14 @@ import { HomeStackParamList, RootStackParamList } from './navigation';
 import {
   BackIcon,
   HeaderLogo,
+  HeaderLogoDark,
   ProfileHead,
   RedirectSign,
   SettingsGear,
+  SettingsGearDark,
+  RedirectSignDark,
+  BackIconDark,
+  ProfileHeadDark,
 } from '../assets';
 import { Header } from '../components';
 import NotificationSettings from '../screens/NotificationSettings';
@@ -42,11 +47,13 @@ import { useThemeContext } from '../context/ThemeContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/slices/authSlice';
 import { RootState } from '../redux/store';
+import useTheme from '../theme/useTheme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 function MainTabNavigator() {
+  const theme = useTheme();
   return (
     <Tab.Navigator
       tabBar={props => <CustomTabBar {...props} />}
@@ -57,9 +64,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => navigation.navigate('Home')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -80,8 +87,8 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<BackIcon />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <BackIconDark /> : <BackIcon />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
               }
@@ -96,9 +103,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<BackIcon />}
-              RightIcon={<RedirectSign />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <BackIconDark /> : <BackIcon />}
+              RightIcon={theme.dark ? <RedirectSignDark /> : <RedirectSign />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
               }
@@ -117,9 +124,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -136,9 +143,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -155,9 +162,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -173,9 +180,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -191,9 +198,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -209,9 +216,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -220,7 +227,7 @@ function MainTabNavigator() {
           ),
         })}
       />
-     
+
       <Tab.Screen
         name="ReadLaterScreen"
         component={ReadLaterScreen}
@@ -228,9 +235,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -246,9 +253,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -256,7 +263,7 @@ function MainTabNavigator() {
           ),
         })}
       />
-      
+
       <Tab.Screen
         name="ContactUs"
         component={ContactUsScreen}
@@ -264,9 +271,9 @@ function MainTabNavigator() {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('Settings')}
               onRightPress={() => console.log('Profile')}
               isProfileMenu
@@ -281,6 +288,8 @@ function MainTabNavigator() {
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStackNavigator = () => {
+  const theme = useTheme();
+
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
       <HomeStack.Screen
@@ -290,9 +299,9 @@ const HomeStackNavigator = () => {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<SettingsGear />}
-              RightIcon={<ProfileHead />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <SettingsGearDark /> : <SettingsGear />}
+              RightIcon={theme.dark ? <ProfileHeadDark /> : <ProfileHead />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() => console.log('open menu 1')}
               onRightPress={() => console.log('open menu 2')}
               isProfileMenu
@@ -308,9 +317,9 @@ const HomeStackNavigator = () => {
           headerShown: true,
           header: () => (
             <Header
-              LeftIcon={<BackIcon />}
-              RightIcon={<RedirectSign />}
-              MainLogo={<HeaderLogo />}
+              LeftIcon={theme.dark ? <BackIconDark /> : <BackIcon />}
+              RightIcon={theme.dark ? <RedirectSignDark /> : <RedirectSign />}
+              MainLogo={theme.dark ? <HeaderLogoDark /> : <HeaderLogo />}
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
               }
@@ -325,7 +334,9 @@ const HomeStackNavigator = () => {
 
 export default function App() {
   const { theme } = useThemeContext();
-  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
+  const [initialRoute, setInitialRoute] = useState<
+    keyof RootStackParamList | null
+  >(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const { token } = useSelector((state: RootState) => state.auth);
 
@@ -346,7 +357,7 @@ export default function App() {
             setUser({
               token,
               user,
-            })
+            }),
           );
         }
         setInitialRoute(token ? 'Home' : 'Login');

@@ -7,14 +7,21 @@ import ScreenTitle from './ScreenTitle';
 import CustomButton from './CustomButton';
 import { ChevDown, ChevUp } from '../assets';
 import { FONT_SIZES } from '../constants';
+import HeaderText from './HeaderText';
 
 interface Props {
   visible: boolean;
   onCancel: () => void;
   onChange: () => void;
+  theme: ReactNavigation.Theme;
 }
 
-const FontSizeModal: React.FC<Props> = ({ visible, onCancel, onChange }) => {
+const FontSizeModal: React.FC<Props> = ({
+  visible,
+  onCancel,
+  onChange,
+  theme,
+}) => {
   const [showSizes, setShowSizes] = useState(false);
 
   const onBackDropAndSwipe = () => {
@@ -31,13 +38,21 @@ const FontSizeModal: React.FC<Props> = ({ visible, onCancel, onChange }) => {
       style={styles.modalContainer}
       propagateSwipe
     >
-      <View style={styles.modal}>
+      <View
+        style={[styles.modal, { backgroundColor: theme.colors.background }]}
+      >
         <View style={styles.handle} />
         <View style={{ alignItems: 'center' }}>
           <ScreenTitle title="Adjust Font Size" />
           <CustomButton
-            style={styles.sizesBtn}
-            titleColor="#000"
+            style={[
+              styles.sizesBtn,
+              {
+                backgroundColor: theme.dark ? '#333' : '#EAF4FF',
+                borderColor: theme.dark ? '#494949ff' : '#D1E5FA',
+              },
+            ]}
+            titleColor={theme.dark ? '#e2e2e2' : '#000'}
             title="Select Font Size"
             onPress={() => setShowSizes(!showSizes)}
             iconLeft={showSizes ? <ChevUp /> : <ChevDown />}
@@ -45,8 +60,15 @@ const FontSizeModal: React.FC<Props> = ({ visible, onCancel, onChange }) => {
           />
           <FlatList
             data={FONT_SIZES}
-            style={[styles.sizesContainer, { opacity: showSizes ? 1 : 0 }]}
-            contentContainerStyle={styles.sizesList}
+            style={[
+              styles.sizesContainer,
+              {
+                opacity: showSizes ? 1 : 0,
+                backgroundColor: theme.dark ? '#333' : '#EAF4FF',
+                borderColor: theme.dark ? '#494949ff' : '#D1E5FA',
+              },
+            ]}
+            contentContainerStyle={[styles.sizesList]}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <TouchableOpacity
@@ -54,7 +76,8 @@ const FontSizeModal: React.FC<Props> = ({ visible, onCancel, onChange }) => {
                 disabled={showSizes ? false : true}
                 onPress={onChange}
               >
-                <CustomText
+                <HeaderText
+                  theme={theme}
                   fontFamily={index == 0 ? 'Gilroy-Regular' : 'Gilroy-Medium'}
                   size={item.size}
                   text={item.name}

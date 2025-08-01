@@ -1,13 +1,23 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { CustomText } from '../components';
+import useTheme from '../theme/useTheme';
+
 import AccordionItem from '../components/AccordionItem';
 
 const FAQScreen: React.FC = () => {
+  const theme = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ paddingHorizontal: 20}}>
-        <CustomText fontFamily="Gilroy-SemiBold" style={{ fontSize: 23, marginBottom: 20 }}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <View style={{ paddingHorizontal: 20 }}>
+        <CustomText
+          // theme={theme.navigationTheme}
+          fontFamily="Gilroy-SemiBold"
+          style={{ fontSize: 23, marginBottom: 20 }}
+        >
           Frequently Asked Questions
         </CustomText>
         <AccordionItem
@@ -30,7 +40,6 @@ const FAQScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
 });
 

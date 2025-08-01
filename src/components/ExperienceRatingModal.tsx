@@ -1,21 +1,22 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
-import CustomText from './CustomText';
+import { View, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import HeaderText from './HeaderText';
 import Modal from 'react-native-modal';
 interface Props {
   visible: boolean;
   onSelect: (rating: number) => void;
   onClose: () => void;
+  theme: ReactNavigation.Theme;
 }
 
 const emojis = ['😖', '😒', '😐', '🙂', '😍'];
 
-const ExperienceRatingModal: React.FC<Props> = ({ visible, onSelect, onClose }) => {
+const ExperienceRatingModal: React.FC<Props> = ({
+  visible,
+  onSelect,
+  onClose,
+  theme,
+}) => {
   return (
     <Modal
       isVisible={visible}
@@ -27,18 +28,46 @@ const ExperienceRatingModal: React.FC<Props> = ({ visible, onSelect, onClose }) 
     >
       <View style={styles.overlay}>
         <Pressable style={{ flex: 1 }} onPress={onClose} />
-        <View style={styles.sheet}>
-          <View style={styles.handle} />
-          <CustomText fontFamily='Gilroy-Bold' style={styles.title}>How’s your{'\n'}experience so far?</CustomText>
-          <CustomText fontFamily='Gilroy-SemiBold' style={styles.subtitle}>We’d love to know!</CustomText>
+        <View
+          style={[styles.sheet, { backgroundColor: theme.colors.background }]}
+        >
+          <View
+            style={[
+              styles.handle,
+              {
+                backgroundColor: theme.dark ? '#fff' : '#e5e5e5',
+              },
+            ]}
+          />
+          <HeaderText
+            theme={theme}
+            fontFamily="Gilroy-Bold"
+            color={theme.dark ? theme.colors.text : '#000'}
+            style={styles.title}
+          >
+            How’s your{'\n'}experience so far?
+          </HeaderText>
+          <HeaderText
+            theme={theme}
+            fontFamily="Gilroy-SemiBold"
+            color={theme.dark ? theme.colors.text : '#9098A3'}
+            style={styles.subtitle}
+          >
+            We’d love to know!
+          </HeaderText>
           <View style={styles.emojiRow}>
             {emojis.map((emoji, index) => (
               <TouchableOpacity
                 key={index}
-                style={styles.emojiWrapper}
+                style={[
+                  styles.emojiWrapper,
+                  { backgroundColor: theme.dark ? '#434343ff' : '#F0F2F7' },
+                ]}
                 onPress={() => onSelect(index + 1)}
               >
-                <CustomText style={styles.emoji}>{emoji}</CustomText>
+                <HeaderText theme={theme} style={[styles.emoji]}>
+                  {emoji}
+                </HeaderText>
               </TouchableOpacity>
             ))}
           </View>
@@ -59,7 +88,6 @@ const styles = StyleSheet.create({
     // backgroundColor: 'rgba(22,22,22,0.5)',
   },
   sheet: {
-    backgroundColor: '#fff',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 20,
@@ -71,14 +99,12 @@ const styles = StyleSheet.create({
     width: 50,
     height: 5,
     borderRadius: 3,
-    backgroundColor: '#ccc',
     marginBottom: 16,
   },
   title: {
     textAlign: 'center',
     fontSize: 26,
     fontWeight: '700',
-    color: '#000',
     marginBottom: 8,
     lineHeight: 28,
   },
@@ -86,7 +112,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 17,
     fontWeight: '500',
-    color: '#9098A3',
     marginBottom: 15,
     lineHeight: 28,
   },
@@ -97,7 +122,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   emojiWrapper: {
-    backgroundColor: '#F0F2F7',
     borderRadius: 30,
     padding: 12,
     width: 54,

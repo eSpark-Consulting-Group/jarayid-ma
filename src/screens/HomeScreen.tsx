@@ -9,14 +9,16 @@ import {
   NewsCardList,
 } from '../components';
 import { TABS_CATEGORIES, TILES_DATA } from '../constants';
-import { Theme, useNavigation, useTheme } from '@react-navigation/native';
+import { Theme, useNavigation } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCategories } from '../services/homeService';
 import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
+import useTheme from '../theme/useTheme';
 import { setSelectedCategory } from '../redux/slices/homeSlice';
+
 
 interface HomeScreenProps {
   navigation: any;
@@ -26,17 +28,23 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
 
   const user = useSelector((state: RootState) => state.auth);
+
+  console.log('User:', user, 'home', categories);
+
   const { categories, selectedCategory } = useSelector((state: RootState) => state.home);
+
   const theme = useTheme();
   const [tileStates, setTileStates] = useState<
     Record<string, { isLiked: boolean; isSaved: boolean }>
   >({});
+
   const [selectedSubCategory, setSelectedSubCategory] = useState<typeof TABS_CATEGORIES[0]>(TABS_CATEGORIES?.[0]);
+
   const dispatch = useDispatch<AppDispatch>();
 
- useEffect(() => {
-   dispatch(fetchAllCategories());
- }, []);
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, []);
 
   const toggleTileState = useCallback(
     (key: string, field: 'isLiked' | 'isSaved') => {
@@ -60,16 +68,18 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   }, [categories]);
 
   return (
-    <SafeAreaView style={styles(theme).container}>
+    <SafeAreaView style={styles(theme.navigationTheme).container}>
       <ScrollView
         contentContainerStyle={styles().scrollContent}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles().tabsContainer}>
+
           <CustomTab selectedTab={selectedCategory?.id || categories[0]?.id} data={categories?.map((item: any) => ({ id: item.id, name: item.name }))} onTabPress={handleTabPress} />
-          <Divider />
-          <CustomTab data={TABS_CATEGORIES} onTabPress={handleSubCategoryPress} round />
+            <Divider color={theme.dark ? '#666666' : undefined} />
+
         </View>
+          <CustomTab data={TABS_CATEGORIES} onTabPress={handleSubCategoryPress} round />
         {selectedCategory?.youtubeContents && selectedCategory?.youtubeContents?.length > 0 ? <NewsCardList data={selectedCategory?.youtubeContents} /> : null}
         <CategoryCardList onPress={handleTabPress} data={categories ?? []} />
         <CustomImageSlider

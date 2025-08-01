@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   Image,
 } from 'react-native';
-import Header from '../components/Header';
-import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import LogoAuth from '../assets/images/LogoAuth.png';
 import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import useTheme from '../theme/useTheme';
+import LogoAuthDark from '../assets/images/LogoAuthDark.png';
 
 interface Language {
   code: string;
@@ -32,6 +30,7 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(
     undefined,
   );
+  const theme = useTheme();
 
   const languages: Language[] = [
     { code: 'en', name: 'English', nativeName: 'English' },
@@ -58,18 +57,38 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
         <View style={styles.content}>
           <View>
-            <Image source={LogoAuth} style={styles.logo} />
+            <Image
+              source={theme.dark ? LogoAuthDark : LogoAuth}
+              style={styles.logo}
+            />
           </View>
-          <View style={styles.formContainer}>
-            <CustomText fontFamily='Gilroy-Bold' style={styles.title}>Choose Language</CustomText>
-            <CustomText fontFamily='Gilroy-Regular' style={styles.subtitle}>
+          <View
+            style={[
+              styles.formContainer,
+              {
+                elevation: theme.dark ? 0 : 5,
+                borderWidth: theme.dark ? 1 : 0,
+                borderColor: '#494949ff',
+              },
+            ]}
+          >
+            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+              Choose Language
+            </CustomText>
+            <CustomText
+              fontFamily="Gilroy-Regular"
+              style={styles.subtitle}
+              color={theme.dark ? '#999' : '#666'}
+            >
               Add your details below to get back into the app
             </CustomText>
 
@@ -99,7 +118,6 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   keyboardView: {
     flex: 1,
@@ -118,19 +136,14 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
     borderRadius: 8,
-    backgroundColor: '#FFF',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
     marginBottom: 32,
     lineHeight: 22,
   },
