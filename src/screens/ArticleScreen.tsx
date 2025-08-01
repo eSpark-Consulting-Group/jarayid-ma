@@ -15,6 +15,7 @@ import CommentItem from '../components/CommentItem';
 import ArticleCard from '../components/ArticleCard';
 import { BBCSvg } from '../assets';
 import AdBanner from '../components/AdBanner';
+import useTheme from '../theme/useTheme';
 
 interface ArticleScreenProps {
   navigation: any;
@@ -42,6 +43,7 @@ const getInitialCommentStates = (): Record<string, CommentState> => {
 };
 
 const ArticleScreen: React.FC<ArticleScreenProps> = () => {
+  const theme = useTheme();
   const navigation = useNavigation();
   const [tileStates, setTileStates] = useState<Record<string, TileState>>({});
   const [commentStates, setCommentStates] = useState<
@@ -158,12 +160,23 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           onXPress={() => console.log('X')}
           onYoutubePress={() => console.log('YT')}
         />
-        {idx < TILES_DATA.length - 1 && <View style={styles.divider} />}
+        {idx < TILES_DATA.length - 1 && (
+          <View
+            style={[
+              styles.divider,
+              {
+                backgroundColor: theme.dark ? 'grey' : '#E5E7EB',
+              },
+            ]}
+          />
+        )}
       </View>
     );
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -198,8 +211,14 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           </View>
           <TextInput
             placeholder="Add a comment..."
-            placeholderTextColor="#00000064"
-            style={styles.commentInput}
+            placeholderTextColor={theme.dark ? 'grey' : '#00000064'}
+            style={[
+              styles.commentInput,
+              {
+                borderColor: theme.dark ? 'grey' : '#E5E7EB',
+                color: theme.colors.text,
+              },
+            ]}
           />
         </View>
 
@@ -222,7 +241,6 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   scrollContent: {},
   header: {
@@ -263,12 +281,11 @@ const styles = StyleSheet.create({
   commentInput: {
     fontFamily: 'Gilroy-Medium',
     borderBottomWidth: 1,
-    borderColor: '#E5E7EB',
+    // borderColor: '#E5E7EB',
     flex: 1,
   },
   divider: {
     height: 1,
-    backgroundColor: '#8F8F8F66',
     marginVertical: 20,
   },
 });

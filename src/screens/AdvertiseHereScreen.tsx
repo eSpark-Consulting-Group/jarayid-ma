@@ -2,10 +2,14 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { CustomInput, ScreenTitle } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
+import { useTheme } from '@react-navigation/native';
 
 const AdvertiseHereScreen: React.FC = () => {
+  const theme = useTheme();
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
@@ -19,6 +23,7 @@ const AdvertiseHereScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
 
           <CustomInput
@@ -28,6 +33,7 @@ const AdvertiseHereScreen: React.FC = () => {
             keyboardType="default"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Website"
@@ -36,6 +42,7 @@ const AdvertiseHereScreen: React.FC = () => {
             keyboardType="default"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Email Account"
@@ -44,6 +51,7 @@ const AdvertiseHereScreen: React.FC = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Contact Number"
@@ -52,6 +60,7 @@ const AdvertiseHereScreen: React.FC = () => {
             keyboardType="number-pad"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
             label="Country"
@@ -60,6 +69,7 @@ const AdvertiseHereScreen: React.FC = () => {
             keyboardType="default"
             autoCapitalize="none"
             style={styles.inputStyle}
+            bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
 
           <ButtonGradient
@@ -77,7 +87,6 @@ const AdvertiseHereScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   scrollContent: {
     flexGrow: 1,
@@ -96,7 +105,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     width: '100%',
-    backgroundColor: '#EAF4FF',
   },
   buttonStyle: {
     alignSelf: 'flex-end',

@@ -1,11 +1,17 @@
 import React from 'react';
 import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
 import { CustomText } from '../components';
+import useTheme from '../theme/useTheme';
+
 import NotificationItem from '../components/NotificationItem';
 
 const NotificationScreen: React.FC = () => {
+  const theme = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <CustomText
         fontFamily="Gilroy-Bold"
         style={{ fontSize: 23, marginBottom: 10, paddingHorizontal: 20 }}
@@ -40,7 +46,6 @@ const NotificationScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
 });
 

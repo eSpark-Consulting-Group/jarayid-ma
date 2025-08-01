@@ -1,8 +1,14 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { HomeIcon, NotificationIcon, SearchIcon, SearchTabIcon } from '../assets';
+import {
+  HomeIcon,
+  NotificationIcon,
+  SearchIcon,
+  SearchTabIcon,
+} from '../assets';
 import CustomText from './CustomText';
+import useTheme from '../theme/useTheme';
 
 interface CustomTabBarProps {
   state: any;
@@ -10,7 +16,12 @@ interface CustomTabBarProps {
   navigation: any;
 }
 
-const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigation }) => {
+const CustomTabBar: React.FC<CustomTabBarProps> = ({
+  state,
+  descriptors,
+  navigation,
+}) => {
+  const theme = useTheme();
   const getTabConfig = (routeName: string) => {
     switch (routeName) {
       case 'Notification':
@@ -37,23 +48,47 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
   };
 
   const renderIcon = (iconName: string, isFocused: boolean) => {
-// #484C52
+    // #484C52
     if (iconName === 'home') {
       return <HomeIcon height={28} width={28} />;
     }
     if (iconName === 'notifications') {
-      return <NotificationIcon height={24} width={24} color={isFocused ? '#005BBC' : '#484C52'} />;
+      return (
+        <NotificationIcon
+          height={24}
+          width={24}
+          color={isFocused ? '#005BBC' : theme.dark ? '#b6b3b3ff' : '#484C52'}
+        />
+      );
     }
     if (iconName === 'chat') {
-      return <SearchTabIcon height={24} width={24} color={isFocused ? '#005BBC' : '#484C52'} />;
+      return (
+        <SearchTabIcon
+          height={24}
+          width={24}
+          color={isFocused ? '#005BBC' : theme.dark ? '#b6b3b3ff' : '#484C52'}
+        />
+      );
     }
-    return <Icon name={iconName} size={24} color={isFocused ? '#005BBC' : '#555555'} />;
-  }
+    return (
+      <Icon
+        name={iconName}
+        size={24}
+        color={isFocused ? '#005BBC' : theme.dark ? '#b6b3b3ff' : '#555555'}
+      />
+    );
+  };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme.dark ? '#000000ff' : '#EDEDED' },
+      ]}
+    >
       {state.routes.map((route: any, index: number) => {
-        if(!["Notification", "Home", "Search"].includes(route.name)) return null;
+        if (!['Notification', 'Home', 'Search'].includes(route.name))
+          return null;
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;
         const { iconName, label } = getTabConfig(route.name);
@@ -83,21 +118,50 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
             style={[styles.tabButton, isCenter && styles.centerTabButton]}
             activeOpacity={0.8}
           >
-            <View style={isCenter ? {...styles.centerIconWrapper, backgroundColor: (isFocused || !["Notification", "Search"].includes(route.name)) ? '#005BBC' : '#484C52'} : styles.defaultIconWrapper}>
+            <View
+              style={
+                isCenter
+                  ? {
+                      ...styles.centerIconWrapper,
+                      backgroundColor:
+                        isFocused ||
+                        !['Notification', 'Search'].includes(route.name)
+                          ? '#005BBC'
+                          : '#484C52',
+                    }
+                  : styles.defaultIconWrapper
+              }
+            >
               {renderIcon(iconName, isFocused)}
             </View>
             {!isCenter && (
               <CustomText
-                fontFamily='Poppins-Medium'
+                fontFamily="Poppins-Medium"
                 style={[
                   styles.label,
-                  isFocused ? styles.activeLabel : styles.inactiveLabel,
+                  {
+                    color: isFocused
+                      ? '#005BBC'
+                      : theme.dark
+                      ? '#b6b3b3ff'
+                      : '#555555',
+                  },
                 ]}
               >
                 {label}
               </CustomText>
             )}
-            {isCenter && <CustomText fontFamily='Poppins-Medium' style={styles.centerLabel}>{label}</CustomText>}
+            {isCenter && (
+              <CustomText
+                fontFamily="Poppins-Medium"
+                style={[
+                  styles.centerLabel,
+                  { color: theme.dark ? '#b6b3b3ff' : '#222' },
+                ]}
+              >
+                {label}
+              </CustomText>
+            )}
           </TouchableOpacity>
         );
       })}
@@ -108,7 +172,7 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({ state, descriptors, navigat
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#EDEDED',
+    // backgroundColor: '#EDEDED',
     paddingBottom: Platform.OS === 'ios' ? 20 : 10,
     // height: Platform.OS === 'ios' ? 80 : 70,
     paddingTop: 15,
@@ -152,7 +216,6 @@ const styles = StyleSheet.create({
   centerLabel: {
     fontSize: 12,
     fontWeight: '500',
-    color: '#222',
     marginTop: 4,
   },
 });

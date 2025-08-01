@@ -7,6 +7,7 @@ import {
   LikeFilledLogo,
   LikeLogo,
 } from '../assets';
+import useTheme from '../theme/useTheme';
 
 interface CommentItemProps {
   initials: string;
@@ -32,46 +33,64 @@ const CommentItem: React.FC<CommentItemProps> = ({
   onDislikePress,
   likeCount = 65,
   dislikeCount = 35,
-}) => (
-  <View style={styles.container}>
-    {/* Top Row: Avatar + Message */}
-    <View style={styles.topRow}>
-      <View style={styles.avatar}>
-        <CustomText style={styles.avatarText}>{initials}</CustomText>
-      </View>
-      <View style={styles.messageBlock}>
-        <View style={styles.nameRow}>
-          <CustomText fontFamily="Gilroy-SemiBold" style={styles.message}>
-            @{name}
-          </CustomText>
-          <CustomText style={styles.time}>{time}</CustomText>
+}) => {
+  const theme = useTheme();
+  return (
+    <View style={styles.container}>
+      {/* Top Row: Avatar + Message */}
+      <View style={styles.topRow}>
+        <View style={styles.avatar}>
+          <CustomText style={styles.avatarText}>{initials}</CustomText>
         </View>
-        <CustomText fontFamily="Gilroy-Medium" style={styles.message}>
-          {message}
-        </CustomText>
+        <View style={styles.messageBlock}>
+          <View style={styles.nameRow}>
+            <CustomText
+              fontFamily="Gilroy-SemiBold"
+              color={theme.dark ? 'white' : '#383535'}
+              style={[styles.message]}
+            >
+              @{name}
+            </CustomText>
+            <CustomText style={styles.time}>{time}</CustomText>
+          </View>
+          <CustomText
+            fontFamily="Gilroy-Medium"
+            style={styles.message}
+            color={theme.dark ? 'white' : '#383535'}
+          >
+            {message}
+          </CustomText>
+        </View>
       </View>
-    </View>
 
-    {/* Like/Dislike Row */}
-    <View style={styles.actionRow}>
-      <View style={styles.actionGroup}>
-        <Pressable onPress={onLikePress}>
-          {isLiked ? <LikeFilledLogo /> : <LikeLogo />}
-        </Pressable>
-        <CustomText style={styles.countText}>{likeCount}</CustomText>
+      {/* Like/Dislike Row */}
+      <View style={styles.actionRow}>
+        <View style={styles.actionGroup}>
+          <Pressable onPress={onLikePress}>
+            {isLiked ? <LikeFilledLogo /> : <LikeLogo />}
+          </Pressable>
+          <CustomText style={styles.countText}>{likeCount}</CustomText>
+        </View>
+        <View style={styles.actionGroup}>
+          <Pressable onPress={onDislikePress}>
+            {isDisliked ? <DislikeFilled /> : <DislikeLogo />}
+          </Pressable>
+          <CustomText style={styles.countText}>{dislikeCount}</CustomText>
+        </View>
       </View>
-      <View style={styles.actionGroup}>
-        <Pressable onPress={onDislikePress}>
-          {isDisliked ? <DislikeFilled /> : <DislikeLogo />}
-        </Pressable>
-        <CustomText style={styles.countText}>{dislikeCount}</CustomText>
-      </View>
-    </View>
 
-    {/* Divider */}
-    <View style={styles.divider} />
-  </View>
-);
+      {/* Divider */}
+      <View
+        style={[
+          styles.divider,
+          {
+            backgroundColor: theme.dark ? 'grey' : '#E5E7EB',
+          },
+        ]}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -110,7 +129,7 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 14,
-    color: '#383535',
+    // color: '#383535',
   },
   time: {
     color: '#9DA3B4',
@@ -133,7 +152,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#E5E5E5',
+    // backgroundColor: '#E5E5E5',
     marginTop: 12,
   },
 });

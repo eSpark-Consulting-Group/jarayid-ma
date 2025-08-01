@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TextProps, StyleSheet, DimensionValue } from 'react-native';
+import useTheme from '../theme/useTheme';
 
 interface CustomTextProps extends TextProps {
   text?: string;
@@ -28,6 +29,8 @@ const CustomText: React.FC<CustomTextProps> = ({
   color,
   ...rest
 }) => {
+  const { colors } = useTheme();
+
   const content = children ?? text ?? '';
 
   return (
@@ -37,7 +40,7 @@ const CustomText: React.FC<CustomTextProps> = ({
         {
           fontSize: size || 14,
           fontFamily: fontFamily,
-          color: color,
+          color: color || colors.text,
         },
         style,
       ]}

@@ -1,17 +1,26 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import googleIcon from '../assets/images/google.png'
+import googleIcon from '../assets/images/google.png';
+import useTheme from '../theme/useTheme';
+import CustomText from './CustomText';
 interface GoogleButtonProps {
   onPress: () => void;
 }
 
 const GoogleButton: React.FC<GoogleButtonProps> = ({ onPress }) => {
+  const theme = useTheme();
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={[
+        styles.button,
+        { borderColor: theme.dark ? '#494949ff' : '#E0E0E0' },
+      ]}
+      onPress={onPress}
+    >
       <View style={styles.content}>
         <Image source={googleIcon} style={styles.icon} />
-        <Text style={styles.text}>Continue with Google</Text>
+        <CustomText style={styles.text}>Continue with Google</CustomText>
       </View>
     </TouchableOpacity>
   );
@@ -20,10 +29,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ onPress }) => {
 const styles = StyleSheet.create({
   button: {
     height: 50,
-    // borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
-    backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
@@ -37,7 +43,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#333',
     fontWeight: '500',
   },
 });
