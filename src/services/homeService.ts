@@ -33,7 +33,6 @@ export const fetchYoutubeContent = async ({
   deviceType = 'MOBILE',
   sortBy = 'createdAt',
   sortOrder = 'desc',
-  token,
 }: {
   page?: number;
   limit?: number;
@@ -42,10 +41,9 @@ export const fetchYoutubeContent = async ({
   deviceType?: string;
   sortBy?: string;
   sortOrder?: string;
-  token: string;
 }) => {
   const response = await api.get(
-    `/youtube-content?page=${page}&limit=${limit}&categoryId=${categoryId}&isEnabled=${isEnabled}&deviceType=${deviceType}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
+    `/youtube-content?page=${page}&limit=${limit}&categoryId=${categoryId}&isEnabled=${isEnabled}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
   );
   return response.data.data;
 };

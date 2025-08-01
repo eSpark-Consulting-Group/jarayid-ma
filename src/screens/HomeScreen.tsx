@@ -29,8 +29,6 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   const user = useSelector((state: RootState) => state.auth);
 
-  console.log('User:', user, 'home', categories);
-
   const { categories, selectedCategory } = useSelector((state: RootState) => state.home);
 
   const theme = useTheme();
@@ -80,7 +78,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
         </View>
           <CustomTab data={TABS_CATEGORIES} onTabPress={handleSubCategoryPress} round />
-        {selectedCategory?.youtubeContents && selectedCategory?.youtubeContents?.length > 0 ? <NewsCardList data={selectedCategory?.youtubeContents} /> : null}
+        {selectedCategory?.youtubeContents && selectedCategory?.youtubeContents?.length > 0 ? <NewsCardList /> : null}
         <CategoryCardList onPress={handleTabPress} data={categories ?? []} />
         <CustomImageSlider
           images={[
