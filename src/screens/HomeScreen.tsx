@@ -13,7 +13,7 @@ import { Theme, useNavigation, useTheme } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllCategories } from '../services/homeService';
+import { fetchAllCategories, fetchArticles } from '../services/homeService';
 import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
 import { setSelectedCategory } from '../redux/slices/homeSlice';
@@ -26,38 +26,50 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
 
   const user = useSelector((state: RootState) => state.auth);
-  const { categories, selectedCategory } = useSelector((state: RootState) => state.home);
+  const { categories, selectedCategory, articles } = useSelector(
+    (state: RootState) => state.home,
+  );
   const theme = useTheme();
   const [tileStates, setTileStates] = useState<
-    Record<string, { isLiked: boolean; isSaved: boolean }>
+    Record<string, { isSaved: boolean }>
   >({});
-  const [selectedSubCategory, setSelectedSubCategory] = useState<typeof TABS_CATEGORIES[0]>(TABS_CATEGORIES?.[0]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<
+    (typeof TABS_CATEGORIES)[0]
+  >(TABS_CATEGORIES?.[0]);
   const dispatch = useDispatch<AppDispatch>();
 
- useEffect(() => {
-   dispatch(fetchAllCategories());
- }, []);
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+    dispatch(fetchArticles());
+  }, []);
 
-  const toggleTileState = useCallback(
-    (key: string, field: 'isLiked' | 'isSaved') => {
-      setTileStates(prev => ({
-        ...prev,
-        [key]: {
-          ...prev[key],
-          [field]: !prev[key]?.[field],
-        },
-      }));
+  const toggleTileState = useCallback((key: string, field: 'isSaved') => {
+    setTileStates(prev => ({
+      ...prev,
+      [key]: {
+        ...prev[key],
+        [field]: !prev[key]?.[field],
+      },
+    }));
+  }, []);
+
+  const handleTabPress = useCallback(
+    (value: any) => {
+      dispatch(
+        setSelectedCategory(
+          categories?.find(item => item.id === value.id) || null,
+        ),
+      );
     },
-    [],
+    [categories],
   );
 
-  const handleTabPress = useCallback((value: any) => {
-    dispatch(setSelectedCategory(categories?.find(item => item.id === value.id) || null));
-  }, [categories]);
- 
-  const handleSubCategoryPress = useCallback((value: any) => {
+  const handleSubCategoryPress = useCallback(
+    (value: any) => {
       setSelectedSubCategory(value);
-  }, [categories]);
+    },
+    [categories],
+  );
 
   return (
     <SafeAreaView style={styles(theme).container}>
@@ -66,11 +78,25 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles().tabsContainer}>
-          <CustomTab selectedTab={selectedCategory?.id || categories[0]?.id} data={categories?.map((item: any) => ({ id: item.id, name: item.name }))} onTabPress={handleTabPress} />
+          <CustomTab
+            selectedTab={selectedCategory?.id || categories[0]?.id}
+            data={categories?.map((item: any) => ({
+              id: item.id,
+              name: item.name,
+            }))}
+            onTabPress={handleTabPress}
+          />
           <Divider />
-          <CustomTab data={TABS_CATEGORIES} onTabPress={handleSubCategoryPress} round />
+          <CustomTab
+            data={TABS_CATEGORIES}
+            onTabPress={handleSubCategoryPress}
+            round
+          />
         </View>
-        {selectedCategory?.youtubeContents && selectedCategory?.youtubeContents?.length > 0 ? <NewsCardList data={selectedCategory?.youtubeContents} /> : null}
+        {selectedCategory?.youtubeContents &&
+        selectedCategory?.youtubeContents?.length > 0 ? (
+          <NewsCardList data={selectedCategory?.youtubeContents} />
+        ) : null}
         <CategoryCardList onPress={handleTabPress} data={categories ?? []} />
         <CustomImageSlider
           images={[
@@ -81,28 +107,21 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           interval={3000}
         />
         <View style={styles().card}>
-          {TILES_DATA.map((tile, idx) => {
+          {articles.map((tile, idx) => {
             const key = `${tile.source}-${idx}`;
             const tileState = tileStates[key] || {
-              isLiked: false,
               isSaved: false,
             };
             return (
               <View key={key}>
                 <CustomTile
                   {...tile}
-                  isLiked={tileState.isLiked}
                   isSaved={tileState.isSaved}
                   onImagePress={() => navigation.navigate('Article')}
                   onCommentPress={() => console.log('Comment')}
-                  onLikePress={() => toggleTileState(key, 'isLiked')}
                   onSavePress={() => toggleTileState(key, 'isSaved')}
-                  onFacebookPress={() => console.log('Facebook')}
-                  onWhatsappPress={() => console.log('WhatsApp')}
-                  onXPress={() => console.log('X')}
-                  onYoutubePress={() => console.log('YT')}
                 />
-                {idx == TILES_DATA.length - 1 ? null : (
+                {idx == articles.length - 1 ? null : (
                   <View
                     style={{
                       height: 1,

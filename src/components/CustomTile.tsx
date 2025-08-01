@@ -23,37 +23,25 @@ import CustomText from './CustomText';
 // import { FontAwesome, MaterialCommunityIcons, Feather, AntDesign, Entypo } from '@expo/vector-icons';
 
 interface CustomTileProps {
-  imageUrl: string;
+  image: string;
   source: string;
   title: string;
-  date: string;
+  publishedAt: string;
   onCommentPress: () => void;
-  onLikePress: () => void;
-  onFacebookPress: () => void;
-  onWhatsappPress: () => void;
   onSavePress: () => void;
-  onXPress: () => void;
-  onYoutubePress: () => void;
   onImagePress: () => void;
-  isLiked: boolean;
   isSaved: boolean;
   style?: ViewStyle;
 }
 
 const CustomTile: React.FC<CustomTileProps> = ({
-  imageUrl,
+  image,
   source,
   title,
-  date,
+  publishedAt,
   onCommentPress,
-  onLikePress,
-  onFacebookPress,
-  onWhatsappPress,
   onSavePress,
-  onXPress,
-  onYoutubePress,
   onImagePress,
-  isLiked,
   isSaved,
   style,
 }) => {
@@ -61,7 +49,9 @@ const CustomTile: React.FC<CustomTileProps> = ({
     <View style={[styles.container, style]}>
       <Pressable onPress={onImagePress} style={{ width: '35%' }}>
         <Image
-          source={{ uri: imageUrl }}
+          source={{
+            uri: image,
+          }}
           style={styles.image}
           resizeMode="cover"
         />
@@ -75,7 +65,11 @@ const CustomTile: React.FC<CustomTileProps> = ({
             <CustomText style={styles.source}>
               Source: <CustomText color="#0F62FE" text={source} />
             </CustomText>
-            <CustomText color="#6B7280" size={12} text={`Date: ${date}`} />
+            <CustomText
+              color="#6B7280"
+              size={12}
+              text={`Date: ${publishedAt?.slice(0, 10)}`}
+            />
           </View>
           <View style={styles.iconsContainer}>
             <Pressable onPress={onCommentPress}>

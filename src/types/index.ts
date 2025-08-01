@@ -47,3 +47,31 @@ export type Category = {
   _count: Count;
   youtubeStats: YoutubeStats;
 };
+
+export interface Article {
+  id: string;
+  title: string;
+  url: string;
+  source: string;
+  summaryArabic: string;
+  summaryEnglish: string;
+  image: string;
+  categoryId: string;
+  subType: 'SPORTS' | 'ECONOMICS' | 'POLITICS';
+  status: boolean;
+  pinned: boolean;
+  viewCount: number;
+  publishedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  author: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  _count: {
+    comments: number;
+    favorites: number;
+    readLater: number;
+  };
+}
