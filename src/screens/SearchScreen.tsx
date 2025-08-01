@@ -106,6 +106,7 @@ const SearchScreen: React.FC = () => {
           autoCapitalize="none"
           value={searchText}
           onChangeText={setSearchText}
+          // placeholder="Search Here"
         />
         <FlatList
           data={articles}
