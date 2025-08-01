@@ -1,39 +1,90 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { CustomInput, CustomText, CustomTile } from '../components';
 import { SearchTabIcon } from '../assets';
-import { TILES_DATA } from '../constants';
 import { searchArticles } from '../services/searchService';
 import { Article } from '../types';
+
+const LIMIT = 6;
 
 const SearchScreen: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
-  const fetchFilteredArticles = async () => {
-    try {
+  const renderFooter = () => {
+    if (!isFetchingMore) return null;
+    return (
+      <ActivityIndicator style={{ marginBottom: 130 }} color={'#0A84FF'} />
+    );
+  };
+
+  const fetchFilteredArticles = async (reset = false) => {
+    if (loading || isFetchingMore) return;
+
+    if (reset) {
       setLoading(true);
-      const data = await searchArticles({ search: searchText });
-      setArticles(data.items || []);
+      setPage(1);
+    } else {
+      setIsFetchingMore(true);
+    }
+
+    try {
+      const data = await searchArticles({
+        search: searchText,
+        page: reset ? 1 : page,
+        limit: LIMIT,
+      });
+
+      const newItems = data.items || [];
+      setArticles(prev =>
+        reset
+          ? newItems
+          : [
+              ...prev,
+              ...newItems.filter(
+                (item: Article) => !prev.some(p => p.id === item.id),
+              ),
+            ],
+      );
+      setHasMore(newItems.length === LIMIT);
+      if (!reset) setPage(prev => prev + 1);
     } catch (err) {
       console.error('Search error:', err);
     } finally {
       setLoading(false);
+      setIsFetchingMore(false);
     }
   };
 
   useEffect(() => {
     const debounce = setTimeout(() => {
       if (searchText.trim().length > 0) {
-        fetchFilteredArticles();
+        fetchFilteredArticles(true);
       } else {
         setArticles([]);
+        setPage(1);
+        setHasMore(true);
       }
     }, 400);
 
     return () => clearTimeout(debounce);
   }, [searchText]);
+
+  const handleEndReached = () => {
+    if (hasMore && !loading && !isFetchingMore) {
+      fetchFilteredArticles();
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <CustomText fontFamily="Gilroy-SemiBold" style={styles.headerText}>
@@ -52,7 +103,7 @@ const SearchScreen: React.FC = () => {
         />
         <FlatList
           data={articles}
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
             <CustomTile
               date={item.publishedAt.split('T')[0]}
               imageUrl={item.image}
@@ -73,6 +124,9 @@ const SearchScreen: React.FC = () => {
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListContent}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooter}
         />
       </View>
     </SafeAreaView>
