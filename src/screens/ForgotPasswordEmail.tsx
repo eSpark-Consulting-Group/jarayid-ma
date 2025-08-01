@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
@@ -9,10 +8,11 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import Header from '../components/Header';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import LogoAuth from '../assets/images/LogoAuth.png';
+import LogoAuthDark from '../assets/images/LogoAuthDark.png';
+
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
@@ -116,20 +116,38 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
         <View style={styles.content}>
           <View>
-            <Image source={LogoAuth} style={styles.logo} />
+            <Image
+              source={theme.dark ? LogoAuthDark : LogoAuth}
+              style={styles.logo}
+            />
           </View>
-          <View style={styles.formContainer}>
+          <View
+            style={[
+              styles.formContainer,
+              {
+                elevation: theme.dark ? 0 : 5,
+                borderWidth: theme.dark ? 1 : 0,
+                borderColor: '#494949ff',
+              },
+            ]}
+          >
             <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
               Forgot Password
             </CustomText>
-            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
+            <CustomText
+              fontFamily="Gilroy-Regular"
+              color={theme.dark ? '#999' : '#666'}
+              style={styles.subtitle}
+            >
               Let’s get you started sharing your links!
             </CustomText>
 
@@ -179,7 +197,10 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
             {!codeSent && (
               <View style={styles.linkContainer}>
                 <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                  <CustomText style={styles.linkText}>
+                  <CustomText
+                    style={styles.linkText}
+                    color={theme.dark ? '#999' : '#666'}
+                  >
                     Try Another way?
                   </CustomText>
                 </TouchableOpacity>
@@ -214,19 +235,14 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
     borderRadius: 8,
-    backgroundColor: '#FFF',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
     marginBottom: 32,
     lineHeight: 22,
   },
@@ -237,7 +253,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#666',
   },
   link: {
     fontSize: 14,

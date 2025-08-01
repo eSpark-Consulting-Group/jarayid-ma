@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
@@ -9,10 +8,10 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import Header from '../components/Header';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import LogoAuth from '../assets/images/LogoAuth.png';
+import LogoAuthDark from '../assets/images/LogoAuthDark.png';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
@@ -107,23 +106,40 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
         <View style={styles.content}>
           <View style={styles.logo}>
-            <Image source={LogoAuth} style={styles.logo} />
+            <Image
+              source={theme.dark ? LogoAuthDark : LogoAuth}
+              style={styles.logo}
+            />
           </View>
-          <View style={styles.formContainer}>
+          <View
+            style={[
+              styles.formContainer,
+              {
+                elevation: theme.dark ? 0 : 5,
+                borderWidth: theme.dark ? 1 : 0,
+                borderColor: '#494949ff',
+              },
+            ]}
+          >
             <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
               Login
             </CustomText>
-            <CustomText fontFamily="Gilroy-Regular" style={styles.subtitle}>
+            <CustomText
+              fontFamily="Gilroy-Regular"
+              color={theme.dark ? '#999' : '#666'}
+              style={styles.subtitle}
+            >
               Add your details below to get back into the app
             </CustomText>
-
             <CustomInput
               label="Email address"
               iconName="email"
@@ -135,7 +151,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               error={errors.email}
               hasError={!!errors.email}
             />
-
             <CustomInput
               label="Password"
               iconName="lock"
@@ -146,7 +161,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               error={errors.password}
               hasError={!!errors.password}
             />
-
             <TouchableOpacity
               onPress={() => navigation.navigate('ForgotPasswordEmail')}
               style={styles.forgotPasswordContainer}
@@ -155,15 +169,16 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                 Forgot password?
               </CustomText>
             </TouchableOpacity>
-
             <CustomButton
               title="Login"
               onPress={handleLogin}
               loading={loading}
             />
-
             <View style={styles.linkContainer}>
-              <CustomText style={styles.linkText}>
+              <CustomText
+                style={styles.linkText}
+                color={theme.dark ? '#999' : '#666'}
+              >
                 Don't have an account?{' '}
               </CustomText>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
@@ -180,7 +195,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
   },
   keyboardView: {
     flex: 1,
@@ -201,17 +215,15 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 8,
-    backgroundColor: '#FFF',
+    // backgroundColor: '#FFF',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    // color: ,
     marginBottom: 32,
     lineHeight: 22,
   },
@@ -222,7 +234,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#666',
   },
   link: {
     fontSize: 14,

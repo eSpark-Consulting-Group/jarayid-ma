@@ -9,6 +9,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 import CustomText from './CustomText';
+import useTheme from '../theme/useTheme';
 
 interface TabItem {
   id: string;
@@ -30,7 +31,10 @@ const CustomTab: React.FC<CustomTabProps> = ({
   selectedTab,
   round = false,
 }) => {
-  const [selected, setSelected] = useState<string>(selectedTab || (data[0]?.id ?? ''));
+  const theme = useTheme();
+  const [selected, setSelected] = useState<string>(
+    selectedTab || (data[0]?.id ?? ''),
+  );
 
   const TABS_PER_ROW = round ? 3 : 4;
   const TAB_WIDTH = (width - 40) / TABS_PER_ROW - 8;
@@ -53,7 +57,7 @@ const CustomTab: React.FC<CustomTabProps> = ({
       height: round ? TAB_HEIGHT - 5 : TAB_HEIGHT,
       borderRadius: round ? 5 : 0,
       borderWidth: isSelected ? 0 : 1,
-      borderColor: round ? '#EBE5E5' : '#808080a4',
+      borderColor: round && !theme.isDark ? '#EBE5E5' : '#808080a4',
     };
 
     const content = (
@@ -61,7 +65,9 @@ const CustomTab: React.FC<CustomTabProps> = ({
         style={[
           styles.tab,
           sharedStyle,
-          isSelected ? styles.tabSelected : styles.tabUnselected,
+          isSelected
+            ? styles.tabSelected
+            : { backgroundColor: theme.dark ? theme.colors.card : '#F3F3F3' },
         ]}
       >
         <CustomText
@@ -72,6 +78,7 @@ const CustomTab: React.FC<CustomTabProps> = ({
           ]}
           numberOfLines={1}
           adjustsFontSizeToFit
+          color={isSelected ? '#fff' : theme.dark ? '#b6b3b3ff' : '#000'}
         >
           {item.name}
         </CustomText>
@@ -127,7 +134,6 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontWeight: '500',
-    color: '#000',
   },
   tabTextSelected: {
     color: '#fff',

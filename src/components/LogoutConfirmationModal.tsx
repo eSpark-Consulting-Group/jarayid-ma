@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderText from './HeaderText';
-import useTheme from '../theme/useTheme';
 
 interface Props {
   visible: boolean;
@@ -27,14 +26,22 @@ const LogoutConfirmationModal: React.FC<Props> = ({
       style={styles.modalContainer}
       propagateSwipe
     >
-      <View style={styles.modal}>
+      <View
+        style={[styles.modal, { backgroundColor: theme.colors.background }]}
+      >
         <View style={styles.handle} />
 
         <View style={styles.iconWrapper}>
           <Icon name="information" size={36} color="#fff" />
         </View>
 
-        <HeaderText theme={theme} fontFamily="Gilroy-Bold" style={styles.title}>
+        <HeaderText
+          theme={theme}
+          fontFamily="Gilroy-Bold"
+          style={styles.title}
+          color={theme.dark ? theme.colors.text : '#000'}
+          size={19}
+        >
           Are you sure you want to Logout?
         </HeaderText>
         <HeaderText
@@ -47,13 +54,29 @@ const LogoutConfirmationModal: React.FC<Props> = ({
         </HeaderText>
 
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.cancelBtn} onPress={onCancel}>
-            <HeaderText theme={theme} style={styles.cancelText}>
+          <TouchableOpacity
+            style={[
+              styles.cancelBtn,
+              { borderColor: theme.dark ? '#494949ff' : '#333' },
+            ]}
+            onPress={onCancel}
+          >
+            <HeaderText
+              theme={theme}
+              fontFamily="Gilroy-SemiBold"
+              style={styles.cancelText}
+              size={15}
+            >
               Cancel
             </HeaderText>
           </TouchableOpacity>
           <TouchableOpacity style={styles.logoutBtn} onPress={onConfirm}>
-            <HeaderText theme={theme} style={styles.logoutText}>
+            <HeaderText
+              theme={theme}
+              style={styles.logoutText}
+              size={15}
+              fontFamily="Gilroy-SemiBold"
+            >
               Logout
             </HeaderText>
           </TouchableOpacity>
@@ -95,15 +118,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 19,
-    fontWeight: '700',
-    color: '#000',
     textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#000',
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 18,
@@ -115,7 +133,7 @@ const styles = StyleSheet.create({
   cancelBtn: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#000',
+    // borderColor: '#000',
     borderRadius: 10,
     paddingVertical: 12,
     marginRight: 8,
@@ -129,15 +147,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     alignItems: 'center',
   },
-  cancelText: {
-    color: '#000',
-    fontSize: 15,
-    fontWeight: '500',
-  },
+  cancelText: {},
   logoutText: {
     color: '#fff',
-    fontSize: 15,
-    fontWeight: '500',
   },
 });
 

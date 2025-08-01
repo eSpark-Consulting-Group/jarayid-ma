@@ -47,5 +47,5 @@ export { default as BBCSvg } from './svgs/BBC.svg';
 export { default as HeaderLogoDark } from './svgs/header-logo-dark.svg';
 export { default as SettingsGearDark } from './svgs/settingsLogoDark.svg';
 export { default as ProfileHeadDark } from './svgs/profileLogodark.svg';
-export { default as BackIconDark } from './svgs/back.svg';
+export { default as BackIconDark } from './svgs/back-dark.svg';
 export { default as RedirectSignDark } from './svgs/redirect-dark.svg';

@@ -25,10 +25,22 @@ const NotificationSettings: React.FC = () => {
             key={index}
             style={{
               ...styles.priorityBtn,
-              backgroundColor: item == selectedPriority ? '#B4D0EF' : '#EAF4FF',
-              borderColor: item == selectedPriority ? '#8DAAC9' : '#D1E5FA',
+              backgroundColor:
+                item == selectedPriority
+                  ? '#B4D0EF'
+                  : theme.dark
+                  ? '#333'
+                  : '#EAF4FF',
+              borderColor:
+                item == selectedPriority
+                  ? '#8DAAC9'
+                  : theme.dark
+                  ? '#494949ff'
+                  : '#D1E5FA',
             }}
-            titleColor="#000"
+            titleColor={
+              theme.dark && item !== selectedPriority ? '#e2e2e2' : '#000'
+            }
             title={item}
             onPress={() => setSelectedPriority(item)}
           />

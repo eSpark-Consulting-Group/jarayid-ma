@@ -74,13 +74,16 @@ const CustomInput: React.FC<CustomInputProps> = ({
             styles.input,
             props.multiline && styles.multilineInput,
             hasError && styles.inputTextError,
-            { color: theme.dark ? '#efefefff' : '#333' },
+            {
+              color: theme.dark ? '#efefefff' : '#333',
+              fontFamily: 'Gilroy-Medium',
+            },
           ]}
           placeholderTextColor={hasError ? '#E74C3C' : '#999'}
           {...props}
         />
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {error && <CustomText style={styles.errorText}>{error}</CustomText>}
     </View>
   );
 };

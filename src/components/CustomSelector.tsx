@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  FlatList,
+  TextInput,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomText from './CustomText';
+import useTheme from '../theme/useTheme';
 
 export interface SelectorOption {
   value: string;
@@ -35,15 +44,18 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
   searchable = false,
   modalTitle,
 }) => {
+  const theme = useTheme();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
 
   const selectedOption = options.find(option => option.value === selectedValue);
 
   const filteredOptions = searchable
-    ? options.filter(option =>
-        option.label.toLowerCase().includes(searchText.toLowerCase()) ||
-        (option.subtitle && option.subtitle.toLowerCase().includes(searchText.toLowerCase()))
+    ? options.filter(
+        option =>
+          option.label.toLowerCase().includes(searchText.toLowerCase()) ||
+          (option.subtitle &&
+            option.subtitle.toLowerCase().includes(searchText.toLowerCase())),
       )
     : options;
 
@@ -66,17 +78,33 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
 
   const renderOption = ({ item }: { item: SelectorOption }) => (
     <TouchableOpacity
-      style={styles.optionItem}
+      style={[
+        styles.optionItem,
+        { borderBottomColor: theme.dark ? '#494949ff' : '#E0E0E0' },
+      ]}
       onPress={() => handleSelect(item)}
     >
       <View style={styles.optionContent}>
         {item.icon && (
-          <Icon name={item.icon} size={20} color="#666" style={styles.optionIcon} />
+          <Icon
+            name={item.icon}
+            size={20}
+            color={theme.dark ? '#FFF' : '#666'}
+            style={styles.optionIcon}
+          />
         )}
         <View style={styles.optionText}>
-          <CustomText fontFamily='Gilroy-Medium' style={styles.optionLabel}>{item.label}</CustomText>
+          <CustomText fontFamily="Gilroy-Medium" style={styles.optionLabel}>
+            {item.label}
+          </CustomText>
           {item.subtitle && (
-            <CustomText fontFamily='Gilroy-Regular' style={styles.optionSubtitle}>{item.subtitle}</CustomText>
+            <CustomText
+              fontFamily="Gilroy-Regular"
+              style={styles.optionSubtitle}
+              color={theme.dark ? '#999' : '#666'}
+            >
+              {item.subtitle}
+            </CustomText>
           )}
         </View>
       </View>
@@ -88,28 +116,44 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
 
   return (
     <View style={styles.container}>
-      <CustomText fontFamily='Gilroy-Medium' style={styles.label}>{label}</CustomText>
+      <CustomText fontFamily="Gilroy-Medium" style={styles.label}>
+        {label}
+      </CustomText>
 
       <TouchableOpacity
         style={[
           styles.selector,
           hasError && styles.selectorError,
           disabled && styles.selectorDisabled,
+          {
+            backgroundColor: theme.dark ? theme.colors.card : '#FAFAFA',
+            borderColor: theme.dark ? '#494949ff' : '#E0E0E0',
+          },
         ]}
         onPress={openModal}
         disabled={disabled}
       >
-        <CustomText style={[
-          styles.selectorText,
-          !selectedOption && styles.placeholderText,
-          hasError && styles.selectorTextError,
-        ]}>
+        <CustomText
+          style={[
+            styles.selectorText,
+            !selectedOption && styles.placeholderText,
+            hasError && styles.selectorTextError,
+          ]}
+        >
           {selectedOption ? selectedOption.label : placeholder}
         </CustomText>
-        <Icon 
-          name="keyboard-arrow-down" 
-          size={24} 
-          color={hasError ? '#E74C3C' : disabled ? '#CCC' : '#666'} 
+        <Icon
+          name="keyboard-arrow-down"
+          size={24}
+          color={
+            hasError
+              ? '#E74C3C'
+              : disabled
+              ? '#CCC'
+              : theme.dark
+              ? '#999'
+              : '#666'
+          }
           style={styles.dropdownIcon}
         />
       </TouchableOpacity>
@@ -123,24 +167,45 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
         onRequestClose={closeModal}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
+          <View
+            style={[
+              styles.modalContent,
+              { backgroundColor: theme.colors.background },
+            ]}
+          >
+            <View
+              style={[
+                styles.modalHeader,
+                { borderBottomColor: theme.dark ? '#494949ff' : '#E0E0E0' },
+              ]}
+            >
               <CustomText style={styles.modalTitle}>
                 {modalTitle || `Select ${label}`}
               </CustomText>
-              <TouchableOpacity
-                onPress={closeModal}
-                style={styles.closeButton}
-              >
-                <Icon name="close" size={24} color="#666" />
+              <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+                <Icon
+                  name="close"
+                  size={24}
+                  color={theme.dark ? '#FFF' : '#666'}
+                />
               </TouchableOpacity>
             </View>
 
             {searchable && (
-              <View style={styles.searchContainer}>
-                <Icon name="search" size={20} color="#666" style={styles.searchIcon} />
+              <View
+                style={[
+                  styles.searchContainer,
+                  { borderBottomColor: theme.dark ? '#494949ff' : '#E0E0E0' },
+                ]}
+              >
+                <Icon
+                  name="search"
+                  size={20}
+                  color={theme.dark ? '#FFF' : '#666'}
+                  style={styles.searchIcon}
+                />
                 <TextInput
-                  style={styles.searchInput}
+                  style={[styles.searchInput, { color: theme.colors.text }]}
                   placeholder="Search..."
                   value={searchText}
                   onChangeText={setSearchText}
@@ -148,16 +213,21 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
                 />
               </View>
             )}
-            
+
             <FlatList
               data={filteredOptions}
               renderItem={renderOption}
-              keyExtractor={(item) => item.value}
+              keyExtractor={item => item.value}
               style={styles.optionsList}
               showsVerticalScrollIndicator={false}
               ListEmptyComponent={
                 <View style={styles.emptyContainer}>
-                  <CustomText style={styles.emptyText}>No options found</CustomText>
+                  <CustomText
+                    style={styles.emptyText}
+                    color={theme.dark ? '#999' : '#666'}
+                  >
+                    No options found
+                  </CustomText>
                 </View>
               }
             />
@@ -174,20 +244,18 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: '#333',
     marginBottom: 8,
-    fontWeight: '500',
   },
   selector: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    // borderColor: ,
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 14,
-    backgroundColor: '#FAFAFA',
+    // backgroundColor:,
     height: 50,
   },
   selectorError: {
@@ -200,7 +268,7 @@ const styles = StyleSheet.create({
   },
   selectorText: {
     fontSize: 16,
-    color: '#333',
+    // color: '#333',
     flex: 1,
   },
   selectorTextError: {
@@ -223,7 +291,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: '#FFF',
+    // backgroundColor: '#FFF',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: '80%',
@@ -243,12 +311,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    // borderBottomColor: '#E0E0E0',
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
   },
   closeButton: {
     padding: 4,
@@ -259,7 +326,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    // borderBottomColor: '#E0E0E0',
   },
   searchIcon: {
     marginRight: 10,
@@ -267,8 +334,8 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: '#333',
     paddingVertical: 8,
+    fontFamily: 'Gilroy-Medium',
   },
   optionsList: {
     maxHeight: 400,
@@ -280,7 +347,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#F5F5F5',
   },
   optionContent: {
     flexDirection: 'row',
@@ -295,11 +361,9 @@ const styles = StyleSheet.create({
   },
   optionLabel: {
     fontSize: 16,
-    color: '#333',
   },
   optionSubtitle: {
     fontSize: 14,
-    color: '#666',
     marginTop: 2,
   },
   emptyContainer: {
@@ -308,7 +372,6 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: '#999',
   },
 });
 
