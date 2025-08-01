@@ -17,6 +17,8 @@ import { fetchAllCategories } from '../services/homeService';
 import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
 import useTheme from '../theme/useTheme';
+import { setSelectedCategory } from '../redux/slices/homeSlice';
+
 
 interface HomeScreenProps {
   navigation: any;
@@ -26,12 +28,18 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
 
   const user = useSelector((state: RootState) => state.auth);
-  const { categories } = useSelector((state: RootState) => state.home);
+
   console.log('User:', user, 'home', categories);
+
+  const { categories, selectedCategory } = useSelector((state: RootState) => state.home);
+
   const theme = useTheme();
   const [tileStates, setTileStates] = useState<
     Record<string, { isLiked: boolean; isSaved: boolean }>
   >({});
+
+  const [selectedSubCategory, setSelectedSubCategory] = useState<typeof TABS_CATEGORIES[0]>(TABS_CATEGORIES?.[0]);
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -52,8 +60,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   );
 
   const handleTabPress = useCallback((value: any) => {
-    console.log('Selected:', value);
-  }, []);
+    dispatch(setSelectedCategory(categories?.find(item => item.id === value.id) || null));
+  }, [categories]);
+ 
+  const handleSubCategoryPress = useCallback((value: any) => {
+      setSelectedSubCategory(value);
+  }, [categories]);
 
   return (
     <SafeAreaView style={styles(theme.navigationTheme).container}>
@@ -62,18 +74,14 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles().tabsContainer}>
-          <CustomTab
-            data={categories?.map((item: any) => ({
-              id: item.id,
-              name: item.name,
-            }))}
-            onTabPress={handleTabPress}
-          />
-          <Divider color={theme.dark ? '#666666' : undefined} />
-          <CustomTab data={TABS_CATEGORIES} onTabPress={handleTabPress} round />
+
+          <CustomTab selectedTab={selectedCategory?.id || categories[0]?.id} data={categories?.map((item: any) => ({ id: item.id, name: item.name }))} onTabPress={handleTabPress} />
+            <Divider color={theme.dark ? '#666666' : undefined} />
+
         </View>
-        <NewsCardList />
-        <CategoryCardList />
+          <CustomTab data={TABS_CATEGORIES} onTabPress={handleSubCategoryPress} round />
+        {selectedCategory?.youtubeContents && selectedCategory?.youtubeContents?.length > 0 ? <NewsCardList data={selectedCategory?.youtubeContents} /> : null}
+        <CategoryCardList onPress={handleTabPress} data={categories ?? []} />
         <CustomImageSlider
           images={[
             'https://picsum.photos/200/300.jpg',
