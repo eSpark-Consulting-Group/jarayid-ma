@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Category } from '../../types';
 
 interface HomeState {
- categories: any;
- selectedCategory: string | null;
+ categories: Category[];
+ selectedCategory: Category | null;
 }
 
 const initialState: HomeState = {
@@ -15,10 +16,10 @@ const homeSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCategories: (state, action: PayloadAction<any>) => {
+    setCategories: (state, action: PayloadAction<{categories: Category[]}>) => {
       state.categories = action.payload?.categories || [];
     },
-    setSelectedCategory: (state, action: PayloadAction<string | null>) => {
+    setSelectedCategory: (state, action: PayloadAction<Category | null>) => {
       state.selectedCategory = action.payload;
     },
   },

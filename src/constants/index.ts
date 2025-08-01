@@ -92,3 +92,6 @@ export const FONT_SIZES = [
   { name: 'Meduim', size: 25 },
   { name: 'Large', size: 30 },
 ];
+
+
+export const NO_THUMBNAIL_URL =  "https://media.istockphoto.com/id/1147544809/vector/no-thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=JMw37miGVmNxeWSZx7vPDCEyhcY2Xh-bVISBGgtVo6Q="
