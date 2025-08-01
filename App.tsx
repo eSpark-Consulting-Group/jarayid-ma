@@ -5,7 +5,6 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import RootNavigation from './src/navigation/index';
 import { MenuProvider } from 'react-native-popup-menu';

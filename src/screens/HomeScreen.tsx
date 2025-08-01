@@ -18,6 +18,7 @@ import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
 import useTheme from '../theme/useTheme';
 import { setSelectedCategory } from '../redux/slices/homeSlice';
+import { readLater } from '../services/readLaterService';
 
 interface HomeScreenProps {
   navigation: any;
@@ -66,6 +67,18 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     },
     [categories],
   );
+
+  const handleReadLater = async (key: string, articleId: string) => {
+    try {
+      const response = await readLater(articleId);
+      console.log('Read later response:', JSON.stringify(response));
+      if (response?.status != 'success') {
+        console.error('Action failed:', response?.message || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('Error toggling read later:', error);
+    }
+  };
 
   const handleSubCategoryPress = useCallback(
     (value: any) => {
@@ -122,7 +135,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                   isSaved={tileState.isSaved}
                   onImagePress={() => navigation.navigate('Article')}
                   onCommentPress={() => console.log('Comment')}
-                  onSavePress={() => toggleTileState(key, 'isSaved')}
+                  onSavePress={() => handleReadLater(key, tile.id)}
                 />
                 {idx == articles.length - 1 ? null : (
                   <View
