@@ -1,20 +1,93 @@
-import React, { useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { CustomInput, CustomText, CustomTile } from '../components';
 import { SearchTabIcon } from '../assets';
-import { TILES_DATA } from '../constants';
+import { searchArticles } from '../services/searchService';
+import { Article } from '../types';
+
 import useTheme from '../theme/useTheme';
+
+const LIMIT = 6;
 
 const SearchScreen: React.FC = () => {
   const theme = useTheme();
   const [searchText, setSearchText] = useState('');
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
-  const filteredTiles = TILES_DATA.filter(
-    item =>
-      item.source.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.title.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  const renderFooter = () => {
+    if (!isFetchingMore) return null;
+    return (
+      <ActivityIndicator style={{ marginBottom: 130 }} color={'#0A84FF'} />
+    );
+  };
 
+  const fetchFilteredArticles = async (reset = false) => {
+    if (loading || isFetchingMore) return;
+
+    if (reset) {
+      setLoading(true);
+      setPage(1);
+    } else {
+      setIsFetchingMore(true);
+    }
+
+    try {
+      const data = await searchArticles({
+        search: searchText,
+        page: reset ? 1 : page,
+        limit: LIMIT,
+      });
+
+      const newItems = data.items || [];
+      setArticles(prev =>
+        reset
+          ? newItems
+          : [
+              ...prev,
+              ...newItems.filter(
+                (item: Article) => !prev.some(p => p.id === item.id),
+              ),
+            ],
+      );
+      setHasMore(newItems.length === LIMIT);
+      if (!reset) setPage(prev => prev + 1);
+    } catch (err) {
+      console.error('Search error:', err);
+    } finally {
+      setLoading(false);
+      setIsFetchingMore(false);
+    }
+  };
+
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (searchText.trim().length > 0) {
+        fetchFilteredArticles(true);
+      } else {
+        setArticles([]);
+        setPage(1);
+        setHasMore(true);
+      }
+    }, 400);
+
+    return () => clearTimeout(debounce);
+  }, [searchText]);
+
+  const handleEndReached = () => {
+    if (hasMore && !loading && !isFetchingMore) {
+      fetchFilteredArticles();
+    }
+  };
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
@@ -33,32 +106,34 @@ const SearchScreen: React.FC = () => {
           autoCapitalize="none"
           value={searchText}
           onChangeText={setSearchText}
+          // placeholder="Search Here"
         />
         <FlatList
-          data={filteredTiles}
-          renderItem={({ item, index }) => (
+          data={articles}
+          renderItem={({ item }) => (
             <CustomTile
-              {...item}
-              key={index}
+              date={item.publishedAt.split('T')[0]}
+              imageUrl={item.image}
+              source={item.source}
+              title={item.title}
               isLiked={true}
               isSaved={true}
               onImagePress={() => console.log('navigate')}
               onCommentPress={() => console.log('Comment')}
-              onLikePress={() => {
-                console.log('Like');
-              }}
-              onSavePress={() => {
-                console.log('Save');
-              }}
+              onLikePress={() => console.log('Like')}
+              onSavePress={() => console.log('Save')}
               onFacebookPress={() => console.log('Facebook')}
               onWhatsappPress={() => console.log('WhatsApp')}
               onXPress={() => console.log('X')}
               onYoutubePress={() => console.log('YT')}
             />
           )}
-          keyExtractor={item => item.title}
+          keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListContent}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooter}
         />
       </View>
     </SafeAreaView>
