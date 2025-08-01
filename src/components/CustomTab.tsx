@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, use, useEffect } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -31,6 +31,13 @@ const CustomTab: React.FC<CustomTabProps> = ({
   round = false,
 }) => {
   const [selected, setSelected] = useState<string>(selectedTab || (data[0]?.id ?? ''));
+
+  useEffect(() => {
+    if (selectedTab !== undefined && selectedTab !== selected) {
+      setSelected(selectedTab);
+      onTabPress?.(data?.find(item => item?.id === selectedTab) || data[0]);
+    }
+  }, [selectedTab]);
 
   const TABS_PER_ROW = round ? 3 : 4;
   const TAB_WIDTH = (width - 40) / TABS_PER_ROW - 8;
