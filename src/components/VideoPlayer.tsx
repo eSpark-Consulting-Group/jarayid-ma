@@ -35,7 +35,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           onPress={onClose}
           style={{
             position: 'absolute',
-            top: 20,
+            top: 50,
             right: 20,
             zIndex: 100,
           }}
@@ -45,7 +45,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         <YoutubePlayer
           height={height * 0.35}
           play={false}
-          videoId={'FpYJyHVxtJ4'}
+          videoId={videoId || 'dQw4w9WgXcQ'}
         />
       </View>
     </Modal>

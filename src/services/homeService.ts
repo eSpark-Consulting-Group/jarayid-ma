@@ -2,9 +2,10 @@ import api from './api';
 import { setCategories } from '../redux/slices/homeSlice';
 
 import { AppDispatch } from '../redux/store';
+import { Category } from '../types';
 
 export const fetchAllCategories = () => async (dispatch: AppDispatch) => {
-  let allItems: any[] = [];
+  let allItems: Category[] = [];
   let page = 1;
   let hasNextPage = true;
 
@@ -22,3 +23,30 @@ export const fetchAllCategories = () => async (dispatch: AppDispatch) => {
     console.error('Failed to fetch categories:', error);
   }
 };
+
+
+export const fetchYoutubeContent = async ({
+  page = 1,
+  limit = 20,
+  categoryId,
+  isEnabled = true,
+  deviceType = 'MOBILE',
+  sortBy = 'createdAt',
+  sortOrder = 'desc',
+  token,
+}: {
+  page?: number;
+  limit?: number;
+  categoryId: string;
+  isEnabled?: boolean;
+  deviceType?: string;
+  sortBy?: string;
+  sortOrder?: string;
+  token: string;
+}) => {
+  const response = await api.get(
+    `/youtube-content?page=${page}&limit=${limit}&categoryId=${categoryId}&isEnabled=${isEnabled}&deviceType=${deviceType}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
+  );
+  return response.data.data;
+};
+
