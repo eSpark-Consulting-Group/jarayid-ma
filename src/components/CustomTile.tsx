@@ -1,60 +1,29 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
-import {
-  CommentLogo,
-  FBLogo,
-  LikeFilledLogo,
-  LikeLogo,
-  SaveFilledLogo,
-  SaveLogo,
-  Share,
-  WhatsappLogo,
-  XLogo,
-  YoutubeLogo,
-} from '../assets';
+import { View, Image, StyleSheet, Pressable, ViewStyle } from 'react-native';
+import { CommentLogo, SaveFilledLogo, SaveLogo, Share } from '../assets';
 import CustomText from './CustomText';
 import useTheme from '../theme/useTheme';
-// import { FontAwesome, MaterialCommunityIcons, Feather, AntDesign, Entypo } from '@expo/vector-icons';
 
 interface CustomTileProps {
-  imageUrl: string;
+  image: string;
   source: string;
   title: string;
-  date: string;
+  publishedAt: string;
   onCommentPress: () => void;
-  onLikePress: () => void;
-  onFacebookPress: () => void;
-  onWhatsappPress: () => void;
   onSavePress: () => void;
-  onXPress: () => void;
-  onYoutubePress: () => void;
   onImagePress: () => void;
-  isLiked: boolean;
   isSaved: boolean;
   style?: ViewStyle;
 }
 
 const CustomTile: React.FC<CustomTileProps> = ({
-  imageUrl,
+  image,
   source,
   title,
-  date,
+  publishedAt,
   onCommentPress,
-  onLikePress,
-  onFacebookPress,
-  onWhatsappPress,
   onSavePress,
-  onXPress,
-  onYoutubePress,
   onImagePress,
-  isLiked,
   isSaved,
   style,
 }) => {
@@ -69,7 +38,9 @@ const CustomTile: React.FC<CustomTileProps> = ({
     >
       <Pressable onPress={onImagePress} style={{ width: '35%' }}>
         <Image
-          source={{ uri: imageUrl }}
+          source={{
+            uri: image,
+          }}
           style={styles.image}
           resizeMode="cover"
         />
@@ -88,7 +59,11 @@ const CustomTile: React.FC<CustomTileProps> = ({
                 style={{ width: 100, flex: 1 }}
               />
             </CustomText>
-            <CustomText color="#6B7280" size={12} text={`Date: ${date}`} />
+            <CustomText
+              color="#6B7280"
+              size={12}
+              text={`Date: ${publishedAt?.slice(0, 10)}`}
+            />
           </View>
           <View style={styles.iconsContainer}>
             <Pressable onPress={onCommentPress}>

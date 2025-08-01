@@ -112,20 +112,11 @@ const SearchScreen: React.FC = () => {
           data={articles}
           renderItem={({ item }) => (
             <CustomTile
-              date={item.publishedAt.split('T')[0]}
-              imageUrl={item.image}
-              source={item.source}
-              title={item.title}
-              isLiked={true}
+              {...item}
               isSaved={true}
               onImagePress={() => console.log('navigate')}
               onCommentPress={() => console.log('Comment')}
-              onLikePress={() => console.log('Like')}
               onSavePress={() => console.log('Save')}
-              onFacebookPress={() => console.log('Facebook')}
-              onWhatsappPress={() => console.log('WhatsApp')}
-              onXPress={() => console.log('X')}
-              onYoutubePress={() => console.log('YT')}
             />
           )}
           keyExtractor={item => item.id}

@@ -11,6 +11,7 @@ import CustomButton from '../components/CustomButton';
 import LogoAuth from '../assets/images/LogoAuth.png';
 import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { useNavigation } from '@react-navigation/native';
+
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
+  logo: { marginBottom: 40, alignSelf: 'center' },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',
     marginBottom: 12,

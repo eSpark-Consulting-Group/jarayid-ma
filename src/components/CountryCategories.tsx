@@ -57,8 +57,8 @@ const CountryCategories: React.FC<CountryCategoriesProps> = ({ theme }) => {
             title={selectedCountry.name}
             gradientStyle={styles.button}
             color={['#007BFF', '#004A99']}
-            iconLeft={<ArrowRight />}
-            textStyle={{ fontSize: 18 }}
+            iconLeft={<ArrowRight style={{ marginHorizontal: 20 }} />}
+            textStyle={{ fontSize: 18, marginHorizontal: 20 }}
             onPress={() => setSelectedCountry(null)}
             theme={theme}
             isHeader
@@ -92,11 +92,9 @@ export default CountryCategories;
 const styles = StyleSheet.create({
   button: {
     width: '100%',
-    height: 'auto',
+    height: 50,
     borderRadius: 0,
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
   },
   categoryStatus: {
     flexDirection: 'row',

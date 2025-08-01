@@ -1,8 +1,8 @@
 import api from './api';
-import { setCategories } from '../redux/slices/homeSlice';
+import { setArticles, setCategories } from '../redux/slices/homeSlice';
 
 import { AppDispatch } from '../redux/store';
-import { Category } from '../types';
+import { Article, Category } from '../types';
 
 export const fetchAllCategories = () => async (dispatch: AppDispatch) => {
   let allItems: Category[] = [];
@@ -23,7 +23,6 @@ export const fetchAllCategories = () => async (dispatch: AppDispatch) => {
     console.error('Failed to fetch categories:', error);
   }
 };
-
 
 export const fetchYoutubeContent = async ({
   page = 1,
@@ -48,3 +47,39 @@ export const fetchYoutubeContent = async ({
   return response.data.data;
 };
 
+interface ArticlesParams {
+  search?: string;
+  page?: number;
+  limit?: number;
+  sortBy?:
+    | 'title'
+    | 'publishedAt'
+    | 'createdAt'
+    | 'viewCount'
+    | 'source'
+    | 'pinned';
+  sortOrder?: 'asc' | 'desc';
+  categoryId?: string;
+  subType?: 'SPORTS' | 'ECONOMICS' | 'POLITICS';
+  pinned?: boolean;
+  status?: boolean;
+  trackViews?: boolean;
+  dateFrom?: string;
+  dateTo?: string;
+  createdFrom?: string;
+  createdTo?: string;
+}
+
+export const fetchArticles =
+  (params?: ArticlesParams) => async (dispatch: AppDispatch) => {
+    let page = 1;
+
+    try {
+      const response = await api.get(`/articles?page=${page}&limit=10`);
+      const { items, pagination } = response.data.data;
+      dispatch(setArticles({ articles: items }));
+    } catch (error) {
+      // Optionally handle error here
+      console.error('Failed to fetch articles:', error);
+    }
+  };

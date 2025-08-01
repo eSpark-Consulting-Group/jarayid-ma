@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import LabeledCheckbox from './LabeledCheckbox';
 import CustomButton from './CustomButton';
 import { ChevDown, ChevUp } from '../assets';
+import { COUNTRY_CATEGORIES } from '../constants';
 import useTheme from '../theme/useTheme';
 
 const CategorySelector: React.FC = () => {
@@ -36,21 +37,16 @@ const CategorySelector: React.FC = () => {
           ]}
         >
           <FlatList
-            data={Array(23)}
-            contentContainerStyle={[styles.catesList]}
-            numColumns={4}
+            data={COUNTRY_CATEGORIES}
+            contentContainerStyle={styles.catesList}
+            numColumns={3}
             renderItem={({ item, index }) => (
               <View
                 style={{
-                  width:
-                    Array(23).length % 4 == 3 &&
-                    index > Array(23).length - 1 - (Array(23).length % 4)
-                      ? '33%'
-                      : '25%',
-                  alignItems: 'center',
+                  width: '33%',
                 }}
               >
-                <LabeledCheckbox label={'Lebanon'} />
+                <LabeledCheckbox size={14} label={item} />
               </View>
             )}
           />

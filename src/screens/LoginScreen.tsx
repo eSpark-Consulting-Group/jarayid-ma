@@ -8,16 +8,18 @@ import {
   Platform,
   Image,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import LogoAuth from '../assets/images/LogoAuth.png';
 import LogoAuthDark from '../assets/images/LogoAuthDark.png';
-import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
+import { HeaderLogo } from '../assets';
 import { login } from '../services/authService';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
 
@@ -33,6 +35,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+
   const dispatch = useDispatch();
   const handleEmailChange = (text: string) => {
     setEmail(text);
