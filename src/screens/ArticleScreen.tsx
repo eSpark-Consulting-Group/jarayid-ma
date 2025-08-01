@@ -160,7 +160,16 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           onXPress={() => console.log('X')}
           onYoutubePress={() => console.log('YT')}
         />
-        {idx < TILES_DATA.length - 1 && <View style={styles.divider} />}
+        {idx < TILES_DATA.length - 1 && (
+          <View
+            style={[
+              styles.divider,
+              {
+                backgroundColor: theme.dark ? 'grey' : '#E5E7EB',
+              },
+            ]}
+          />
+        )}
       </View>
     );
   };
@@ -202,8 +211,14 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           </View>
           <TextInput
             placeholder="Add a comment..."
-            placeholderTextColor="#00000064"
-            style={styles.commentInput}
+            placeholderTextColor={theme.dark ? 'grey' : '#00000064'}
+            style={[
+              styles.commentInput,
+              {
+                borderColor: theme.dark ? 'grey' : '#E5E7EB',
+                color: theme.colors.text,
+              },
+            ]}
           />
         </View>
 
@@ -266,12 +281,11 @@ const styles = StyleSheet.create({
   commentInput: {
     fontFamily: 'Gilroy-Medium',
     borderBottomWidth: 1,
-    borderColor: '#E5E7EB',
+    // borderColor: '#E5E7EB',
     flex: 1,
   },
   divider: {
     height: 1,
-    backgroundColor: '#8F8F8F66',
     marginVertical: 20,
   },
 });

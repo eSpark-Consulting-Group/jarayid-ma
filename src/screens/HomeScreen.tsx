@@ -69,7 +69,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
             }))}
             onTabPress={handleTabPress}
           />
-          <Divider />
+          <Divider color={theme.dark ? '#666666' : undefined} />
           <CustomTab data={TABS_CATEGORIES} onTabPress={handleTabPress} round />
         </View>
         <NewsCardList />
