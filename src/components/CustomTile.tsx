@@ -1,27 +1,8 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
-import {
-  CommentLogo,
-  FBLogo,
-  LikeFilledLogo,
-  LikeLogo,
-  SaveFilledLogo,
-  SaveLogo,
-  Share,
-  WhatsappLogo,
-  XLogo,
-  YoutubeLogo,
-} from '../assets';
+import { View, Image, StyleSheet, Pressable, ViewStyle } from 'react-native';
+import { CommentLogo, SaveFilledLogo, SaveLogo, Share } from '../assets';
 import CustomText from './CustomText';
 import useTheme from '../theme/useTheme';
-// import { FontAwesome, MaterialCommunityIcons, Feather, AntDesign, Entypo } from '@expo/vector-icons';
 
 interface CustomTileProps {
   image: string;
