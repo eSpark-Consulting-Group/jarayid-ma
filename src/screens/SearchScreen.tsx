@@ -1,25 +1,42 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import { CustomInput, CustomText, CustomTile } from "../components";
-import { SearchTabIcon } from "../assets";
-import { TILES_DATA } from "../constants";
-
+import React, { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import { CustomInput, CustomText, CustomTile } from '../components';
+import { SearchTabIcon } from '../assets';
+import { TILES_DATA } from '../constants';
+import { searchArticles } from '../services/searchService';
+import { Article } from '../types';
 
 const SearchScreen: React.FC = () => {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const filteredTiles = TILES_DATA.filter(
-    (item) =>
-      item.source.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.title.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const fetchFilteredArticles = async () => {
+    try {
+      setLoading(true);
+      const data = await searchArticles({ search: searchText });
+      setArticles(data.items || []);
+    } catch (err) {
+      console.error('Search error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (searchText.trim().length > 0) {
+        fetchFilteredArticles();
+      } else {
+        setArticles([]);
+      }
+    }, 400);
+
+    return () => clearTimeout(debounce);
+  }, [searchText]);
   return (
     <SafeAreaView style={styles.container}>
-      <CustomText
-        fontFamily="Gilroy-SemiBold"
-        style={styles.headerText}
-      >
+      <CustomText fontFamily="Gilroy-SemiBold" style={styles.headerText}>
         Search
       </CustomText>
 
@@ -34,32 +51,33 @@ const SearchScreen: React.FC = () => {
           onChangeText={setSearchText}
         />
         <FlatList
-          data={filteredTiles}
+          data={articles}
           renderItem={({ item, index }) => (
             <CustomTile
-              {...item}
-              key={index}
+              date={item.publishedAt.split('T')[0]}
+              imageUrl={item.image}
+              source={item.source}
+              title={item.title}
               isLiked={true}
               isSaved={true}
               onImagePress={() => console.log('navigate')}
               onCommentPress={() => console.log('Comment')}
-              onLikePress={() => { console.log('Like') }}
-              onSavePress={() => { console.log('Save') }}
+              onLikePress={() => console.log('Like')}
+              onSavePress={() => console.log('Save')}
               onFacebookPress={() => console.log('Facebook')}
               onWhatsappPress={() => console.log('WhatsApp')}
               onXPress={() => console.log('X')}
               onYoutubePress={() => console.log('YT')}
             />
           )}
-          keyExtractor={item => item.title}
+          keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListContent}
         />
       </View>
     </SafeAreaView>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   container: {

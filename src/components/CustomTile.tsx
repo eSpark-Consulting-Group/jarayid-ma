@@ -73,7 +73,12 @@ const CustomTile: React.FC<CustomTileProps> = ({
         <View style={styles.contentContainer}>
           <View>
             <CustomText style={styles.source}>
-              Source: <CustomText color="#0F62FE" text={source} />
+              Source:{' '}
+              <CustomText
+                color="#0F62FE"
+                text={source}
+                style={{ width: 100, flex: 1 }}
+              />
             </CustomText>
             <CustomText color="#6B7280" size={12} text={`Date: ${date}`} />
           </View>
