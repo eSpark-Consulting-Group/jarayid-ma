@@ -52,7 +52,14 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
       </View>
 
       {/* Divider */}
-      <View style={styles.divider} />
+      <View
+        style={[
+          styles.divider,
+          {
+            backgroundColor: theme.dark ? 'grey' : '#E5E7EB',
+          },
+        ]}
+      />
     </View>
   );
 };
@@ -116,7 +123,6 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#E5E5E5',
     marginTop: 12,
   },
 });
