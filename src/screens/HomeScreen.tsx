@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
+import { Theme, useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   CategoryCardList,
@@ -9,15 +11,15 @@ import {
   NewsCardList,
 } from '../components';
 import { TABS_CATEGORIES } from '../constants';
-import { Theme, useNavigation } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllCategories, getArticles } from '../services/homeService';
+import { fetchAllCategories } from '../services/homeService';
 import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
 import useTheme from '../theme/useTheme';
 import { setArticles, setSelectedCategory } from '../redux/slices/homeSlice';
+import { readLater } from '../services/readLaterService';
+import { getArticles } from '../services/articleService';
 
 interface HomeScreenProps {
   navigation: any;
@@ -76,6 +78,18 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     [categories],
   );
 
+  const handleReadLater = async (key: string, articleId: string) => {
+    try {
+      const response = await readLater(articleId);
+      console.log('Read later response:', JSON.stringify(response));
+      if (response?.status != 'success') {
+        console.error('Action failed:', response?.message || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('Error toggling read later:', error);
+    }
+  };
+
   const handleSubCategoryPress = useCallback(
     (value: any) => {
       setSelectedSubCategory(value);
@@ -133,7 +147,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                     navigation.navigate('Article', { article: tile })
                   }
                   onCommentPress={() => console.log('Comment')}
-                  onSavePress={() => toggleTileState(key, 'isSaved')}
+                  onSavePress={() => handleReadLater(key, tile.id)}
                 />
                 {idx == articles.length - 1 ? null : (
                   <View

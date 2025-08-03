@@ -7,22 +7,19 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
 
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import GoogleButton from '../components/GoogleButton';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
-import { HeaderLogo } from '../assets';
+import { HeaderLogo, HeaderLogoDark } from '../assets';
 import { signup } from '../services/authService';
-import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/authSlice';
-import LogoAuth from '../assets/images/LogoAuth.png';
-import LogoAuthDark from '../assets/images/LogoAuthDark.png';
 import useTheme from '../theme/useTheme';
 
 interface SignupScreenProps {}
@@ -31,7 +28,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'Signup'>>();
   const [name, setName] = useState('');
   const theme = useTheme();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -170,12 +166,11 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.content}>
-            <View>
-              <Image
-                source={theme.dark ? LogoAuthDark : LogoAuth}
-                style={styles.logo}
-              />
-            </View>
+            {theme.dark ? (
+              <HeaderLogoDark width={210} height={70} style={styles.logo} />
+            ) : (
+              <HeaderLogo width={210} height={70} style={styles.logo} />
+            )}
             <View
               style={[
                 styles.formContainer,
@@ -319,7 +314,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
+  logo: { marginBottom: 40, alignSelf: 'center' },
 });
 
 export default SignupScreen;

@@ -1,5 +1,4 @@
 import React, { JSX } from 'react';
-import { navigate, navigationRef } from '../navigation/RootNavigation';
 import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import {
   Menu,
@@ -8,6 +7,8 @@ import {
   MenuOption,
 } from 'react-native-popup-menu';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Divider from './Divider'; // import your divider
 import {
@@ -32,13 +33,11 @@ import {
 import { CountryCategories } from '.';
 
 import LogoutConfirmationModal from './LogoutConfirmationModal';
-import { useDispatch } from 'react-redux';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import ExperienceRatingModal from './ExperienceRatingModal';
 import FontSizeModal from './FontSizeModal';
 import SocialShareModal from './SocialShareModal';
 import SocialMediaModal from './SocialMediaModal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
 import HeaderText from './HeaderText';
@@ -191,7 +190,6 @@ const Header: React.FC<HeaderProps> = ({
           {item.icon}
           <HeaderText theme={theme.navigationTheme}>{item.label}</HeaderText>
         </View>
-        <Divider color="#8F8F8F" />
       </MenuOption>
     );
   };
@@ -216,7 +214,7 @@ const Header: React.FC<HeaderProps> = ({
                   maxHeight: '80%',
                   marginTop: 32,
                   borderRadius: 20,
-                  padding: 20,
+                  padding: 15,
                   backgroundColor: theme.navigationTheme.colors.background,
                 },
                 optionsWrapper: {
@@ -248,7 +246,7 @@ const Header: React.FC<HeaderProps> = ({
                   maxHeight: '80%',
                   marginTop: 32,
                   borderRadius: 20,
-                  paddingHorizontal: 10,
+                  padding: 15,
                   backgroundColor: theme.navigationTheme.colors.background,
                 },
                 optionsWrapper: {
@@ -269,6 +267,7 @@ const Header: React.FC<HeaderProps> = ({
               <FlatList
                 data={MenuData}
                 keyExtractor={(item, index) => `${item.label}-${index}`}
+                ItemSeparatorComponent={() => <Divider color="#8F8F8F" />}
                 renderItem={renderMenuOption}
                 showsVerticalScrollIndicator={false}
               />

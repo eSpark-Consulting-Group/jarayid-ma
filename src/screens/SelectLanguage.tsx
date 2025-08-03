@@ -5,17 +5,15 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
-  Image,
 } from 'react-native';
 import CustomButton from '../components/CustomButton';
-import LogoAuth from '../assets/images/LogoAuth.png';
 import CustomSelector, { SelectorOption } from '../components/CustomSelector';
 import { useNavigation } from '@react-navigation/native';
 
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
-import LogoAuthDark from '../assets/images/LogoAuthDark.png';
+import { HeaderLogo, HeaderLogoDark } from '../assets';
 
 interface Language {
   code: string;
@@ -66,12 +64,11 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
         style={styles.keyboardView}
       >
         <View style={styles.content}>
-          <View>
-            <Image
-              source={theme.dark ? LogoAuthDark : LogoAuth}
-              style={styles.logo}
-            />
-          </View>
+          {theme.dark ? (
+            <HeaderLogoDark width={210} height={70} style={styles.logo} />
+          ) : (
+            <HeaderLogo width={210} height={70} style={styles.logo} />
+          )}
           <View
             style={[
               styles.formContainer,

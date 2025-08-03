@@ -5,32 +5,40 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import RootNavigation from './src/navigation/index';
 import { MenuProvider } from 'react-native-popup-menu';
 import { Provider } from 'react-redux';
-import { store } from './src/redux/store';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import RootNavigation from './src/navigation/index';
+import { store } from './src/redux/store';
 import { ThemeProvider } from './src/context/ThemeContext';
+import ToastConfig from './src/utils/toastConfig';
+
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <View style={styles.container}>
-
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ThemeProvider>
-      <Provider store={store}>
-        <MenuProvider
-          style={{ flex: 1 }}
-          customStyles={{ backdrop: { backgroundColor: '#000', opacity: 0.5 } }}
-        >
-          <RootNavigation />
-        </MenuProvider>
-      </Provider>
-      </ThemeProvider>
-    </View>
+    <SafeAreaProvider>
+      {' '}
+      {/* ✅ Wrap the whole app */}
+      <View style={styles.container}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ThemeProvider>
+          <Provider store={store}>
+            <MenuProvider
+              style={{ flex: 1 }}
+              customStyles={{
+                backdrop: { backgroundColor: '#000', opacity: 0.5 },
+              }}
+            >
+              <RootNavigation />
+              <ToastConfig />
+            </MenuProvider>
+          </Provider>
+        </ThemeProvider>
+      </View>
+    </SafeAreaProvider>
   );
 }
 

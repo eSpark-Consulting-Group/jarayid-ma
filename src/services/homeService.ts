@@ -1,8 +1,8 @@
 import api from './api';
-import { setArticles, setCategories } from '../redux/slices/homeSlice';
+import { setCategories } from '../redux/slices/homeSlice';
 
 import { AppDispatch } from '../redux/store';
-import { Article, Category } from '../types';
+import { Category } from '../types';
 
 export const fetchAllCategories = () => async (dispatch: AppDispatch) => {
   let allItems: Category[] = [];
@@ -44,33 +44,5 @@ export const fetchYoutubeContent = async ({
   const response = await api.get(
     `/youtube-content?page=${page}&limit=${limit}&categoryId=${categoryId}&isEnabled=${isEnabled}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
   );
-  return response.data.data;
-};
-
-interface ArticlesParams {
-  search?: string;
-  page?: number;
-  limit?: number;
-  sortBy?:
-    | 'title'
-    | 'publishedAt'
-    | 'createdAt'
-    | 'viewCount'
-    | 'source'
-    | 'pinned';
-  sortOrder?: 'asc' | 'desc';
-  categoryId?: string;
-  subType?: 'SPORTS' | 'ECONOMICS' | 'POLITICS';
-  pinned?: boolean;
-  status?: boolean;
-  trackViews?: boolean;
-  dateFrom?: string;
-  dateTo?: string;
-  createdFrom?: string;
-  createdTo?: string;
-}
-
-export const getArticles = async (params?: ArticlesParams) => {
-  const response = await api.get('/articles', { params });
   return response.data.data;
 };

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Image,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -14,11 +13,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
-import LogoAuth from '../assets/images/LogoAuth.png';
-import LogoAuthDark from '../assets/images/LogoAuthDark.png';
 import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
-import { HeaderLogo } from '../assets';
+import { HeaderLogo, HeaderLogoDark } from '../assets';
 import { login } from '../services/authService';
 import { setUser } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
@@ -117,12 +114,11 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         style={styles.keyboardView}
       >
         <View style={styles.content}>
-          <View style={styles.logo}>
-            <Image
-              source={theme.dark ? LogoAuthDark : LogoAuth}
-              style={styles.logo}
-            />
-          </View>
+          {theme.dark ? (
+            <HeaderLogoDark width={210} height={70} style={styles.logo} />
+          ) : (
+            <HeaderLogo width={210} height={70} style={styles.logo} />
+          )}
           <View
             style={[
               styles.formContainer,
@@ -244,7 +240,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
     fontWeight: '500',
   },
-  logo: { marginBottom: 40, alignSelf: 'center', height: 70, width: 210 },
+  logo: { marginBottom: 40, alignSelf: 'center' },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',
     marginBottom: 12,

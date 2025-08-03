@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
+import Modal from 'react-native-modal';
+
 import HeaderText from './HeaderText';
 import ButtonGradient from './ButtonGradient';
-import Modal from 'react-native-modal';
 
 interface Props {
   visible: boolean;
@@ -36,11 +37,14 @@ const SocialShareModal: React.FC<Props> = ({
       animationIn="slideInUp"
       animationOut="slideOutDown"
     >
-      <View style={styles.sheet}>
+      <View
+        style={[styles.sheet, { backgroundColor: theme.colors.background }]}
+      >
         <View style={styles.handle} />
         <HeaderText
           theme={theme}
           fontFamily="Gilroy-SemiBold"
+          color={theme.dark ? theme.colors.text : '#111'}
           style={styles.title}
         >
           Share Jarayid App
@@ -50,7 +54,11 @@ const SocialShareModal: React.FC<Props> = ({
           {SOCIAL_ICONS.map((item, index) => (
             <View key={index} style={styles.iconBlock}>
               <Image source={item.icon} style={styles.iconImage} />
-              <HeaderText theme={theme} style={styles.iconLabel}>
+              <HeaderText
+                theme={theme}
+                style={styles.iconLabel}
+                color={theme.dark ? theme.colors.text : '#111'}
+              >
                 {item.name}
               </HeaderText>
             </View>
@@ -92,7 +100,6 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: '700',
     marginBottom: 24,
-    color: '#000',
   },
   grid: {
     flexDirection: 'row',
@@ -114,7 +121,6 @@ const styles = StyleSheet.create({
   },
   iconLabel: {
     fontSize: 13,
-    color: '#111',
     fontWeight: '500',
   },
   shareButton: {
