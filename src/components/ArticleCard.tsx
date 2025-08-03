@@ -41,7 +41,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         </CustomText>
       </View>
 
-      <Image source={image} style={styles.image} resizeMode="cover" />
+      <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
 
       <CustomText size={19} fontFamily="Mondia-Thin" style={styles.title}>
         {title}

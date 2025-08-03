@@ -10,12 +10,13 @@ import {
 
 import { CustomTile, CustomText } from '../components';
 import { TILES_DATA, COMMENTS_DATA } from '../constants';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import CommentItem from '../components/CommentItem';
 import ArticleCard from '../components/ArticleCard';
 import { BBCSvg } from '../assets';
 import AdBanner from '../components/AdBanner';
 import useTheme from '../theme/useTheme';
+import { HomeStackRouteProp } from '../navigation/navigation';
 
 interface ArticleScreenProps {
   navigation: any;
@@ -45,6 +46,8 @@ const getInitialCommentStates = (): Record<string, CommentState> => {
 const ArticleScreen: React.FC<ArticleScreenProps> = () => {
   const theme = useTheme();
   const navigation = useNavigation();
+  const route = useRoute<HomeStackRouteProp<'Article'>>();
+  const articleData = route.params.article;
   const [tileStates, setTileStates] = useState<Record<string, TileState>>({});
   const [commentStates, setCommentStates] = useState<
     Record<string, CommentState>
@@ -149,16 +152,10 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
       <View key={key}>
         <CustomTile
           {...tile}
-          isLiked={tileState.isLiked}
           isSaved={tileState.isSaved}
           onImagePress={() => console.log('Image pressed')}
           onCommentPress={() => console.log('Comment')}
-          onLikePress={() => toggleTileState(key, 'isLiked')}
           onSavePress={() => toggleTileState(key, 'isSaved')}
-          onFacebookPress={() => console.log('Facebook')}
-          onWhatsappPress={() => console.log('WhatsApp')}
-          onXPress={() => console.log('X')}
-          onYoutubePress={() => console.log('YT')}
         />
         {idx < TILES_DATA.length - 1 && (
           <View
@@ -188,11 +185,11 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
         <ArticleCard
           sourceIcon={<BBCSvg />} // Your SVG Component
           time="10:00pm"
-          image={require('../assets/images/news.png')} // or use a remote URI
-          title="Carlos Alcaraz had ‘no expectations’ ahead of tennis grass season"
+          image={articleData.image} // or use a remote URI
+          title={articleData.title}
           summary="Carlos Alcaraz said he had 'no expectations' coming into the grass-court season but he installed himself as a clear favourite to retain his Wimbledon title after beating Jiri Lehecka to win the HSBC Championships."
           notice="Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
-          articleLink="https://www.bbc.com/news/article-link"
+          articleLink={articleData.url}
         />
         <AdBanner
           image={require('../assets/images/ad-banner.png')} // or { uri: 'https://example.com/banner.png' }

@@ -130,6 +130,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
                 elevation: theme.dark ? 0 : 5,
                 borderWidth: theme.dark ? 1 : 0,
                 borderColor: '#494949ff',
+                backgroundColor: theme.colors.background,
               },
             ]}
           >

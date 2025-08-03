@@ -8,16 +8,16 @@ import {
   CustomTile,
   NewsCardList,
 } from '../components';
-import { TABS_CATEGORIES, TILES_DATA } from '../constants';
+import { TABS_CATEGORIES } from '../constants';
 import { Theme, useNavigation } from '@react-navigation/native';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllCategories, fetchArticles } from '../services/homeService';
+import { fetchAllCategories, getArticles } from '../services/homeService';
 import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
 import useTheme from '../theme/useTheme';
-import { setSelectedCategory } from '../redux/slices/homeSlice';
+import { setArticles, setSelectedCategory } from '../redux/slices/homeSlice';
 
 interface HomeScreenProps {
   navigation: any;
@@ -43,8 +43,16 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   useEffect(() => {
     dispatch(fetchAllCategories());
-    dispatch(fetchArticles());
+    fetchArticles();
   }, []);
+
+  const fetchArticles = async (categoryId?: string) => {
+    const data = await getArticles({
+      categoryId,
+    });
+    const newItems = data.items || [];
+    dispatch(setArticles({ articles: newItems }));
+  };
 
   const toggleTileState = useCallback((key: string, field: 'isSaved') => {
     setTileStates(prev => ({
@@ -63,6 +71,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           categories?.find(item => item.id === value.id) || null,
         ),
       );
+      fetchArticles(value.id);
     },
     [categories],
   );
@@ -120,7 +129,9 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                 <CustomTile
                   {...tile}
                   isSaved={tileState.isSaved}
-                  onImagePress={() => navigation.navigate('Article')}
+                  onImagePress={() =>
+                    navigation.navigate('Article', { article: tile })
+                  }
                   onCommentPress={() => console.log('Comment')}
                   onSavePress={() => toggleTileState(key, 'isSaved')}
                 />
@@ -153,7 +164,7 @@ const styles = (theme?: Theme) =>
       gap: 15,
     },
     card: {
-      paddingHorizontal: 20,
+      padding: 20,
     },
   });
 

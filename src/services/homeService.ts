@@ -70,16 +70,7 @@ interface ArticlesParams {
   createdTo?: string;
 }
 
-export const fetchArticles =
-  (params?: ArticlesParams) => async (dispatch: AppDispatch) => {
-    let page = 1;
-
-    try {
-      const response = await api.get(`/articles?page=${page}&limit=10`);
-      const { items, pagination } = response.data.data;
-      dispatch(setArticles({ articles: items }));
-    } catch (error) {
-      // Optionally handle error here
-      console.error('Failed to fetch articles:', error);
-    }
-  };
+export const getArticles = async (params?: ArticlesParams) => {
+  const response = await api.get('/articles', { params });
+  return response.data.data;
+};
