@@ -6,14 +6,15 @@ import {
   Text,
   View,
 } from 'react-native';
-import { CustomTile } from '../components';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
+import { LegendList } from '@legendapp/list';
+
+import { CustomTile } from '../components';
 import {
   fetchAllReadLaterArticles,
   readLater,
   ReadLaterServiceItem,
 } from '../services/readLaterService';
-import { LegendList } from '@legendapp/list';
 
 const ReadLaterScreen: React.FC = () => {
   const theme = useTheme();
@@ -66,7 +67,7 @@ const ReadLaterScreen: React.FC = () => {
           if (!exists) return prevItems;
           return prevItems.filter(item => item.id !== articleId);
         });
-         if (readLaterItems.length === 0) {
+        if (readLaterItems.length === 0) {
           setError('No saved articles found.');
         }
       } else {
@@ -85,23 +86,17 @@ const ReadLaterScreen: React.FC = () => {
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
-      ) : readLaterItems && readLaterItems.length>0 ? (
+      ) : readLaterItems && readLaterItems.length > 0 ? (
         <LegendList
           data={readLaterItems}
           estimatedItemSize={250}
           renderItem={({ item }) => (
             <CustomTile
               {...item}
-              isLiked={false}
               isSaved={true}
               onImagePress={() => {}}
               onCommentPress={() => console.log('Comment')}
-              onLikePress={() => {}}
               onSavePress={() => handleReadLater(item.id)}
-              onFacebookPress={() => console.log('Facebook')}
-              onWhatsappPress={() => console.log('WhatsApp')}
-              onXPress={() => console.log('X')}
-              onYoutubePress={() => console.log('YT')}
             />
           )}
           keyExtractor={item => item.id}
@@ -114,7 +109,7 @@ const ReadLaterScreen: React.FC = () => {
           contentContainerStyle={{ padding: 20, gap: 20 }}
         />
       ) : (
-         <View style={styles.errorContainer}>
+        <View style={styles.errorContainer}>
           <Text style={{ color: theme.colors.text }}>{error}</Text>
         </View>
       )}

@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useTheme } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { useDispatch } from 'react-redux';
+
 import { setUser } from '../redux/slices/authSlice';
 import {
   editUserProfileData,
@@ -62,10 +62,10 @@ const ProfileScreen: React.FC = () => {
     setLoading(false);
 
     if (result.success && result.data) {
-      showToast('Profile updated successfully.','success')
+      showToast('Profile updated successfully.', 'success');
       console.log('Profile updated successfully.');
     } else {
-      showToast('Profile updated successfully.','error')
+      showToast('Profile updated successfully.', 'error');
       console.error('Failed to update profile:', result.error);
     }
   };

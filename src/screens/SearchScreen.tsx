@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 import { CustomInput, CustomText, CustomTile } from '../components';
 import { SearchTabIcon } from '../assets';
-import { searchArticles } from '../services/searchService';
 import { Article } from '../types';
 
 import useTheme from '../theme/useTheme';
+import { getArticles } from '../services/articleService';
 
 const LIMIT = 6;
 
@@ -42,7 +42,7 @@ const SearchScreen: React.FC = () => {
     }
 
     try {
-      const data = await searchArticles({
+      const data = await getArticles({
         search: searchText,
         page: reset ? 1 : page,
         limit: LIMIT,

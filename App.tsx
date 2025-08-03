@@ -6,14 +6,15 @@
  */
 
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import RootNavigation from './src/navigation/index';
 import { MenuProvider } from 'react-native-popup-menu';
 import { Provider } from 'react-redux';
-import { store } from './src/redux/store';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import RootNavigation from './src/navigation/index';
+import { store } from './src/redux/store';
 import { ThemeProvider } from './src/context/ThemeContext';
 import ToastConfig from './src/utils/toastConfig';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
