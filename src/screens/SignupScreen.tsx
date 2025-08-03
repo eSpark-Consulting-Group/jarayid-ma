@@ -31,7 +31,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'Signup'>>();
   const [name, setName] = useState('');
   const theme = useTheme();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

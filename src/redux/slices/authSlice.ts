@@ -23,7 +23,9 @@ const authSlice = createSlice({
     setUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload?.user || null;
       state.isLoggedIn = !!action.payload?.user;
-      state.token = action.payload?.token || null;
+      if ('token' in action.payload) {
+        state.token = action.payload.token;
+      }
     },
     logout: state => {
       state.user = null;
