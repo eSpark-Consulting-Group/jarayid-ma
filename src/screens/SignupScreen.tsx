@@ -139,7 +139,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
       if (res?.status == 'success') {
         dispatch(setUser(res.data));
         await AsyncStorage.setItem('accessToken', res?.data?.token);
-        navigation.replace('Home');
+        navigation.replace('SelectLanguage');
         setLoading(false);
         showToast('Signup successful!', 'success');
       } else {

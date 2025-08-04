@@ -14,6 +14,10 @@ import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
 import { HeaderLogo, HeaderLogoDark } from '../assets';
+import { useDispatch } from 'react-redux';
+import { setLanguage } from '../redux/slices/authSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 interface Language {
   code: string;
@@ -30,7 +34,7 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
     undefined,
   );
   const theme = useTheme();
-
+  const dispatch = useDispatch();
   const languages: Language[] = [
     { code: 'en', name: 'English', nativeName: 'English' },
     { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
@@ -102,8 +106,11 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
             />
             <CustomButton
               title="Select"
+              disabled={!selectedLanguage}
               onPress={() => {
-                navigation.navigate('Login');
+                AsyncStorage.setItem('selectedLanguage', selectedLanguage || 'en');
+                dispatch(setLanguage(selectedLanguage || 'en'));
+                navigation.navigate('Home');
               }}
               loading={loading}
             />

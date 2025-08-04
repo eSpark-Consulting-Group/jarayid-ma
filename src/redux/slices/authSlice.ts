@@ -6,6 +6,7 @@ interface AuthState {
   token: string | null;
   error: string | null;
   user: any | null;
+  selectedLanguage: string | null;
 }
 
 const initialState: AuthState = {
@@ -14,6 +15,7 @@ const initialState: AuthState = {
   token: null,
   error: null,
   user: null,
+  selectedLanguage: null,
 };
 
 const authSlice = createSlice({
@@ -32,8 +34,11 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.token = null;
     },
+    setLanguage: (state, action: PayloadAction<string>) => {
+      state.selectedLanguage = action.payload;
+    },
   },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, logout, setLanguage } = authSlice.actions;
 export default authSlice.reducer;
