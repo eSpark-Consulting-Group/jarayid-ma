@@ -12,6 +12,7 @@ import { CustomInput, ScreenTitle } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
 import useTheme from '../theme/useTheme';
 import { contactUs } from '../services/contactusService';
+import { showToast } from '../utils/showToast';
 
 const ContactUsScreen: React.FC = () => {
   const theme = useTheme();
@@ -29,10 +30,10 @@ const ContactUsScreen: React.FC = () => {
     const newErrors: { [key: string]: string } = {};
     if (!name.trim()) newErrors.name = 'Name is required';
     if (!businessName.trim()) newErrors.businessName = 'Business name is required';
-    if (!contactNumber.trim()) newErrors.contactNumber = 'Contact number is required';
-    if (!email.trim()) newErrors.email = 'Email is required';
+    if (!contactNumber.trim() && contactNumber?.length < 5) newErrors.contactNumber = 'Contact number must be at least 5 characters long';
+    if (!email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Email is invalid';
     if (!country.trim()) newErrors.country = 'Country is required';
-    if (!message.trim()) newErrors.message = 'Message is required';
+    if (!message.trim() && message?.length < 10) newErrors.message = 'Message must be at least 10 characters long';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -54,10 +55,8 @@ const ContactUsScreen: React.FC = () => {
       };
 
       const result = await contactUs(payload);
-      console.log('Response:', result);
-
-      if (result.success) {
-        Alert.alert('Success', 'Message sent successfully!');
+      if (result.status === 'success') {
+        showToast('Message sent successfully!', 'success');
         setName('');
         setBusinessName('');
         setContactNumber('');
@@ -66,10 +65,10 @@ const ContactUsScreen: React.FC = () => {
         setCountry('');
         setErrors({});
       } else {
-        Alert.alert('Error', 'Failed to contact. Please try again later.');
+        showToast('Failed to contact. Please try again later.', 'error');
       }
     } catch (error: any) {
-      Alert.alert('Error', error?.message ?? 'An error occurred while sending your message.');
+      showToast(error?.message ?? 'An error occurred while sending your message.', 'error');
     } finally {
       setLoading(false);
     }
