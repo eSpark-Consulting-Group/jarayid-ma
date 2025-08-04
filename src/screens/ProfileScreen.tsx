@@ -30,6 +30,7 @@ const ProfileScreen: React.FC = () => {
   const [country, setCountry] = useState('');
   const [image, setImage] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; country?: string; number?: string }>({});
 
   useEffect(() => {
     fetchUserProfile();
@@ -51,6 +52,16 @@ const ProfileScreen: React.FC = () => {
   };
 
   const handleEditProfile = async () => {
+    // Validation for required fields
+    const newErrors: { name?: string; country?: string; number?: string } = {};
+    if (!name) newErrors.name = "Name can't be empty";
+    if (!country) newErrors.country = "Country can't be empty";
+    // if (!number) newErrors.number = "Mobile Number can't be empty";
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
     setLoading(true);
     const result = await editUserProfileData({
       name,
@@ -65,8 +76,8 @@ const ProfileScreen: React.FC = () => {
       showToast('Profile updated successfully.', 'success');
       console.log('Profile updated successfully.');
     } else {
-      showToast('Profile updated successfully.', 'error');
-      console.error('Failed to update profile:', result.error);
+      showToast(result?.error?.message || 'Failed to update profile.', 'error');
+      console.log('Failed to update profile screen:', result);
     }
   };
 
@@ -104,12 +115,17 @@ const ProfileScreen: React.FC = () => {
           <CustomInput
             label="Name"
             placeholder="Enter your Name"
-            onChangeText={text => setName(text)}
+            onChangeText={text => {
+              setName(text);
+              if (errors.name && text) setErrors(prev => ({ ...prev, name: undefined }));
+            }}
             value={name}
             keyboardType="default"
             autoCapitalize="words"
             style={styles.inputStyle}
             bgColor={theme.dark ? '#1e1e1e' : '#F5F6FA'}
+            error={errors.name}
+            hasError={!!errors.name}
           />
 
           <CustomInput
@@ -127,24 +143,34 @@ const ProfileScreen: React.FC = () => {
           <CustomInput
             label="Mobile Number"
             placeholder="Enter your Mobile Number"
-            onChangeText={text => setNumber(text)}
+            onChangeText={text => {
+              setNumber(text);
+              if (errors.number && text) setErrors(prev => ({ ...prev, number: undefined }));
+            }}
             value={number}
             editable={false}
             keyboardType="phone-pad"
             autoCapitalize="none"
             style={styles.inputStyle}
             bgColor={theme.dark ? '#1e1e1e' : '#F5F6FA'}
+            // error={errors.number}
+            // hasError={!!errors.number}
           />
 
           <CustomInput
             label="Country"
             placeholder="Enter your Country"
-            onChangeText={text => setCountry(text)}
+            onChangeText={text => {
+              setCountry(text);
+              if (errors.country && text) setErrors(prev => ({ ...prev, country: undefined }));
+            }}
             value={country}
             keyboardType="default"
             autoCapitalize="words"
             style={styles.inputStyle}
             bgColor={theme.dark ? '#1e1e1e' : '#F5F6FA'}
+            error={errors.country}
+            hasError={!!errors.country}
           />
 
           {loading ? (

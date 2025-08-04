@@ -20,7 +20,7 @@ function App() {
 
   return (
     <SafeAreaProvider>
-      {' '}
+      {/* {' '} */}
       {/* ✅ Wrap the whole app */}
       <View style={styles.container}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
