@@ -394,7 +394,7 @@ export default function App() {
             headerShown: false,
           }}
         >
-          {/* {!token ? (
+          {!token ? (
             <Stack.Group>
               <Stack.Screen name="Login" component={LoginScreen} />
               <Stack.Screen name="Signup" component={SignupScreen} />
@@ -415,8 +415,7 @@ export default function App() {
                 component={SelectLanguageScreen}
               />
             </Stack.Group>
-          )} */}
-          <Stack.Screen name="Home" component={MainTabNavigator} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
