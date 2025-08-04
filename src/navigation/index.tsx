@@ -292,7 +292,7 @@ const HomeStackNavigator = () => {
 
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="Home"
         component={HomeScreen}
         options={({ navigation }) => ({
@@ -309,7 +309,7 @@ const HomeStackNavigator = () => {
             />
           ),
         })}
-      />
+      /> */}
       <HomeStack.Screen
         name="Article"
         component={ArticleScreen}
@@ -389,7 +389,7 @@ export default function App() {
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer theme={theme}>
         <Stack.Navigator
-          initialRouteName={initialRoute || 'Login'}
+          // initialRouteName={initialRoute || 'Login'}
           screenOptions={{
             headerShown: false,
           }}

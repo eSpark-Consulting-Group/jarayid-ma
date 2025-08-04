@@ -13,6 +13,7 @@ interface CustomTextProps extends TextProps {
     | 'Gilroy-SemiBold'
     | 'Inter_24pt-Regular'
     | 'Mondia-Thin'
+    | 'Mondia-ExtraBold'
     | 'Poppins-Medium'
     | 'Poppins-Regular'
     | 'Poppins-SemiBold';

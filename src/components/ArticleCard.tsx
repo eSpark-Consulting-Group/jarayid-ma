@@ -5,7 +5,7 @@ import ButtonGradient from './ButtonGradient';
 import useTheme from '../theme/useTheme';
 
 interface ArticleCardProps {
-  sourceIcon: React.ReactNode;
+  sourceIcon: string;
   time: string;
   image: any;
   title: string;
@@ -35,7 +35,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <View style={styles.header}>
-        {sourceIcon}
+        {/* {sourceIcon} */}
+        <Image
+          source={{ uri: sourceIcon }}
+          style={{ width: 66, height: 44 }}
+          resizeMode="cover"
+        />
         <CustomText size={12} color="#6B7280" style={styles.time}>
           {time}
         </CustomText>
@@ -43,7 +48,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
       <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
 
-      <CustomText size={19} fontFamily="Mondia-Thin" style={styles.title}>
+      <CustomText size={19} fontFamily="Mondia-ExtraBold" style={styles.title}>
         {title}
       </CustomText>
 
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     marginBottom: 8,
-    width: '100%',
+    width: '88%',
   },
   time: {
     marginLeft: 'auto',

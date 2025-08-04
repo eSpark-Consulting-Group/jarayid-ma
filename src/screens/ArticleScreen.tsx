@@ -6,17 +6,23 @@ import {
   View,
   FlatList,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 
 import { CustomTile, CustomText } from '../components';
-import { TILES_DATA, COMMENTS_DATA } from '../constants';
+import { TILES_DATA, COMMENTS_DATA, DUMMY_ARTICLE } from '../constants';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import CommentItem from '../components/CommentItem';
 import ArticleCard from '../components/ArticleCard';
-import { BBCSvg } from '../assets';
 import AdBanner from '../components/AdBanner';
 import useTheme from '../theme/useTheme';
 import { HomeStackRouteProp } from '../navigation/navigation';
+import { extractFields, getInitials, timeAgo, timeWithAmPm } from '../utils';
+import { Article, Comment } from '../types';
+import { commentArticle, getArticles } from '../services/articleService';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { Send } from '../assets';
 
 interface ArticleScreenProps {
   navigation: any;
@@ -47,15 +53,43 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const route = useRoute<HomeStackRouteProp<'Article'>>();
-  const articleData = route.params.article;
+  const articleData = route.params?.article || DUMMY_ARTICLE;
+
+  const { user } = useSelector((state: RootState) => state.auth);
+
   const [tileStates, setTileStates] = useState<Record<string, TileState>>({});
-  const [commentStates, setCommentStates] = useState<
-    Record<string, CommentState>
-  >({});
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
-    setCommentStates(getInitialCommentStates());
+    fetchArticles();
   }, []);
+
+  const fetchArticles = async (reset = false) => {
+    try {
+      const data = await getArticles({
+        page: 1,
+        limit: 2,
+      });
+      const newItems = data.items || [];
+      setArticles(newItems);
+    } catch (err) {
+      console.error('Search error:', err);
+    }
+  };
+
+  const sendComment = async () => {
+    try {
+      const data = await commentArticle({
+        articleId: articleData.id,
+        content: comment,
+      });
+      setComment('');
+    } catch (err) {
+      console.error('Search error:', err);
+    }
+  };
 
   const toggleTileState = useCallback((key: string, field: keyof TileState) => {
     setTileStates(prev => ({
@@ -67,84 +101,19 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
     }));
   }, []);
 
-  const toggleCommentState = useCallback(
-    (key: string, field: 'isLiked' | 'isDisliked') => {
-      setCommentStates(prev => {
-        const current = prev[key] || {
-          isLiked: false,
-          isDisliked: false,
-          likeCount: 0,
-          dislikeCount: 0,
-        };
-
-        let { isLiked, isDisliked, likeCount, dislikeCount } = current;
-
-        if (field === 'isLiked') {
-          if (isLiked) {
-            likeCount -= 1;
-            isLiked = false;
-          } else {
-            likeCount += 1;
-            isLiked = true;
-            if (isDisliked) {
-              dislikeCount -= 1;
-              isDisliked = false;
-            }
-          }
-        } else {
-          if (isDisliked) {
-            dislikeCount -= 1;
-            isDisliked = false;
-          } else {
-            dislikeCount += 1;
-            isDisliked = true;
-            if (isLiked) {
-              likeCount -= 1;
-              isLiked = false;
-            }
-          }
-        }
-
-        return {
-          ...prev,
-          [key]: {
-            isLiked,
-            isDisliked,
-            likeCount,
-            dislikeCount,
-          },
-        };
-      });
-    },
-    [],
-  );
-
-  const renderCommentItem = ({ item }: { item: (typeof COMMENTS_DATA)[0] }) => {
-    const commentState = commentStates[item.id] || {
-      isLiked: false,
-      isDisliked: false,
-      likeCount: item.likeCount,
-      dislikeCount: item.dislikeCount,
-    };
-
+  const renderCommentItem = ({ item }: { item: Comment }) => {
     return (
       <CommentItem
         key={item.id}
-        initials={item.initials}
-        message={item.message}
-        time={item.time}
-        name={item.name}
-        isLiked={commentState.isLiked}
-        isDisliked={commentState.isDisliked}
-        onLikePress={() => toggleCommentState(item.id, 'isLiked')}
-        onDislikePress={() => toggleCommentState(item.id, 'isDisliked')}
-        likeCount={commentState.likeCount}
-        dislikeCount={commentState.dislikeCount}
+        avatar={item.user.image}
+        message={item.content}
+        time={timeAgo(item.createdAt)}
+        name={item.user.name}
       />
     );
   };
 
-  const renderTileItem = (tile: (typeof TILES_DATA)[0], idx: number) => {
+  const renderTileItem = (tile: Article, idx: number) => {
     const key = `${tile.source}-${idx}`;
     const tileState = tileStates[key] || { isLiked: false, isSaved: false };
 
@@ -183,11 +152,20 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           link="https://your-ad-landing-page.com"
         />
         <ArticleCard
-          sourceIcon={<BBCSvg />} // Your SVG Component
-          time="10:00pm"
+          sourceIcon={articleData.rssFeed.logo} // Your SVG Component
+          // sourceIcon={<BBCSvg />} // Your SVG Component
+          time={timeWithAmPm(articleData.publishedAt)}
           image={articleData.image} // or use a remote URI
-          title={articleData.title}
-          summary="Carlos Alcaraz said he had 'no expectations' coming into the grass-court season but he installed himself as a clear favourite to retain his Wimbledon title after beating Jiri Lehecka to win the HSBC Championships."
+          title={
+            extractFields(
+              articleData.originalContent.scrapedContent.translatedContent
+                .englishContent,
+            ).title
+          }
+          summary={
+            articleData.summaryEnglish ??
+            "Carlos Alcaraz said he had 'no expectations' coming into the grass-court season but he installed himself as a clear favourite to retain his Wimbledon title after beating Jiri Lehecka to win the HSBC Championships."
+          }
           notice="Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
           articleLink={articleData.url}
         />
@@ -198,17 +176,22 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
         <View style={styles.header}>
           <CustomText fontFamily="Gilroy-Bold">Add Comments</CustomText>
           <CustomText fontFamily="Gilroy-Bold" color="#007BFF">
-            50 Comments
+            {articleData.comments.length == 1
+              ? articleData.comments.length + ' ' + 'Comment'
+              : articleData.comments.length + ' ' + 'Comments'}
           </CustomText>
         </View>
 
         <View style={styles.addComment}>
           <View style={styles.avatar}>
-            <CustomText style={styles.avatarText}>{'BS'}</CustomText>
+            <CustomText style={styles.avatarText}>
+              {getInitials(user?.name || 'John Doe')}
+            </CustomText>
           </View>
           <TextInput
             placeholder="Add a comment..."
             placeholderTextColor={theme.dark ? 'grey' : '#00000064'}
+            onChangeText={e => setComment(e)}
             style={[
               styles.commentInput,
               {
@@ -217,19 +200,32 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
               },
             ]}
           />
+          <TouchableOpacity
+            activeOpacity={0.9}
+            disabled={comment ? false : true}
+            style={[
+              styles.sendBtn,
+              { backgroundColor: comment ? '#005BBC' : '#aaa' },
+            ]}
+            onPress={sendComment}
+          >
+            <Send color={'#fff'} width={30} height={30} />
+          </TouchableOpacity>
         </View>
 
         <FlatList
-          data={COMMENTS_DATA}
+          data={articleData.comments}
           renderItem={renderCommentItem}
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
         />
 
-        <View style={styles.card}>
-          <CustomText fontFamily="Gilroy-Bold">Most Read</CustomText>
-          {TILES_DATA.map(renderTileItem)}
-        </View>
+        {articles.length > 0 ? (
+          <View style={styles.card}>
+            <CustomText fontFamily="Gilroy-Bold">Most Read</CustomText>
+            {articles.map(renderTileItem)}
+          </View>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
@@ -274,6 +270,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '700',
+  },
+  sendBtn: {
+    padding: 4,
+    borderRadius: 26,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 15,
+    top: 10,
   },
   commentInput: {
     fontFamily: 'Gilroy-Medium',

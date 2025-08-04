@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet, Image } from 'react-native';
 import CustomText from './CustomText';
 import {
   DislikeFilled,
@@ -10,38 +10,27 @@ import {
 import useTheme from '../theme/useTheme';
 
 interface CommentItemProps {
-  initials: string;
+  avatar: string;
   name: string;
   message: string;
   time: string;
-  isLiked: boolean;
-  onLikePress: () => void;
-  isDisliked: boolean;
-  onDislikePress: () => void;
-  likeCount?: number;
-  dislikeCount?: number;
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({
-  initials,
+  avatar,
   name,
   message,
   time,
-  isLiked,
-  isDisliked,
-  onLikePress,
-  onDislikePress,
-  likeCount = 65,
-  dislikeCount = 35,
 }) => {
   const theme = useTheme();
   return (
     <View style={styles.container}>
       {/* Top Row: Avatar + Message */}
       <View style={styles.topRow}>
-        <View style={styles.avatar}>
+        <Image source={{ uri: avatar }} style={styles.avatar} />
+        {/* <View style={styles.avatar}>
           <CustomText style={styles.avatarText}>{initials}</CustomText>
-        </View>
+        </View> */}
         <View style={styles.messageBlock}>
           <View style={styles.nameRow}>
             <CustomText
@@ -60,22 +49,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
           >
             {message}
           </CustomText>
-        </View>
-      </View>
-
-      {/* Like/Dislike Row */}
-      <View style={styles.actionRow}>
-        <View style={styles.actionGroup}>
-          <Pressable onPress={onLikePress}>
-            {isLiked ? <LikeFilledLogo /> : <LikeLogo />}
-          </Pressable>
-          <CustomText style={styles.countText}>{likeCount}</CustomText>
-        </View>
-        <View style={styles.actionGroup}>
-          <Pressable onPress={onDislikePress}>
-            {isDisliked ? <DislikeFilled /> : <DislikeLogo />}
-          </Pressable>
-          <CustomText style={styles.countText}>{dislikeCount}</CustomText>
         </View>
       </View>
 
@@ -109,7 +82,6 @@ const styles = StyleSheet.create({
     borderRadius: 26,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
     borderWidth: 5,
     borderColor: '#94A3B8',
   },

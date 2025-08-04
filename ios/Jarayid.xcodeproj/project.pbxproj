@@ -22,6 +22,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8F802FA555C721CA279C55B9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		D0451E36A995401FBD60E66C /* Gilroy-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A569C6AA6494A92948E3475 /* Gilroy-ExtraBold.ttf */; };
+		5159EFBF0159460B957FFDFF /* Mondia-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31D8CA8F0D65434DAB30B6C3 /* Mondia-ExtraBold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		AA3A9CE7C8FD498190A71F54 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		EC27BC1F86CC427C99CF6236 /* Mondia-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mondia-Thin.otf"; path = "../assets/fonts/Mondia-Thin.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		31D8CA8F0D65434DAB30B6C3 /* Mondia-ExtraBold.otf */ = {isa = PBXFileReference; name = "Mondia-ExtraBold.otf"; path = "../assets/fonts/Mondia-ExtraBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				040C435644DC45F3B5500DE3 /* Poppins-Regular.ttf */,
 				90BA1856775D404E8DEE93C8 /* Poppins-SemiBold.ttf */,
 				EC27BC1F86CC427C99CF6236 /* Mondia-Thin.otf */,
+				31D8CA8F0D65434DAB30B6C3 /* Mondia-ExtraBold.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				46A7A2A50094407D95348A44 /* Poppins-Regular.ttf in Resources */,
 				399800BC630543A1BEC3A2A5 /* Poppins-SemiBold.ttf in Resources */,
 				6BB1F04BCBE049D785F97AF7 /* Mondia-Thin.otf in Resources */,
+				5159EFBF0159460B957FFDFF /* Mondia-ExtraBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
