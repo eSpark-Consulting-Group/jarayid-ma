@@ -15,6 +15,7 @@ import { RootStackNavigationProp } from '../navigation/navigation';
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
 import { HeaderLogo, HeaderLogoDark } from '../assets';
+import { forgotPassword } from '../services/authService';
 
 interface ForgotPasswordEmailProps {}
 
@@ -24,14 +25,11 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
   const navigation =
     useNavigation<RootStackNavigationProp<'ForgotPasswordEmail'>>();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
-    password?: string;
-    confirmPassword?: string;
+    forgot?: string;
   }>({});
 
   const handleEmailChange = (text: string) => {
@@ -45,43 +43,10 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
     });
   };
 
-  const handlePasswordChange = (text: string) => {
-    setPassword(text);
-    setErrors(prev => {
-      const newErrors = { ...prev };
-      if (text.length >= 8) {
-        delete newErrors.password;
-      }
-      return newErrors;
-    });
-  };
-
-  const handleConfirmPasswordChange = (text: string) => {
-    setConfirmPassword(text);
-    setErrors(prev => {
-      const newErrors = { ...prev };
-      if (text.length >= 8 && text === password) {
-        delete newErrors.confirmPassword;
-      }
-      return newErrors;
-    });
-  };
-
   const handleForgot = async () => {
-    if (!codeSent) {
-      setCodeSent(true);
-    } else {
-      navigation.navigate('SelectLanguage');
-    }
-    return;
-
     setErrors({});
 
-    const newErrors: {
-      email?: string;
-      password?: string;
-      confirmPassword?: string;
-    } = {};
+    const newErrors: { email?: string } = {};
 
     if (!email) {
       newErrors.email = "Can't be empty";
@@ -89,27 +54,30 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
       newErrors.email = 'Invalid email format';
     }
 
-    if (!password) {
-      newErrors.password = 'At least 8 characters';
-    } else if (password.length < 8) {
-      newErrors.password = 'At least 8 characters';
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
     }
 
-    if (!confirmPassword) {
-      newErrors.confirmPassword = 'At least 8 characters';
-    } else if (password !== confirmPassword) {
-      newErrors;
-
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
-      }
-
+    try {
       setLoading(true);
+      const response = await forgotPassword({ email });
+      console.log('nkdnskdnsds', response);
 
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+      if (response?.status?.toLowerCase() === 'success') {
+        navigation.navigate('Login');
+      } else {
+        setErrors(prev => ({
+          ...prev,
+          email: response.message || 'Something went wrong',
+        }));
+      }
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.message || 'An error occurred. Please try again.';
+      setErrors(prev => ({ ...prev, email: message }));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -149,61 +117,34 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
               Let’s get you started sharing your links!
             </CustomText>
 
-            {!codeSent ? (
-              <CustomInput
-                label="Email address"
-                iconName="email"
-                placeholder="e.g. alex@email.com"
-                value={email}
-                onChangeText={handleEmailChange}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                error={errors.email}
-                hasError={!!errors.email}
-              />
-            ) : (
-              <>
-                <CustomInput
-                  label="Create password"
-                  iconName="lock"
-                  placeholder="At least 8 characters"
-                  value={password}
-                  onChangeText={handlePasswordChange}
-                  secureTextEntry
-                  error={errors.password}
-                  hasError={!!errors.password}
-                />
-                <CustomInput
-                  label="Confirm password"
-                  iconName="lock"
-                  placeholder="At least 8 characters"
-                  value={confirmPassword}
-                  onChangeText={handleConfirmPasswordChange}
-                  secureTextEntry
-                  error={errors.confirmPassword}
-                  hasError={!!errors.confirmPassword}
-                />
-              </>
-            )}
+            <CustomInput
+              label="Email address"
+              iconName="email"
+              placeholder="e.g. alex@email.com"
+              value={email}
+              onChangeText={handleEmailChange}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              error={errors.email}
+              hasError={!!errors.email}
+            />
 
             <CustomButton
-              title={!codeSent ? 'Send Code' : 'Save'}
+              title={'Send Code'}
               onPress={handleForgot}
               loading={loading}
             />
 
-            {!codeSent && (
-              <View style={styles.linkContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                  <CustomText
-                    style={styles.linkText}
-                    color={theme.dark ? '#999' : '#666'}
-                  >
-                    Try Another way?
-                  </CustomText>
-                </TouchableOpacity>
-              </View>
-            )}
+            <View style={styles.linkContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                <CustomText
+                  style={styles.linkText}
+                  color={theme.dark ? '#999' : '#666'}
+                >
+                  Try Another way?
+                </CustomText>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </KeyboardAvoidingView>

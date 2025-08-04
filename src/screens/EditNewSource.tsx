@@ -1,36 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-
 import { CategorySelector, LabeledCheckbox, ScreenTitle } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
 import { useNavigation } from '@react-navigation/native';
 import { MainTabNavigationProp } from '../navigation/navigation';
 import useTheme from '../theme/useTheme';
+import {
+  getAllNewSourceData,
+  NewSourceFilterParams,
+  NewsSource,
+} from '../services/editNewSource';
 
 const EditNewSource: React.FC = () => {
   const navigation = useNavigation<MainTabNavigationProp<'EditNewSource'>>();
   const theme = useTheme();
+
+  const [sources, setSources] = useState<NewsSource[]>([]);
+
+  useEffect(() => {
+    fetchSources();
+  }, []);
+
+  const fetchSources = async (filters: NewSourceFilterParams = {}) => {
+    try {
+      console.log('Fetching sources with filters:', filters);
+      const data = await getAllNewSourceData(filters);
+      setSources(data);
+    } catch (error) {
+      console.error('Failed to fetch sources', error);
+    }
+  };
+
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <ScreenTitle title="Edit News Source" />
-      <CategorySelector />
+      <CategorySelector
+        onCategorySelect={categoryID =>
+          fetchSources(categoryID ? { categoryId: categoryID } : {})
+        }
+      />
       <FlatList
-        data={Array(3)}
-        renderItem={() => (
+        data={sources}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
           <LabeledCheckbox
-            label="https://almasryalyoum.com"
+            label={item.name}
             labelSize={18}
             labelColor="#000"
             labelFontfamily="Gilroy-SemiBold"
-            imageURL="https://upload.wikimedia.org/wikipedia/fr/thumb/1/14/Akhbar_el-Yom.png/960px-Akhbar_el-Yom.png?20230612140638"
+            imageURL={item.logo}
           />
         )}
       />
+
       <ButtonGradient
         title="Save"
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          navigation.goBack();
+        }}
         color={['#007BFF', '#004A99']}
         gradientStyle={styles.saveBtn}
         textStyle={{ textAlign: 'center' }}

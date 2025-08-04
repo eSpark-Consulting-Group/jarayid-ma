@@ -21,6 +21,7 @@ import { HeaderLogo, HeaderLogoDark } from '../assets';
 import { signup } from '../services/authService';
 import { setUser } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
+import { showToast } from '../utils/showToast';
 
 interface SignupScreenProps {}
 
@@ -67,7 +68,8 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
     setPassword(text);
     setErrors(prev => {
       const newErrors = { ...prev };
-      if (text.length >= 8) {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+      if (passwordRegex.test(text)) {
         delete newErrors.password;
       }
       return newErrors;
@@ -105,10 +107,11 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
       newErrors.email = 'Invalid email format';
     }
 
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
     if (!password) {
       newErrors.password = 'At least 8 characters';
-    } else if (password.length < 8) {
-      newErrors.password = 'At least 8 characters';
+    } else if (!passwordRegex.test(password)) {
+      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character';
     }
 
     if (!confirmPassword) {
@@ -136,14 +139,16 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
       if (res?.status == 'success') {
         dispatch(setUser(res.data));
         await AsyncStorage.setItem('accessToken', res?.data?.token);
-        navigation.replace('Home');
+        navigation.replace('SelectLanguage');
         setLoading(false);
+        showToast('Signup successful!', 'success');
       } else {
         setLoading(false);
-        console.error('Signup failed:', res.message);
+        showToast(res?.message || 'Signup failed. Please try again.', 'error');
       }
     } catch (error) {
       setLoading(false);
+      showToast('Signup failed. Please try again.', 'error');
       console.error('Signup error:', error);
     }
   };
@@ -238,7 +243,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 style={styles.passwordNote}
                 color={theme.dark ? '#999' : '#666'}
               >
-                Password must contain at least 8 characters
+                Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character
               </CustomText>
               <CustomButton
                 title="Create new account"

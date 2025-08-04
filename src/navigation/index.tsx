@@ -408,7 +408,13 @@ export default function App() {
               />
             </Stack.Group>
           ) : (
-            <Stack.Screen name="Home" component={MainTabNavigator} />
+            <Stack.Group>
+              <Stack.Screen name="Home" component={MainTabNavigator} />
+              <Stack.Screen
+                name="SelectLanguage"
+                component={SelectLanguageScreen}
+              />
+            </Stack.Group>
           )} */}
           <Stack.Screen name="Home" component={MainTabNavigator} />
         </Stack.Navigator>

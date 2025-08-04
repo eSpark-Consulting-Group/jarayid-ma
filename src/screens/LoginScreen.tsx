@@ -19,6 +19,7 @@ import { HeaderLogo, HeaderLogoDark } from '../assets';
 import { login } from '../services/authService';
 import { setUser } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
+import { showToast } from '../utils/showToast';
 
 interface LoginScreenProps {}
 
@@ -83,7 +84,8 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         password: password,
         loginType: 'local',
       });
-
+      console.log("res", res);
+      
       if (res?.status == 'success') {
         console.log('res', res);
         dispatch(setUser(res.data));
@@ -94,14 +96,16 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         );
         navigation.replace('Home');
         setLoading(false);
+        showToast('Login successful!', 'success');
       } else {
         setLoading(false);
-        console.error('Login failed:', res.message);
+        console.error('Login failed:', res?.message);
+        showToast(res?.message || 'Login failed. Please try again.', 'error');
       }
     } catch (err) {
       setLoading(false);
-
-      console.error('Login error:', err);
+      console.log('Login error:', err);
+      showToast('Login failed. Please try again.', 'error');
     }
   };
 

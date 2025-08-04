@@ -6,6 +6,7 @@ import {
   View,
   FlatList,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 
 import { CustomTile, CustomText } from '../components';
@@ -18,9 +19,10 @@ import useTheme from '../theme/useTheme';
 import { HomeStackRouteProp } from '../navigation/navigation';
 import { extractFields, getInitials, timeAgo, timeWithAmPm } from '../utils';
 import { Article, Comment } from '../types';
-import { getArticles } from '../services/articleService';
+import { commentArticle, getArticles } from '../services/articleService';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { Send } from '../assets';
 
 interface ArticleScreenProps {
   navigation: any;
@@ -58,12 +60,9 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
   const [tileStates, setTileStates] = useState<Record<string, TileState>>({});
   const [articles, setArticles] = useState<Article[]>([]);
 
-  const [commentStates, setCommentStates] = useState<
-    Record<string, CommentState>
-  >({});
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
-    setCommentStates(getInitialCommentStates());
     fetchArticles();
   }, []);
 
@@ -80,6 +79,18 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
     }
   };
 
+  const sendComment = async () => {
+    try {
+      const data = await commentArticle({
+        articleId: articleData.id,
+        content: comment,
+      });
+      setComment('');
+    } catch (err) {
+      console.error('Search error:', err);
+    }
+  };
+
   const toggleTileState = useCallback((key: string, field: keyof TileState) => {
     setTileStates(prev => ({
       ...prev,
@@ -89,58 +100,6 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
       },
     }));
   }, []);
-
-  const toggleCommentState = useCallback(
-    (key: string, field: 'isLiked' | 'isDisliked') => {
-      setCommentStates(prev => {
-        const current = prev[key] || {
-          isLiked: false,
-          isDisliked: false,
-          likeCount: 0,
-          dislikeCount: 0,
-        };
-
-        let { isLiked, isDisliked, likeCount, dislikeCount } = current;
-
-        if (field === 'isLiked') {
-          if (isLiked) {
-            likeCount -= 1;
-            isLiked = false;
-          } else {
-            likeCount += 1;
-            isLiked = true;
-            if (isDisliked) {
-              dislikeCount -= 1;
-              isDisliked = false;
-            }
-          }
-        } else {
-          if (isDisliked) {
-            dislikeCount -= 1;
-            isDisliked = false;
-          } else {
-            dislikeCount += 1;
-            isDisliked = true;
-            if (isLiked) {
-              likeCount -= 1;
-              isLiked = false;
-            }
-          }
-        }
-
-        return {
-          ...prev,
-          [key]: {
-            isLiked,
-            isDisliked,
-            likeCount,
-            dislikeCount,
-          },
-        };
-      });
-    },
-    [],
-  );
 
   const renderCommentItem = ({ item }: { item: Comment }) => {
     return (
@@ -217,7 +176,9 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
         <View style={styles.header}>
           <CustomText fontFamily="Gilroy-Bold">Add Comments</CustomText>
           <CustomText fontFamily="Gilroy-Bold" color="#007BFF">
-            {articleData.comments.length + ' ' + 'Comments'}
+            {articleData.comments.length == 1
+              ? articleData.comments.length + ' ' + 'Comment'
+              : articleData.comments.length + ' ' + 'Comments'}
           </CustomText>
         </View>
 
@@ -230,6 +191,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           <TextInput
             placeholder="Add a comment..."
             placeholderTextColor={theme.dark ? 'grey' : '#00000064'}
+            onChangeText={e => setComment(e)}
             style={[
               styles.commentInput,
               {
@@ -238,6 +200,17 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
               },
             ]}
           />
+          <TouchableOpacity
+            activeOpacity={0.9}
+            disabled={comment ? false : true}
+            style={[
+              styles.sendBtn,
+              { backgroundColor: comment ? '#005BBC' : '#aaa' },
+            ]}
+            onPress={sendComment}
+          >
+            <Send color={'#fff'} width={30} height={30} />
+          </TouchableOpacity>
         </View>
 
         <FlatList
@@ -297,6 +270,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '700',
+  },
+  sendBtn: {
+    padding: 4,
+    borderRadius: 26,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 15,
+    top: 10,
   },
   commentInput: {
     fontFamily: 'Gilroy-Medium',
