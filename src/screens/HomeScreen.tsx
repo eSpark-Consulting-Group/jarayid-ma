@@ -97,6 +97,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     [categories],
   );
 
+  console.log("articles", articles)
   return (
     <SafeAreaView style={styles(theme.navigationTheme).container}>
       <ScrollView

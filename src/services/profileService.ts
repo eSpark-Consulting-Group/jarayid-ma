@@ -43,10 +43,10 @@ export const editUserProfileData = async (data: UserProfile) => {
 
     return { success: true, data: response.data };
   } catch (error: any) {
-    console.error(
-      'Failed to update profile:',
+    console.log(
+      'Failed to update profile service:',
       error?.response?.data || error.message,
     );
-    return { success: false, error };
+    return { success: false, error: error?.response?.data || error.message };
   }
 };
