@@ -12,7 +12,6 @@ export interface ContactUsRequest {
 
 
 export const contactUs = async (params: ContactUsRequest) => {
-  const response = await api.post(`contact-us`, {params});
-  console.log('Contact Us Response:', response.data);
+  const response = await api.post(`/contact-us`, params);
   return response.data;
 };

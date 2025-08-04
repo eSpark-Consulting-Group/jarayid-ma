@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
+
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
-
 import AccordionItem from '../components/AccordionItem';
+import { getStaticPage } from '../services/staticServices';
+
+interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+}
 
 const FAQScreen: React.FC = () => {
   const theme = useTheme();
+  const [faqs, setFaqs] = useState<FAQItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchFaqs = async () => {
+    try {
+      const res = await getStaticPage({ page: 'faq' });
+      const items = res?.data?.items || [];
+      if (items.length > 0 && items[0].content?.faq) {
+        setFaqs(items[0].content.faq);
+      }
+    } catch (err) {
+      console.error('Error fetching FAQs:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
 
   return (
     <SafeAreaView
@@ -14,24 +41,20 @@ const FAQScreen: React.FC = () => {
     >
       <View style={{ paddingHorizontal: 20 }}>
         <CustomText
-          // theme={theme.navigationTheme}
           fontFamily="Gilroy-SemiBold"
           style={{ fontSize: 23, marginBottom: 20 }}
         >
           Frequently Asked Questions
         </CustomText>
-        <AccordionItem
-          question="Lorem Ipsum is simply dummy text of the printing ?"
-          answer="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
-        />
-        <AccordionItem
-          question="Lorem Ipsum is simply dummy text of the printing ?"
-          answer="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
-        />
-        <AccordionItem
-          question="Lorem Ipsum is simply dummy text of the printing ?"
-          answer="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
-        />
+
+        {!loading &&
+          faqs.map(item => (
+            <AccordionItem
+              key={item.id}
+              question={item.question}
+              answer={item.answer}
+            />
+          ))}
       </View>
     </SafeAreaView>
   );
