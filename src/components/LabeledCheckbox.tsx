@@ -22,6 +22,7 @@ type LabeledCheckboxProps = {
     | 'Poppins-SemiBold';
   labelSize?: number;
   imageURL?: string;
+  onPress?: (checked: boolean) => void;
 };
 
 const LabeledCheckbox: React.FC<LabeledCheckboxProps> = ({
@@ -31,11 +32,21 @@ const LabeledCheckbox: React.FC<LabeledCheckboxProps> = ({
   labelFontfamily,
   labelSize,
   imageURL,
+  onPress,
 }) => {
   const theme = useTheme();
   const [checked, setChecked] = useState<boolean>(false);
+
+  const handlePress = () => {
+    const newValue = !checked;
+    setChecked(newValue);
+    if (onPress) {
+      onPress(newValue);
+    }
+  };
+
   return (
-    <Pressable style={styles.container} onPress={() => setChecked(!checked)}>
+    <Pressable style={styles.container} onPress={() => handlePress()}>
       <View style={styles.boxAndLabel}>
         <Checkbox
           width={size}

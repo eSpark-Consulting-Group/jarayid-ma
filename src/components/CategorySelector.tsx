@@ -1,15 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import LabeledCheckbox from './LabeledCheckbox';
 import CustomButton from './CustomButton';
 import { ChevDown, ChevUp } from '../assets';
-import { COUNTRY_CATEGORIES } from '../constants';
 import useTheme from '../theme/useTheme';
+import { fetchAllCategories } from '../services/homeService';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
-const CategorySelector: React.FC = () => {
+interface CategorySelectorProps {
+  onCategorySelect: (categoryId: string) => void;
+}
+
+const CategorySelector: React.FC<CategorySelectorProps> = ({onCategorySelect}) => {
   const [showCates, setShowCates] = useState(false);
   const theme = useTheme();
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
+  const { categories } = useSelector((state: RootState) => state.home);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    await fetchAllCategories();
+  };
+
+   const toggleCategory = (id: string) => {
+    let updatedSelection;
+    if (selectedCategoryIds.includes(id)) {
+      updatedSelection = selectedCategoryIds.filter(catId => catId !== id);
+    } else {
+      updatedSelection = [...selectedCategoryIds, id];
+    }
+    setSelectedCategoryIds(updatedSelection);
+    const result = updatedSelection.length === 1 ? updatedSelection[0] : updatedSelection.join(',');
+    onCategorySelect(result);
+  };
+
   return (
     <View>
       <CustomButton
@@ -37,16 +66,16 @@ const CategorySelector: React.FC = () => {
           ]}
         >
           <FlatList
-            data={COUNTRY_CATEGORIES}
+            data={categories}
             contentContainerStyle={styles.catesList}
             numColumns={3}
             renderItem={({ item, index }) => (
-              <View
-                style={{
-                  width: '33%',
-                }}
-              >
-                <LabeledCheckbox size={14} label={item} />
+              <View style={{ width: '33%', padding: 3 }}>
+                <LabeledCheckbox
+                 size={14}
+                 label={item.name} 
+                    onPress={() => toggleCategory(item.id)}
+                 />
               </View>
             )}
           />
