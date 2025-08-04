@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
+import { getStaticPage } from '../services/staticServices';
 
 const PrivacyPolicy: React.FC = () => {
   const theme = useTheme();
+  const [content, setContent] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
+  const fetchStaticContent = async () => {
+    try {
+      const res = await getStaticPage({ page: 'privacy-policy' });
+      console.log('Static page response:', res);
+
+      const message =
+        res?.data?.items?.[0]?.content?.welcomeMessage ||
+        'No content available.';
+      setContent(message);
+    } catch (err) {
+      console.error('Error fetching static page:', err);
+      setContent('Something went wrong. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStaticContent();
+  }, []);
 
   return (
     <SafeAreaView
@@ -31,29 +55,7 @@ const PrivacyPolicy: React.FC = () => {
               fontFamily="Gilroy-Regular"
               style={{ fontSize: 16, lineHeight: 24 }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-              ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit. Sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor
-              sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-              ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat.
+              {loading ? 'Loading...' : content}
             </CustomText>
           </ScrollView>
         </View>
