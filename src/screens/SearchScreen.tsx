@@ -113,6 +113,7 @@ const SearchScreen: React.FC = () => {
           renderItem={({ item }) => (
             <CustomTile
               {...item}
+              data={item}
               isSaved={true}
               onImagePress={() => console.log('navigate')}
               onCommentPress={() => console.log('Comment')}

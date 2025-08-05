@@ -48,6 +48,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/slices/authSlice';
 import { RootState } from '../redux/store';
 import useTheme from '../theme/useTheme';
+import { openShareMenu } from '../utils/shareUtils';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -292,7 +293,7 @@ const HomeStackNavigator = () => {
 
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <HomeStack.Screen
+      <HomeStack.Screen
         name="Home"
         component={HomeScreen}
         options={({ navigation }) => ({
@@ -309,11 +310,11 @@ const HomeStackNavigator = () => {
             />
           ),
         })}
-      /> */}
+      />
       <HomeStack.Screen
         name="Article"
         component={ArticleScreen}
-        options={({ navigation }) => ({
+        options={({ navigation, route }) => ({
           headerShown: true,
           header: () => (
             <Header
@@ -323,7 +324,14 @@ const HomeStackNavigator = () => {
               onLeftPress={() =>
                 navigation?.canGoBack?.() && navigation.goBack()
               }
-              onRightPress={() => console.log('open menu 2')}
+              onRightPress={() => {
+                console.log('open menu 2', route?.params?.article);
+                 openShareMenu({
+                   title: route?.params?.article?.title || 'Share Article',
+                   message: route?.params?.article?.summaryEnglish || 'Test Message',
+                   url: route?.params?.article?.url || 'https://example.com/article',
+                 });
+              }}
             />
           ),
         })}
