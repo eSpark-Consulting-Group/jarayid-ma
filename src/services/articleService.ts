@@ -23,6 +23,12 @@ interface ArticlesParams {
   createdTo?: string;
 }
 
+interface TrendArticlesParams {
+  period?: string;
+  page?: number;
+  limit?: number;
+}
+
 interface CommentParams {
   articleId: string;
   content: string;
@@ -30,6 +36,11 @@ interface CommentParams {
 
 export const getArticles = async (params: ArticlesParams) => {
   const response = await api.get('/articles', { params });
+  return response.data.data;
+};
+
+export const getTrendingArticles = async (params: TrendArticlesParams) => {
+  const response = await api.get('/articles/trending', { params });
   return response.data.data;
 };
 

@@ -36,6 +36,7 @@ export type MainTabParamList = {
   ReadLaterScreen: undefined;
   AdvertiseHere: undefined;
   ContactUs: undefined;
+  SelectLanguage: undefined;
 };
 
 export type MainTabNavigationProp<

@@ -29,6 +29,7 @@ import {
   Vector14,
   Vector15,
   Vector16,
+  Language,
 } from '../assets'; // make sure to import all your vector icons
 import { CountryCategories } from '.';
 
@@ -70,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({
   const [showFontSizer, setShowFontSizer] = React.useState(false);
   const [showSocialModal, setShowSocialModal] = React.useState(false);
   const [showSocialMedia, setShowSocialMedia] = React.useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const MenuData = [
     {
@@ -121,12 +122,18 @@ const Header: React.FC<HeaderProps> = ({
     {
       label: t(theme.dark ? 'header.menu.lightMode' : 'header.menu.darkMode'),
       icon: <Vector10 />,
+      // onPress: () => i18n.changeLanguage('en'),
       onPress: theme.toggleTheme,
     },
     {
       label: t('header.menu.fontSize'),
       icon: <Vector11 />,
       onPress: () => setShowFontSizer(true),
+    },
+    {
+      label: t('header.menu.selectLang'),
+      icon: <Language />,
+      onPress: () => navigation.navigate('SelectLanguage'),
     },
     {
       label: t('header.menu.faqs'),

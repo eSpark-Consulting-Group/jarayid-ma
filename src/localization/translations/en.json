@@ -1,6 +1,6 @@
 {
   "language": "English",
-   "header": {
+  "header": {
     "otherSettings": "Other Settings",
     "menu": {
       "editProfile": "Edit Profile",
@@ -15,6 +15,7 @@
       "lightMode": "Light Mode",
       "darkMode": "Dark Mode",
       "fontSize": "Font Size",
+      "selectLang": "Choose Language",
       "faqs": "FAQs",
       "termsOfUse": "Terms of Use",
       "privacyPolicy": "Privacy Policy",
@@ -46,7 +47,7 @@
         "viewArticle": "View Article"
       }
     },
-     "article": {
+    "article": {
       "addComments": "Add Comments",
       "comment": "Comment",
       "comments": "Comments",
@@ -54,5 +55,5 @@
       "mostRead": "Most Read",
       "aiNotice": "Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
     }
-  }  
+  }
 }

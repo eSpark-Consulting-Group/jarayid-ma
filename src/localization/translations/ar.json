@@ -1,6 +1,6 @@
 {
   "language": "Arabic",
-   "header": {
+  "header": {
     "otherSettings": "إعدادات أخرى",
     "menu": {
       "editProfile": "تعديل الملف الشخصي",
@@ -15,6 +15,7 @@
       "lightMode": "الوضع الفاتح",
       "darkMode": "الوضع الداكن",
       "fontSize": "حجم الخط",
+      "selectLang": "اختر اللغة",
       "faqs": "الأسئلة الشائعة",
       "termsOfUse": "شروط الاستخدام",
       "privacyPolicy": "سياسة الخصوصية",
@@ -46,7 +47,7 @@
         "viewArticle": "عرض المقال"
       }
     },
-     "article": {
+    "article": {
       "addComments": "أضف تعليقًا",
       "comment": "تعليق",
       "comments": "تعليقات",
@@ -55,5 +56,4 @@
       "aiNotice": "ملاحظة: هذا ملخص تم إنشاؤه بواسطة الذكاء الاصطناعي وقد يكون غير دقيق أحيانًا"
     }
   }
-  
 }

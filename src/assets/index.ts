@@ -50,3 +50,4 @@ export { default as ProfileHeadDark } from './svgs/profileLogodark.svg';
 export { default as BackIconDark } from './svgs/back-dark.svg';
 export { default as RedirectSignDark } from './svgs/redirect-dark.svg';
 export { default as Send } from './svgs/send.svg';
+export { default as Language } from './svgs/language.svg';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -17,6 +17,7 @@ import { HeaderLogo, HeaderLogoDark } from '../assets';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../redux/slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 
 interface Language {
   code: string;
@@ -28,6 +29,8 @@ interface SelectLanguageProps {}
 
 const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'SelectLanguage'>>();
+  const { i18n } = useTranslation();
+
   const [loading, setLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(
     undefined,
@@ -37,14 +40,6 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   const languages: Language[] = [
     { code: 'en', name: 'English', nativeName: 'English' },
     { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
-    { code: 'fr', name: 'French', nativeName: 'Français' },
-    { code: 'es', name: 'Spanish', nativeName: 'Español' },
-    { code: 'de', name: 'German', nativeName: 'Deutsch' },
-    { code: 'it', name: 'Italian', nativeName: 'Italiano' },
-    { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
-    { code: 'ru', name: 'Russian', nativeName: 'Русский' },
-    { code: 'zh', name: 'Chinese', nativeName: '中文' },
-    { code: 'ja', name: 'Japanese', nativeName: '日本語' },
   ];
 
   const languageOptions: SelectorOption[] = languages.map(lang => ({
@@ -55,8 +50,20 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   }));
 
   const handleSelect = (option: SelectorOption) => {
+    console.log('kia mila option me', option);
     setSelectedLanguage(option.value);
   };
+
+  const getSelectedLanguage = async () => {
+    const storedLang = await AsyncStorage.getItem('appLanguage');
+    if (storedLang) {
+      setSelectedLanguage(storedLang);
+    }
+  };
+
+  useEffect(() => {
+    getSelectedLanguage();
+  }, []);
 
   return (
     <SafeAreaView
@@ -108,10 +115,7 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
               title="Select"
               disabled={!selectedLanguage}
               onPress={() => {
-                AsyncStorage.setItem(
-                  'selectedLanguage',
-                  selectedLanguage || 'en',
-                );
+                i18n.changeLanguage(selectedLanguage);
                 dispatch(setLanguage(selectedLanguage || 'en'));
                 navigation.navigate('Home');
               }}

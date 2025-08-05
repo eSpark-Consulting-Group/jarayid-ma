@@ -39,7 +39,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         <Image
           source={{ uri: sourceIcon }}
           style={{ width: 66, height: 44 }}
-          resizeMode="cover"
+          resizeMode="contain"
         />
         <CustomText size={12} color="#6B7280" style={styles.time}>
           {time}

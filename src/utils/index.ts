@@ -28,7 +28,7 @@ export const extractYoutubeId = (url: string): string | null => {
 };
 
 export const extractFields = (text: string) => {
-  const titleMatch = text.match(/Title:\s*(.*?)\s*-/);
+  const titleMatch = text.match(/Title:\s*(.*?)\s*\n/);
   const descriptionMatch = text.match(/Description:\s*(.*?)\s*Content:/);
 
   return {
@@ -38,7 +38,7 @@ export const extractFields = (text: string) => {
 };
 
 export const extractArabicFields = (text: string) => {
-  const titleMatch = text.match(/عنوان:\s*(.*?)\s*وصف:/);
+  const titleMatch = text.match(/عنوان:\s*(.*?)\s*\n/);
   const descriptionMatch = text.match(/وصف:\s*(.*?)\s*المحتوى:/);
 
   return {
