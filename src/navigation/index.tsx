@@ -291,8 +291,11 @@ const HomeStackNavigator = () => {
   const theme = useTheme();
 
   return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <HomeStack.Screen
+    <HomeStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Home"
+    >
+      <HomeStack.Screen
         name="Home"
         component={HomeScreen}
         options={({ navigation }) => ({
@@ -309,7 +312,7 @@ const HomeStackNavigator = () => {
             />
           ),
         })}
-      /> */}
+      />
       <HomeStack.Screen
         name="Article"
         component={ArticleScreen}

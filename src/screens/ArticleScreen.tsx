@@ -23,6 +23,7 @@ import { commentArticle, getArticles } from '../services/articleService';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Send } from '../assets';
+import { useTranslation } from 'react-i18next';
 
 interface ArticleScreenProps {
   navigation: any;
@@ -52,6 +53,7 @@ const getInitialCommentStates = (): Record<string, CommentState> => {
 const ArticleScreen: React.FC<ArticleScreenProps> = () => {
   const theme = useTheme();
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const route = useRoute<HomeStackRouteProp<'Article'>>();
   const articleData = route.params?.article || DUMMY_ARTICLE;
 
@@ -166,7 +168,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
             articleData.summaryEnglish ??
             "Carlos Alcaraz said he had 'no expectations' coming into the grass-court season but he installed himself as a clear favourite to retain his Wimbledon title after beating Jiri Lehecka to win the HSBC Championships."
           }
-          notice="Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
+          notice={t('screens.article.aiNotice')}
           articleLink={articleData.url}
         />
         <AdBanner
@@ -174,11 +176,15 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
           link="https://your-ad-landing-page.com"
         />
         <View style={styles.header}>
-          <CustomText fontFamily="Gilroy-Bold">Add Comments</CustomText>
+          <CustomText fontFamily="Gilroy-Bold">
+            {t('screens.article.addComments')}
+          </CustomText>
           <CustomText fontFamily="Gilroy-Bold" color="#007BFF">
             {articleData.comments.length == 1
-              ? articleData.comments.length + ' ' + 'Comment'
-              : articleData.comments.length + ' ' + 'Comments'}
+              ? articleData.comments.length + ' ' + t('screens.article.comment')
+              : articleData.comments.length +
+                ' ' +
+                t('screens.article.comments')}
           </CustomText>
         </View>
 
@@ -189,7 +195,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
             </CustomText>
           </View>
           <TextInput
-            placeholder="Add a comment..."
+            placeholder={t('screens.article.commentPlaceholder')}
             placeholderTextColor={theme.dark ? 'grey' : '#00000064'}
             onChangeText={e => setComment(e)}
             style={[
@@ -222,7 +228,9 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
 
         {articles.length > 0 ? (
           <View style={styles.card}>
-            <CustomText fontFamily="Gilroy-Bold">Most Read</CustomText>
+            <CustomText fontFamily="Gilroy-Bold">
+              {t('screens.article.mostRead')}
+            </CustomText>
             {articles.map(renderTileItem)}
           </View>
         ) : null}
