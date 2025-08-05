@@ -292,7 +292,10 @@ const HomeStackNavigator = () => {
   const theme = useTheme();
 
   return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+    <HomeStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Home"
+    >
       <HomeStack.Screen
         name="Home"
         component={HomeScreen}
@@ -326,11 +329,14 @@ const HomeStackNavigator = () => {
               }
               onRightPress={() => {
                 console.log('open menu 2', route?.params?.article);
-                 openShareMenu({
-                   title: route?.params?.article?.title || 'Share Article',
-                   message: route?.params?.article?.summaryEnglish || 'Test Message',
-                   url: route?.params?.article?.url || 'https://example.com/article',
-                 });
+                openShareMenu({
+                  title: route?.params?.article?.title || 'Share Article',
+                  message:
+                    route?.params?.article?.summaryEnglish || 'Test Message',
+                  url:
+                    route?.params?.article?.url ||
+                    'https://example.com/article',
+                });
               }}
             />
           ),

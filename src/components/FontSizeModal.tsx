@@ -8,6 +8,7 @@ import CustomButton from './CustomButton';
 import { ChevDown, ChevUp } from '../assets';
 import { FONT_SIZES } from '../constants';
 import HeaderText from './HeaderText';
+import { useFontSize } from '../context/FontSizeContext';
 
 interface Props {
   visible: boolean;
@@ -23,6 +24,14 @@ const FontSizeModal: React.FC<Props> = ({
   theme,
 }) => {
   const [showSizes, setShowSizes] = useState(false);
+  const { setFontSizeValue } = useFontSize(); // <- use setter
+
+  const handleFontSizeChange = (value: number) => {
+    setFontSizeValue(value); // <- set global font size adjustment
+    setShowSizes(false);
+    onChange(); // optionally do more
+    onCancel(); // optionally close modal
+  };
 
   const onBackDropAndSwipe = () => {
     setShowSizes(false);
@@ -56,7 +65,8 @@ const FontSizeModal: React.FC<Props> = ({
             title="Select Font Size"
             onPress={() => setShowSizes(!showSizes)}
             iconLeft={showSizes ? <ChevUp /> : <ChevDown />}
-            titleStyle={{ fontFamily: 'Gilroy-SemiBold', fontSize: 17 }}
+            titleStyle={{ fontFamily: 'Gilroy-SemiBold' }}
+            size={17}
           />
           <FlatList
             data={FONT_SIZES}
@@ -74,7 +84,7 @@ const FontSizeModal: React.FC<Props> = ({
               <TouchableOpacity
                 activeOpacity={0.7}
                 disabled={showSizes ? false : true}
-                onPress={onChange}
+                onPress={() => handleFontSizeChange(item.value)}
               >
                 <HeaderText
                   theme={theme}
@@ -151,16 +161,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     marginLeft: 8,
     alignItems: 'center',
-  },
-  cancelText: {
-    color: '#000',
-    fontSize: 15,
-    fontWeight: '500',
-  },
-  logoutText: {
-    color: '#fff',
-    fontSize: 15,
-    fontWeight: '500',
   },
 });
 

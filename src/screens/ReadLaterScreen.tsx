@@ -9,7 +9,7 @@ import {
 import { useFocusEffect, useTheme } from '@react-navigation/native';
 import { LegendList } from '@legendapp/list';
 
-import { CustomTile } from '../components';
+import { CustomText, CustomTile } from '../components';
 import {
   fetchAllReadLaterArticles,
   readLater,
@@ -112,7 +112,7 @@ const ReadLaterScreen: React.FC = () => {
         />
       ) : (
         <View style={styles.errorContainer}>
-          <Text style={{ color: theme.colors.text }}>{error}</Text>
+          <CustomText style={{ color: theme.colors.text }}>{error}</CustomText>
         </View>
       )}
     </SafeAreaView>

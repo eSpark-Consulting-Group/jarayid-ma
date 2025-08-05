@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -17,7 +17,7 @@ import { HeaderLogo, HeaderLogoDark } from '../assets';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../redux/slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useTranslation } from 'react-i18next';
 
 interface Language {
   code: string;
@@ -29,6 +29,8 @@ interface SelectLanguageProps {}
 
 const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'SelectLanguage'>>();
+  const { i18n } = useTranslation();
+
   const [loading, setLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(
     undefined,
@@ -38,14 +40,6 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   const languages: Language[] = [
     { code: 'en', name: 'English', nativeName: 'English' },
     { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
-    { code: 'fr', name: 'French', nativeName: 'Français' },
-    { code: 'es', name: 'Spanish', nativeName: 'Español' },
-    { code: 'de', name: 'German', nativeName: 'Deutsch' },
-    { code: 'it', name: 'Italian', nativeName: 'Italiano' },
-    { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
-    { code: 'ru', name: 'Russian', nativeName: 'Русский' },
-    { code: 'zh', name: 'Chinese', nativeName: '中文' },
-    { code: 'ja', name: 'Japanese', nativeName: '日本語' },
   ];
 
   const languageOptions: SelectorOption[] = languages.map(lang => ({
@@ -56,8 +50,20 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   }));
 
   const handleSelect = (option: SelectorOption) => {
+    console.log('kia mila option me', option);
     setSelectedLanguage(option.value);
   };
+
+  const getSelectedLanguage = async () => {
+    const storedLang = await AsyncStorage.getItem('appLanguage');
+    if (storedLang) {
+      setSelectedLanguage(storedLang);
+    }
+  };
+
+  useEffect(() => {
+    getSelectedLanguage();
+  }, []);
 
   return (
     <SafeAreaView
@@ -84,12 +90,13 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
               },
             ]}
           >
-            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+            <CustomText fontFamily="Gilroy-Bold" size={28} style={styles.title}>
               Choose Language
             </CustomText>
             <CustomText
               fontFamily="Gilroy-Regular"
               style={styles.subtitle}
+              size={16}
               color={theme.dark ? '#999' : '#666'}
             >
               Add your details below to get back into the app
@@ -108,7 +115,7 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
               title="Select"
               disabled={!selectedLanguage}
               onPress={() => {
-                AsyncStorage.setItem('selectedLanguage', selectedLanguage || 'en');
+                i18n.changeLanguage(selectedLanguage);
                 dispatch(setLanguage(selectedLanguage || 'en'));
                 navigation.navigate('Home');
               }}
@@ -145,11 +152,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   title: {
-    fontSize: 28,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
     marginBottom: 32,
     lineHeight: 22,
   },
@@ -159,11 +164,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   linkText: {
-    fontSize: 14,
     color: '#666',
   },
   link: {
-    fontSize: 14,
     color: '#4A90E2',
     fontWeight: '500',
   },
@@ -174,7 +177,6 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: '#4A90E2',
-    fontSize: 14,
     fontWeight: '500',
   },
 });

@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomText from './CustomText';
 import useTheme from '../theme/useTheme';
+import { useFontSize } from '../context/FontSizeContext';
 
 interface CustomInputProps extends TextInputProps {
   label?: string;
@@ -32,6 +33,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
   ...props
 }) => {
   const theme = useTheme();
+  const { fontSizeValue } = useFontSize();
+
   return (
     <View style={styles.container}>
       {label ? (
@@ -69,6 +72,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             ) : null}
           </>
         )}
+        {/* need to handle font size */}
         <TextInput
           style={[
             styles.input,
@@ -77,13 +81,18 @@ const CustomInput: React.FC<CustomInputProps> = ({
             {
               color: theme.dark ? '#efefefff' : '#333',
               fontFamily: 'Gilroy-Medium',
+              fontSize: 16 + fontSizeValue,
             },
           ]}
           placeholderTextColor={hasError ? '#E74C3C' : '#999'}
           {...props}
         />
       </View>
-      {error && <CustomText style={styles.errorText}>{error}</CustomText>}
+      {error && (
+        <CustomText style={styles.errorText} size={12}>
+          {error}
+        </CustomText>
+      )}
     </View>
   );
 };
@@ -93,7 +102,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
-    fontSize: 14,
     marginBottom: 8,
     fontWeight: '500',
   },
@@ -113,14 +121,12 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 16,
     color: '#333',
   },
   inputTextError: {
     color: '#E74C3C',
   },
   errorText: {
-    fontSize: 12,
     color: '#E74C3C',
     marginTop: 4,
   },

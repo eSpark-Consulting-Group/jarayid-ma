@@ -92,7 +92,11 @@ const SearchScreen: React.FC = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <CustomText fontFamily="Gilroy-SemiBold" style={styles.headerText}>
+      <CustomText
+        fontFamily="Gilroy-SemiBold"
+        size={23}
+        style={styles.headerText}
+      >
         Search
       </CustomText>
 
@@ -138,7 +142,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   headerText: {
-    fontSize: 23,
     marginBottom: 10,
     paddingHorizontal: 20,
   },

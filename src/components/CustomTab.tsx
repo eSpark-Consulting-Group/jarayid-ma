@@ -78,14 +78,11 @@ const CustomTab: React.FC<CustomTabProps> = ({
         ]}
       >
         <CustomText
-          style={[
-            styles.tabText,
-            { fontSize: isLong ? 11 : 13 },
-            isSelected && styles.tabTextSelected,
-          ]}
+          style={[styles.tabText, isSelected && styles.tabTextSelected]}
           numberOfLines={1}
           adjustsFontSizeToFit
           color={isSelected ? '#fff' : theme.dark ? '#b6b3b3ff' : '#000'}
+          size={isLong ? 11 : 13}
         >
           {item.name}
         </CustomText>

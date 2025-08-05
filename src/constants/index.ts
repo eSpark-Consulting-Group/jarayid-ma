@@ -87,10 +87,10 @@ export const COMMENTS_DATA = [
 ];
 
 export const FONT_SIZES = [
-  { name: 'Small', size: 15 },
-  { name: 'Normal', size: 20 },
-  { name: 'Meduim', size: 25 },
-  { name: 'Large', size: 30 },
+  // { name: 'Small', size: 15 },
+  { name: 'Small', size: 14, value: -2 },
+  { name: 'Medium', size: 17, value: 0 },
+  { name: 'Large', size: 20, value: 2 },
 ];
 
 export const NO_THUMBNAIL_URL =

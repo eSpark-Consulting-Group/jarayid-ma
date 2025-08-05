@@ -21,6 +21,7 @@ interface ButtonGradientProps {
   iconLeft?: React.ReactNode;
   isHeader?: boolean;
   theme?: ReactNavigation.Theme;
+  size?: number;
 }
 
 const ButtonGradient: React.FC<ButtonGradientProps> = ({
@@ -34,6 +35,7 @@ const ButtonGradient: React.FC<ButtonGradientProps> = ({
   iconLeft,
   isHeader,
   theme,
+  size,
 }) => {
   return (
     <TouchableOpacity
@@ -49,11 +51,15 @@ const ButtonGradient: React.FC<ButtonGradientProps> = ({
         style={[styles.gradient, gradientStyle]}
       >
         {isHeader ? (
-          <HeaderText style={[styles.buttonText, textStyle]} theme={theme!}>
+          <HeaderText
+            style={[styles.buttonText, textStyle]}
+            theme={theme!}
+            size={size || 16}
+          >
             {title}
           </HeaderText>
         ) : (
-          <CustomText style={[styles.buttonText, textStyle]}>
+          <CustomText style={[styles.buttonText, textStyle]} size={size || 16}>
             {title}
           </CustomText>
         )}
@@ -77,8 +83,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
   },
 });
 

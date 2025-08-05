@@ -44,6 +44,7 @@ const ExperienceRatingModal: React.FC<Props> = ({
             fontFamily="Gilroy-Bold"
             color={theme.dark ? theme.colors.text : '#000'}
             style={styles.title}
+            size={26}
           >
             How’s your{'\n'}experience so far?
           </HeaderText>
@@ -52,6 +53,7 @@ const ExperienceRatingModal: React.FC<Props> = ({
             fontFamily="Gilroy-SemiBold"
             color={theme.dark ? theme.colors.text : '#9098A3'}
             style={styles.subtitle}
+            size={17}
           >
             We’d love to know!
           </HeaderText>
@@ -65,7 +67,7 @@ const ExperienceRatingModal: React.FC<Props> = ({
                 ]}
                 onPress={() => onSelect(index + 1)}
               >
-                <HeaderText theme={theme} style={[styles.emoji]}>
+                <HeaderText theme={theme} size={24}>
                   {emoji}
                 </HeaderText>
               </TouchableOpacity>
@@ -103,14 +105,12 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: 26,
     fontWeight: '700',
     marginBottom: 8,
     lineHeight: 28,
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: 17,
     fontWeight: '500',
     marginBottom: 15,
     lineHeight: 28,
@@ -128,9 +128,6 @@ const styles = StyleSheet.create({
     height: 54,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  emoji: {
-    fontSize: 24,
   },
 });
 

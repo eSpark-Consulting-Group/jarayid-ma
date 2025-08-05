@@ -1,0 +1,59 @@
+{
+  "language": "Arabic",
+  "header": {
+    "otherSettings": "إعدادات أخرى",
+    "menu": {
+      "editProfile": "تعديل الملف الشخصي",
+      "editNewSource": "تعديل مصدر الأخبار",
+      "readLater": "اقرأ لاحقًا",
+      "editNotification": "تعديل الإشعارات",
+      "socialAccounts": "حسابات جريدة Jarayid على وسائل التواصل",
+      "advertiseHere": "أعلن هنا",
+      "rateApp": "قيّم Jarayid.com",
+      "subscribe": "اشترك في Jarayid Plus",
+      "shareApp": "مشاركة التطبيق",
+      "lightMode": "الوضع الفاتح",
+      "darkMode": "الوضع الداكن",
+      "fontSize": "حجم الخط",
+      "selectLang": "اختر اللغة",
+      "faqs": "الأسئلة الشائعة",
+      "termsOfUse": "شروط الاستخدام",
+      "privacyPolicy": "سياسة الخصوصية",
+      "contactUs": "اتصل بنا",
+      "logout": "تسجيل الخروج"
+    }
+  },
+  "screens": {
+    "home": {
+      "title": "الشاشة الرئيسية",
+      "text": {
+        "categories": "الفئات",
+        "subcategories": "الفئات الفرعية",
+        "readLaterSuccess": "تم حفظ المقال للقراءة لاحقًا",
+        "readLaterError": "فشل في حفظ المقال",
+        "comment": "تعليق",
+        "save": "حفظ",
+        "saved": "تم الحفظ",
+        "viewMore": "عرض المزيد",
+        "noArticles": "لا توجد مقالات متاحة",
+        "exploreCategories": "استكشاف الفئات"
+      },
+      "placeholders": {
+        "loadingCategories": "جاري تحميل الفئات...",
+        "loadingArticles": "جاري جلب المقالات..."
+      },
+      "buttons": {
+        "readLater": "اقرأ لاحقًا",
+        "viewArticle": "عرض المقال"
+      }
+    },
+    "article": {
+      "addComments": "أضف تعليقًا",
+      "comment": "تعليق",
+      "comments": "تعليقات",
+      "commentPlaceholder": "أضف تعليقًا...",
+      "mostRead": "الأكثر قراءة",
+      "aiNotice": "ملاحظة: هذا ملخص تم إنشاؤه بواسطة الذكاء الاصطناعي وقد يكون غير دقيق أحيانًا"
+    }
+  }
+}

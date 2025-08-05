@@ -14,6 +14,9 @@ import RootNavigation from './src/navigation/index';
 import { store } from './src/redux/store';
 import { ThemeProvider } from './src/context/ThemeContext';
 import ToastConfig from './src/utils/toastConfig';
+import { FontSizeProvider } from './src/context/FontSizeContext';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './src/localization/i18n';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,17 +27,21 @@ function App() {
       <View style={styles.container}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <ThemeProvider>
-          <Provider store={store}>
-            <MenuProvider
-              style={{ flex: 1 }}
-              customStyles={{
-                backdrop: { backgroundColor: '#000', opacity: 0.5 },
-              }}
-            >
-              <RootNavigation />
-              <ToastConfig />
-            </MenuProvider>
-          </Provider>
+          <I18nextProvider i18n={i18n}>
+            <FontSizeProvider>
+              <Provider store={store}>
+                <MenuProvider
+                  style={{ flex: 1 }}
+                  customStyles={{
+                    backdrop: { backgroundColor: '#000', opacity: 0.5 },
+                  }}
+                >
+                  <RootNavigation />
+                  <ToastConfig />
+                </MenuProvider>
+              </Provider>
+            </FontSizeProvider>
+          </I18nextProvider>
         </ThemeProvider>
       </View>
     </SafeAreaProvider>

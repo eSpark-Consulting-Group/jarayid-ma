@@ -24,12 +24,24 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
 }) => {
   return (
     <View style={styles.card}>
-      <CustomText fontFamily='Gilroy-SemiBold' style={styles.title}>{title}</CustomText>
-      <CustomText fontFamily='Gilroy-Regular' style={styles.description}>{description}</CustomText>
+      <CustomText fontFamily="Gilroy-SemiBold" size={18} style={styles.title}>
+        {title}
+      </CustomText>
+      <CustomText
+        fontFamily="Gilroy-Regular"
+        size={13}
+        style={styles.description}
+      >
+        {description}
+      </CustomText>
 
       <View style={styles.priceRow}>
-        <CustomText fontFamily='Gilroy-Bold' style={styles.price}>{price}</CustomText>
-        <CustomText fontFamily='Gilroy-Regular' style={styles.priceUnit}>{priceUnit}</CustomText>
+        <CustomText fontFamily="Gilroy-Bold" size={28} style={styles.price}>
+          {price}
+        </CustomText>
+        <CustomText fontFamily="Gilroy-Regular" style={styles.priceUnit}>
+          {priceUnit}
+        </CustomText>
       </View>
 
       <TouchableOpacity onPress={onPress} activeOpacity={0.85}>
@@ -39,7 +51,9 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
           end={{ x: 1, y: 1 }}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>{buttonLabel}</Text>
+          <CustomText size={15} style={styles.buttonText}>
+            {buttonLabel}
+          </CustomText>
           <ArrowTopRight style={{ marginLeft: 6 }} />
         </LinearGradient>
       </TouchableOpacity>
@@ -54,17 +68,15 @@ const styles = StyleSheet.create({
     padding: 16,
     width: '90%',
     alignSelf: 'center',
-    paddingVertical: 25
+    paddingVertical: 25,
   },
   title: {
     color: '#fff',
-    fontSize: 18,
     fontWeight: '700',
     marginBottom: 8,
   },
   description: {
     color: '#DADADA',
-    fontSize: 13,
     fontWeight: '400',
     marginBottom: 16,
     lineHeight: 20,
@@ -76,12 +88,11 @@ const styles = StyleSheet.create({
   },
   price: {
     color: '#fff',
-    fontSize: 28,
     fontWeight: '700',
   },
   priceUnit: {
     color: '#fff',
-    fontSize: 14,
+
     fontWeight: '500',
     marginLeft: 6,
     marginBottom: 4,
@@ -95,7 +106,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 15,
     fontWeight: '600',
   },
 });

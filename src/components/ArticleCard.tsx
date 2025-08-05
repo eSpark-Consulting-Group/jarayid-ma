@@ -39,7 +39,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         <Image
           source={{ uri: sourceIcon }}
           style={{ width: 66, height: 44 }}
-          resizeMode="cover"
+          resizeMode="contain"
         />
         <CustomText size={12} color="#6B7280" style={styles.time}>
           {time}
@@ -68,7 +68,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         title="View Original Article"
         onPress={openLink}
         gradientStyle={styles.viewButton}
-        textStyle={styles.buttonText}
+        size={13}
       />
     </View>
   );
@@ -120,9 +120,6 @@ const styles = StyleSheet.create({
     width: 145,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  buttonText: {
-    fontSize: 13,
   },
 });
 
