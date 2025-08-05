@@ -3,6 +3,8 @@ import { View, Image, StyleSheet, Pressable, ViewStyle } from 'react-native';
 import { CommentLogo, SaveFilledLogo, SaveLogo, Share } from '../assets';
 import CustomText from './CustomText';
 import useTheme from '../theme/useTheme';
+import { openShareMenu } from '../utils/shareUtils';
+import { Article } from '../types';
 
 interface CustomTileProps {
   image: string;
@@ -14,6 +16,7 @@ interface CustomTileProps {
   onImagePress: () => void;
   isSaved: boolean;
   style?: ViewStyle;
+  data?: Article
 }
 
 const CustomTile: React.FC<CustomTileProps> = ({
@@ -26,6 +29,7 @@ const CustomTile: React.FC<CustomTileProps> = ({
   onImagePress,
   isSaved,
   style,
+  data
 }) => {
   const theme = useTheme();
   return (
@@ -76,7 +80,13 @@ const CustomTile: React.FC<CustomTileProps> = ({
                 <SaveLogo width={26} height={26} />
               )}
             </Pressable>
-            <Pressable onPress={onCommentPress}>
+            <Pressable onPress={() => {
+              openShareMenu({
+                title: data?.title || 'Share Article',
+                message: data?.summaryEnglish || 'Test Message',
+                url: data?.url || 'https://example.com/article',
+              });
+            }}>
               <Share width={26} height={26} />
             </Pressable>
           </View>
