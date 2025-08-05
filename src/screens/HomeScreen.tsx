@@ -20,6 +20,7 @@ import useTheme from '../theme/useTheme';
 import { setArticles, setSelectedCategory } from '../redux/slices/homeSlice';
 import { readLater } from '../services/readLaterService';
 import { getArticles } from '../services/articleService';
+import { useTranslation } from 'react-i18next';
 
 interface HomeScreenProps {
   navigation: any;
@@ -27,6 +28,7 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const navigation = useNavigation<HomeStackNavigationProp<'Home'>>();
+  const { t } = useTranslation();
 
   const user = useSelector((state: RootState) => state.auth);
   const { categories, selectedCategory, articles } = useSelector(
@@ -97,7 +99,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     [categories],
   );
 
-  console.log("articles", articles)
+  console.log('articles', articles);
   return (
     <SafeAreaView style={styles(theme.navigationTheme).container}>
       <ScrollView

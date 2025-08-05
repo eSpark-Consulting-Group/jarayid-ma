@@ -14,7 +14,8 @@ const NotificationScreen: React.FC = () => {
     >
       <CustomText
         fontFamily="Gilroy-Bold"
-        style={{ fontSize: 23, marginBottom: 10, paddingHorizontal: 20 }}
+        size={23}
+        style={{ marginBottom: 10, paddingHorizontal: 20 }}
       >
         Notifications
       </CustomText>

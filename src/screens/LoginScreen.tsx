@@ -84,8 +84,8 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         password: password,
         loginType: 'local',
       });
-      console.log("res", res);
-      
+      console.log('res', res);
+
       if (res?.status == 'success') {
         console.log('res', res);
         dispatch(setUser(res.data));
@@ -134,13 +134,14 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               },
             ]}
           >
-            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+            <CustomText fontFamily="Gilroy-Bold" size={28} style={styles.title}>
               Login
             </CustomText>
             <CustomText
               fontFamily="Gilroy-Regular"
               color={theme.dark ? '#999' : '#666'}
               style={styles.subtitle}
+              size={16}
             >
               Add your details below to get back into the app
             </CustomText>
@@ -222,11 +223,9 @@ const styles = StyleSheet.create({
     // backgroundColor: '#FFF',
   },
   title: {
-    fontSize: 28,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
     // color: ,
     marginBottom: 32,
     lineHeight: 22,
@@ -236,11 +235,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-  linkText: {
-    fontSize: 14,
-  },
+  linkText: {},
   link: {
-    fontSize: 14,
     color: '#4A90E2',
     fontWeight: '500',
   },
@@ -251,7 +247,6 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: '#4A90E2',
-    fontSize: 14,
     fontWeight: '500',
   },
 });

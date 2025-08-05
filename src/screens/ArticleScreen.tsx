@@ -7,11 +7,14 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import { CustomTile, CustomText } from '../components';
 import { TILES_DATA, COMMENTS_DATA, DUMMY_ARTICLE } from '../constants';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import CommentItem from '../components/CommentItem';
 import ArticleCard from '../components/ArticleCard';
 import AdBanner from '../components/AdBanner';
@@ -19,8 +22,12 @@ import useTheme from '../theme/useTheme';
 import { HomeStackRouteProp } from '../navigation/navigation';
 import { extractFields, getInitials, timeAgo, timeWithAmPm } from '../utils';
 import { Article, Comment } from '../types';
-import { commentArticle, getArticles } from '../services/articleService';
-import { useSelector } from 'react-redux';
+import {
+  commentArticle,
+  getArticleById,
+  getArticles,
+  getTrendingArticles,
+} from '../services/articleService';
 import { RootState } from '../redux/store';
 import { Send } from '../assets';
 
@@ -52,27 +59,44 @@ const getInitialCommentStates = (): Record<string, CommentState> => {
 const ArticleScreen: React.FC<ArticleScreenProps> = () => {
   const theme = useTheme();
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const route = useRoute<HomeStackRouteProp<'Article'>>();
   const articleData = route.params?.article || DUMMY_ARTICLE;
 
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [tileStates, setTileStates] = useState<Record<string, TileState>>({});
+  const [loading, setLoading] = useState(false);
+  const [article, setArticle] = useState<Article | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
 
   const [comment, setComment] = useState('');
 
   useEffect(() => {
+    fetchArticleById();
     fetchArticles();
   }, []);
 
+  const fetchArticleById = async (reset = false) => {
+    setLoading(true);
+    try {
+      const data = await getArticleById(articleData.id);
+      setArticle(data.article);
+      setLoading(false);
+    } catch (err) {
+      console.error('Search error:', err);
+      setLoading(false);
+    }
+  };
+
   const fetchArticles = async (reset = false) => {
     try {
-      const data = await getArticles({
+      const data = await getTrendingArticles({
+        period: '7d',
         page: 1,
         limit: 2,
       });
-      const newItems = data.items || [];
+      const newItems = data.articles || [];
       setArticles(newItems);
     } catch (err) {
       console.error('Search error:', err);
@@ -81,7 +105,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
 
   const sendComment = async () => {
     try {
-      const data = await commentArticle({
+      await commentArticle({
         articleId: articleData.id,
         content: comment,
       });
@@ -144,90 +168,102 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <AdBanner
-          image={require('../assets/images/ad-banner.png')} // or { uri: 'https://example.com/banner.png' }
-          link="https://your-ad-landing-page.com"
-        />
-        <ArticleCard
-          sourceIcon={articleData.rssFeed.logo} // Your SVG Component
-          // sourceIcon={<BBCSvg />} // Your SVG Component
-          time={timeWithAmPm(articleData.publishedAt)}
-          image={articleData.image} // or use a remote URI
-          title={
-            extractFields(
-              articleData.originalContent.scrapedContent.translatedContent
-                .englishContent,
-            ).title
-          }
-          summary={
-            articleData.summaryEnglish ??
-            "Carlos Alcaraz said he had 'no expectations' coming into the grass-court season but he installed himself as a clear favourite to retain his Wimbledon title after beating Jiri Lehecka to win the HSBC Championships."
-          }
-          notice="Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
-          articleLink={articleData.url}
-        />
-        <AdBanner
-          image={require('../assets/images/ad-banner.png')} // or { uri: 'https://example.com/banner.png' }
-          link="https://your-ad-landing-page.com"
-        />
-        <View style={styles.header}>
-          <CustomText fontFamily="Gilroy-Bold">Add Comments</CustomText>
-          <CustomText fontFamily="Gilroy-Bold" color="#007BFF">
-            {articleData?.comments?.length == 1
-              ? articleData.comments?.length + ' ' + 'Comment'
-              : articleData.comments?.length + ' ' + 'Comments'}
-          </CustomText>
+      {loading ? (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
-
-        <View style={styles.addComment}>
-          <View style={styles.avatar}>
-            <CustomText style={styles.avatarText}>
-              {getInitials(user?.name || 'John Doe')}
+      ) : article ? (
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <AdBanner
+            image={require('../assets/images/ad-banner.png')} // or { uri: 'https://example.com/banner.png' }
+            link="https://your-ad-landing-page.com"
+          />
+          <ArticleCard
+            sourceIcon={article.rssFeed.logo} // Your SVG Component
+            // sourceIcon={<BBCSvg />} // Your SVG Component
+            time={timeWithAmPm(article.publishedAt)}
+            image={article.image} // or use a remote URI
+            title={
+              extractFields(
+                article.originalContent.scrapedContent.translatedContent
+                  .englishContent,
+              ).title
+            }
+            summary={
+              article.summaryEnglish ??
+              "Carlos Alcaraz said he had 'no expectations' coming into the grass-court season but he installed himself as a clear favourite to retain his Wimbledon title after beating Jiri Lehecka to win the HSBC Championships."
+            }
+            notice={t('screens.article.aiNotice')}
+            articleLink={article.url}
+          />
+          <AdBanner
+            image={require('../assets/images/ad-banner.png')} // or { uri: 'https://example.com/banner.png' }
+            link="https://your-ad-landing-page.com"
+          />
+          <View style={styles.header}>
+            <CustomText fontFamily="Gilroy-Bold">
+              {t('screens.article.addComments')}
+            </CustomText>
+            <CustomText fontFamily="Gilroy-Bold" color="#007BFF">
+              {article.comments?.length == 1
+                ? article.comments?.length + ' ' + t('screens.article.comment')
+                : article.comments?.length +
+                  ' ' +
+                  t('screens.article.comments')}
             </CustomText>
           </View>
-          <TextInput
-            placeholder="Add a comment..."
-            placeholderTextColor={theme.dark ? 'grey' : '#00000064'}
-            onChangeText={e => setComment(e)}
-            style={[
-              styles.commentInput,
-              {
-                borderColor: theme.dark ? 'grey' : '#E5E7EB',
-                color: theme.colors.text,
-              },
-            ]}
-          />
-          <TouchableOpacity
-            activeOpacity={0.9}
-            disabled={comment ? false : true}
-            style={[
-              styles.sendBtn,
-              { backgroundColor: comment ? '#005BBC' : '#aaa' },
-            ]}
-            onPress={sendComment}
-          >
-            <Send color={'#fff'} width={30} height={30} />
-          </TouchableOpacity>
-        </View>
 
-        <FlatList
-          data={articleData.comments}
-          renderItem={renderCommentItem}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-        />
-
-        {articles.length > 0 ? (
-          <View style={styles.card}>
-            <CustomText fontFamily="Gilroy-Bold">Most Read</CustomText>
-            {articles.map(renderTileItem)}
+          <View style={styles.addComment}>
+            <View style={styles.avatar}>
+              <CustomText style={styles.avatarText} size={16}>
+                {getInitials(user?.name || 'John Doe')}
+              </CustomText>
+            </View>
+            <TextInput
+              placeholder={t('screens.article.commentPlaceholder')}
+              placeholderTextColor={theme.dark ? 'grey' : '#00000064'}
+              onChangeText={e => setComment(e)}
+              style={[
+                styles.commentInput,
+                {
+                  borderColor: theme.dark ? 'grey' : '#E5E7EB',
+                  color: theme.colors.text,
+                },
+              ]}
+            />
+            <TouchableOpacity
+              activeOpacity={0.9}
+              disabled={comment ? false : true}
+              style={[
+                styles.sendBtn,
+                { backgroundColor: comment ? '#005BBC' : '#aaa' },
+              ]}
+              onPress={sendComment}
+            >
+              <Send color={'#fff'} width={30} height={30} />
+            </TouchableOpacity>
           </View>
-        ) : null}
-      </ScrollView>
+
+          <FlatList
+            data={article.comments}
+            renderItem={renderCommentItem}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+          />
+
+          {articles?.length > 0 ? (
+            <View style={styles.card}>
+              <CustomText fontFamily="Gilroy-Bold">
+                {t('screens.article.mostRead')}
+              </CustomText>
+              {articles.map(renderTileItem)}
+            </View>
+          ) : null}
+        </ScrollView>
+      ) : null}
     </SafeAreaView>
   );
 };
@@ -269,7 +305,6 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: '#fff',
-    fontSize: 16,
     fontWeight: '700',
   },
   sendBtn: {
@@ -290,6 +325,11 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     marginVertical: 20,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

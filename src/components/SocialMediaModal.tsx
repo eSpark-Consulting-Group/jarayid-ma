@@ -53,6 +53,7 @@ const SocialMediaModal: React.FC<Props> = ({
           fontFamily="Gilroy-SemiBold"
           color={theme.dark ? theme.colors.text : '#000'}
           style={styles.title}
+          size={23}
         >
           Jarayid Social Media
         </HeaderText>
@@ -64,6 +65,7 @@ const SocialMediaModal: React.FC<Props> = ({
               <HeaderText
                 theme={theme}
                 style={styles.iconLabel}
+                size={13}
                 color={theme.dark ? theme.colors.text : '#111'}
               >
                 {item.name}
@@ -102,7 +104,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    fontSize: 23,
     fontWeight: '700',
     marginBottom: 24,
   },
@@ -125,7 +126,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   iconLabel: {
-    fontSize: 13,
     fontWeight: '500',
   },
   shareButton: {

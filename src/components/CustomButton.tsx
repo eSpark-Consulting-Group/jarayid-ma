@@ -20,6 +20,7 @@ interface CustomButtonProps {
   titleColor?: string;
   iconLeft?: React.ReactNode;
   titleStyle?: TextStyle;
+  size?: number;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -32,6 +33,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   titleColor = variant == 'secondary' ? '#3281CA' : '#FFF',
   iconLeft,
   titleStyle,
+  size,
 }) => {
   return (
     <TouchableOpacity
@@ -52,6 +54,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
           <CustomText
             color={titleColor}
             style={[styles.buttonText, titleStyle]}
+            size={size || 16}
           >
             {title}
           </CustomText>
@@ -81,7 +84,6 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   buttonText: {
-    fontSize: 16,
     fontWeight: '600',
   },
 });

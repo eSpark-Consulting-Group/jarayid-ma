@@ -11,7 +11,11 @@ const SubscriptionScreen: React.FC = () => {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <CustomText fontFamily="Gilroy-SemiBold" style={styles.headerText}>
+      <CustomText
+        fontFamily="Gilroy-SemiBold"
+        size={23}
+        style={styles.headerText}
+      >
         Subscribe Jarayid Plus
       </CustomText>
       <View style={styles.cardsContainer}>
@@ -37,7 +41,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    fontSize: 23,
     marginVertical: 20,
     textAlign: 'left',
     paddingHorizontal: 20,

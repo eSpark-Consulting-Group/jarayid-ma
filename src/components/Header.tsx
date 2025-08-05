@@ -41,6 +41,7 @@ import SocialMediaModal from './SocialMediaModal';
 import { logout } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
 import HeaderText from './HeaderText';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   LeftIcon?: React.ReactNode;
@@ -69,104 +70,88 @@ const Header: React.FC<HeaderProps> = ({
   const [showFontSizer, setShowFontSizer] = React.useState(false);
   const [showSocialModal, setShowSocialModal] = React.useState(false);
   const [showSocialMedia, setShowSocialMedia] = React.useState(false);
+  const { t } = useTranslation();
 
   const MenuData = [
     {
-      label: 'Edit Profile',
+      label: t('header.menu.editProfile'),
       icon: <Vector0 />,
       onPress: () => navigation.navigate('ProfileScreen'),
     },
-    // { label: 'Setting', icon: <Vector1 /> },
     {
-      label: 'Edit New Source',
+      label: t('header.menu.editNewSource'),
       icon: <Vector2 />,
       onPress: () => navigation.navigate('EditNewSource'),
     },
     {
-      label: 'Read Later',
+      label: t('header.menu.readLater'),
       icon: <Vector3 />,
       onPress: () => navigation.navigate('ReadLaterScreen'),
     },
     {
-      label: 'Edit Notification',
+      label: t('header.menu.editNotification'),
       icon: <Vector4 />,
       onPress: () => navigation.navigate('NotificationSettings'),
     },
     {
-      label: 'Jarayid Social Media Accounts',
+      label: t('header.menu.socialAccounts'),
       icon: <Vector5 />,
-      onPress: () => {
-        setTimeout(() => {
-          setShowSocialMedia(true);
-        }, 500);
-      },
+      onPress: () => setTimeout(() => setShowSocialMedia(true), 500),
     },
     {
-      label: 'Advertise here',
+      label: t('header.menu.advertiseHere'),
       icon: <Vector6 />,
       onPress: () => navigation.navigate('AdvertiseHere'),
     },
     {
-      label: 'Rate Jarayid.com',
+      label: t('header.menu.rateApp'),
       icon: <Vector7 />,
-      onPress: () => {
-        setTimeout(() => {
-          setShowRate(true);
-        }, 500);
-      },
+      onPress: () => setTimeout(() => setShowRate(true), 500),
     },
     {
-      label: 'Subscription Jarayid Plus',
+      label: t('header.menu.subscribe'),
       icon: <Vector8 />,
       onPress: () => navigation.navigate('SubscriptionScreen'),
     },
     {
-      label: 'Share The App',
+      label: t('header.menu.shareApp'),
       icon: <Vector9 />,
-      onPress: () => {
-        setTimeout(() => {
-          setShowSocialModal(true);
-        }, 500);
-      },
+      onPress: () => setTimeout(() => setShowSocialModal(true), 500),
     },
     {
-      label: theme.dark ? 'Light Mode' : 'Dark Mode',
+      label: t(theme.dark ? 'header.menu.lightMode' : 'header.menu.darkMode'),
       icon: <Vector10 />,
       onPress: theme.toggleTheme,
     },
     {
-      label: 'Font Size',
+      label: t('header.menu.fontSize'),
       icon: <Vector11 />,
       onPress: () => setShowFontSizer(true),
     },
     {
-      label: 'FAQs',
+      label: t('header.menu.faqs'),
       icon: <Vector12 />,
       onPress: () => navigation.navigate('FAQScreen'),
     },
     {
-      label: 'Terms of Use',
+      label: t('header.menu.termsOfUse'),
       icon: <Vector13 />,
       onPress: () => navigation.navigate('TermOfUse'),
     },
     {
-      label: 'Privacy Policy',
+      label: t('header.menu.privacyPolicy'),
       icon: <Vector14 />,
       onPress: () => navigation.navigate('PrivacyPolicy'),
     },
     {
-      label: 'Contact Us',
+      label: t('header.menu.contactUs'),
       icon: <Vector15 />,
       onPress: () => navigation.navigate('ContactUs'),
     },
     {
-      label: 'Logout',
+      label: t('header.menu.logout'),
       icon: <Vector16 />,
-      onPress: () => {
-        setTimeout(() => {
-          setShowLogout(true);
-        }, 500);
-      },
+      onPress: () => setTimeout(() => setShowLogout(true), 500),
     },
   ];
 
@@ -262,8 +247,9 @@ const Header: React.FC<HeaderProps> = ({
                 color="#004A99"
                 theme={theme.navigationTheme}
               >
-                Other Settings
+                {t('header.otherSettings')}
               </HeaderText>
+
               <FlatList
                 data={MenuData}
                 keyExtractor={(item, index) => `${item.label}-${index}`}

@@ -18,7 +18,6 @@ import { useDispatch } from 'react-redux';
 import { setLanguage } from '../redux/slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 interface Language {
   code: string;
   name: string;
@@ -84,12 +83,13 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
               },
             ]}
           >
-            <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+            <CustomText fontFamily="Gilroy-Bold" size={28} style={styles.title}>
               Choose Language
             </CustomText>
             <CustomText
               fontFamily="Gilroy-Regular"
               style={styles.subtitle}
+              size={16}
               color={theme.dark ? '#999' : '#666'}
             >
               Add your details below to get back into the app
@@ -108,7 +108,10 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
               title="Select"
               disabled={!selectedLanguage}
               onPress={() => {
-                AsyncStorage.setItem('selectedLanguage', selectedLanguage || 'en');
+                AsyncStorage.setItem(
+                  'selectedLanguage',
+                  selectedLanguage || 'en',
+                );
                 dispatch(setLanguage(selectedLanguage || 'en'));
                 navigation.navigate('Home');
               }}
@@ -145,11 +148,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   title: {
-    fontSize: 28,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
     marginBottom: 32,
     lineHeight: 22,
   },
@@ -159,11 +160,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   linkText: {
-    fontSize: 14,
     color: '#666',
   },
   link: {
-    fontSize: 14,
     color: '#4A90E2',
     fontWeight: '500',
   },
@@ -174,7 +173,6 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: '#4A90E2',
-    fontSize: 14,
     fontWeight: '500',
   },
 });

@@ -147,6 +147,7 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
                       : '#555555',
                   },
                 ]}
+                size={12}
               >
                 {label}
               </CustomText>
@@ -158,6 +159,7 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
                   styles.centerLabel,
                   { color: theme.dark ? '#b6b3b3ff' : '#222' },
                 ]}
+                size={12}
               >
                 {label}
               </CustomText>
@@ -204,7 +206,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   label: {
-    fontSize: 12,
     fontWeight: '500',
   },
   activeLabel: {
@@ -214,7 +215,6 @@ const styles = StyleSheet.create({
     color: '#555555',
   },
   centerLabel: {
-    fontSize: 12,
     fontWeight: '500',
     marginTop: 4,
   },

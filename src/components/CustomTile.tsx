@@ -55,7 +55,7 @@ const CustomTile: React.FC<CustomTileProps> = ({
         </CustomText>
         <View style={styles.contentContainer}>
           <View>
-            <CustomText style={styles.source}>
+            <CustomText style={styles.source} size={12}>
               Source:{' '}
               <CustomText
                 color="#0F62FE"
@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   source: {
-    fontSize: 12,
     color: '#0F62FE',
   },
   title: {
@@ -132,11 +131,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-  },
-  shareLabel: {
-    fontSize: 10,
-    color: '#9CA3AF',
-    marginTop: 4,
   },
 });
 

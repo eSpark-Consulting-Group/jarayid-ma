@@ -38,7 +38,8 @@ const PrivacyPolicy: React.FC = () => {
       <View style={{ paddingHorizontal: 20 }}>
         <CustomText
           fontFamily="Gilroy-SemiBold"
-          style={{ fontSize: 23, marginBottom: 20 }}
+          size={23}
+          style={{ marginBottom: 20 }}
         >
           Privacy Policy
         </CustomText>
@@ -53,7 +54,8 @@ const PrivacyPolicy: React.FC = () => {
           >
             <CustomText
               fontFamily="Gilroy-Regular"
-              style={{ fontSize: 16, lineHeight: 24 }}
+              size={16}
+              style={{ lineHeight: 24 }}
             >
               {loading ? 'Loading...' : content}
             </CustomText>

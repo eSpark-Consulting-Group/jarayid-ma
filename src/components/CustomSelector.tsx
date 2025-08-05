@@ -11,6 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomText from './CustomText';
 import useTheme from '../theme/useTheme';
+import { useFontSize } from '../context/FontSizeContext';
 
 export interface SelectorOption {
   value: string;
@@ -45,6 +46,8 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
   modalTitle,
 }) => {
   const theme = useTheme();
+  const { fontSizeValue } = useFontSize();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
 
@@ -94,7 +97,7 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
           />
         )}
         <View style={styles.optionText}>
-          <CustomText fontFamily="Gilroy-Medium" style={styles.optionLabel}>
+          <CustomText fontFamily="Gilroy-Medium" size={16}>
             {item.label}
           </CustomText>
           {item.subtitle && (
@@ -139,6 +142,7 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
             !selectedOption && styles.placeholderText,
             hasError && styles.selectorTextError,
           ]}
+          size={16}
         >
           {selectedOption ? selectedOption.label : placeholder}
         </CustomText>
@@ -158,7 +162,11 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
         />
       </TouchableOpacity>
 
-      {error && <CustomText style={styles.errorText}>{error}</CustomText>}
+      {error && (
+        <CustomText style={styles.errorText} size={12}>
+          {error}
+        </CustomText>
+      )}
 
       <Modal
         visible={isModalVisible}
@@ -179,7 +187,7 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
                 { borderBottomColor: theme.dark ? '#494949ff' : '#E0E0E0' },
               ]}
             >
-              <CustomText style={styles.modalTitle}>
+              <CustomText size={18} fontFamily="Gilroy-SemiBold">
                 {modalTitle || `Select ${label}`}
               </CustomText>
               <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
@@ -205,12 +213,19 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
                   style={styles.searchIcon}
                 />
                 <TextInput
-                  style={[styles.searchInput, { color: theme.colors.text }]}
+                  style={[
+                    styles.searchInput,
+                    {
+                      color: theme.colors.text,
+                      fontSize: 16 + fontSizeValue,
+                    },
+                  ]}
                   placeholder="Search..."
                   value={searchText}
                   onChangeText={setSearchText}
                   placeholderTextColor="#999"
                 />
+                {/* need to handle font size */}
               </View>
             )}
 
@@ -222,10 +237,7 @@ const CustomSelector: React.FC<CustomSelectorProps> = ({
               showsVerticalScrollIndicator={false}
               ListEmptyComponent={
                 <View style={styles.emptyContainer}>
-                  <CustomText
-                    style={styles.emptyText}
-                    color={theme.dark ? '#999' : '#666'}
-                  >
+                  <CustomText size={16} color={theme.dark ? '#999' : '#666'}>
                     No options found
                   </CustomText>
                 </View>
@@ -243,7 +255,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
-    fontSize: 14,
     marginBottom: 8,
   },
   selector: {
@@ -267,7 +278,6 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   selectorText: {
-    fontSize: 16,
     // color: '#333',
     flex: 1,
   },
@@ -281,7 +291,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   errorText: {
-    fontSize: 12,
     color: '#E74C3C',
     marginTop: 4,
   },
@@ -313,10 +322,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     // borderBottomColor: '#E0E0E0',
   },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
   closeButton: {
     padding: 4,
   },
@@ -333,7 +338,6 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
     paddingVertical: 8,
     fontFamily: 'Gilroy-Medium',
   },
@@ -359,20 +363,15 @@ const styles = StyleSheet.create({
   optionText: {
     flex: 1,
   },
-  optionLabel: {
-    fontSize: 16,
-  },
+  optionLabel: {},
   optionSubtitle: {
-    fontSize: 14,
     marginTop: 2,
   },
   emptyContainer: {
     padding: 40,
     alignItems: 'center',
   },
-  emptyText: {
-    fontSize: 16,
-  },
+  emptyText: {},
 });
 
 export default CustomSelector;

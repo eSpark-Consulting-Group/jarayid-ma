@@ -1,0 +1,58 @@
+{
+  "language": "English",
+   "header": {
+    "otherSettings": "Other Settings",
+    "menu": {
+      "editProfile": "Edit Profile",
+      "editNewSource": "Edit New Source",
+      "readLater": "Read Later",
+      "editNotification": "Edit Notification",
+      "socialAccounts": "Jarayid Social Media Accounts",
+      "advertiseHere": "Advertise here",
+      "rateApp": "Rate Jarayid.com",
+      "subscribe": "Subscription Jarayid Plus",
+      "shareApp": "Share The App",
+      "lightMode": "Light Mode",
+      "darkMode": "Dark Mode",
+      "fontSize": "Font Size",
+      "faqs": "FAQs",
+      "termsOfUse": "Terms of Use",
+      "privacyPolicy": "Privacy Policy",
+      "contactUs": "Contact Us",
+      "logout": "Logout"
+    }
+  },
+  "screens": {
+    "home": {
+      "title": "Home Screen",
+      "text": {
+        "categories": "Categories",
+        "subcategories": "Subcategories",
+        "readLaterSuccess": "Article saved for later",
+        "readLaterError": "Failed to save article",
+        "comment": "Comment",
+        "save": "Save",
+        "saved": "Saved",
+        "viewMore": "View More",
+        "noArticles": "No articles available",
+        "exploreCategories": "Explore Categories"
+      },
+      "placeholders": {
+        "loadingCategories": "Loading categories...",
+        "loadingArticles": "Fetching articles..."
+      },
+      "buttons": {
+        "readLater": "Read Later",
+        "viewArticle": "View Article"
+      }
+    },
+     "article": {
+      "addComments": "Add Comments",
+      "comment": "Comment",
+      "comments": "Comments",
+      "commentPlaceholder": "Add a comment...",
+      "mostRead": "Most Read",
+      "aiNotice": "Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
+    }
+  }  
+}

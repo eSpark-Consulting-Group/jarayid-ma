@@ -27,7 +27,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
       {/* Avatar + Message */}
       <View style={styles.topRow}>
         <View style={styles.avatar}>
-          <CustomText style={styles.avatarText}>{initials}</CustomText>
+          <CustomText size={16} style={styles.avatarText}>
+            {initials}
+          </CustomText>
         </View>
         <View style={styles.messageBlock}>
           <CustomText
@@ -44,7 +46,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           />
         </View>
         <View style={styles.rightBlock}>
-          <CustomText style={styles.time}>{time}</CustomText>
+          <CustomText style={styles.time} size={12}>
+            {time}
+          </CustomText>
           <TouchableOpacity onPress={onOptionsPress}>
             <Icon name="dots-three-vertical" size={16} color="#B3B3B3" />
           </TouchableOpacity>
@@ -85,14 +89,12 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: '#fff',
-    fontSize: 16,
     fontWeight: '700',
   },
   messageBlock: {
     flex: 1,
   },
   message: {
-    fontSize: 14,
     // color: '#383535',
     marginBottom: 8,
     fontWeight: '500',
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
   },
   viewButtonText: {
     color: '#fff',
-    fontSize: 14,
+
     fontWeight: '600',
   },
   rightBlock: {
@@ -117,7 +119,6 @@ const styles = StyleSheet.create({
   },
   time: {
     color: '#9DA3B4',
-    fontSize: 12,
     fontWeight: '500',
     marginBottom: 8,
   },

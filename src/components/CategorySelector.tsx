@@ -13,7 +13,9 @@ interface CategorySelectorProps {
   onCategorySelect: (categoryId: string) => void;
 }
 
-const CategorySelector: React.FC<CategorySelectorProps> = ({onCategorySelect}) => {
+const CategorySelector: React.FC<CategorySelectorProps> = ({
+  onCategorySelect,
+}) => {
   const [showCates, setShowCates] = useState(false);
   const theme = useTheme();
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
@@ -27,7 +29,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({onCategorySelect}) =
     await fetchAllCategories();
   };
 
-   const toggleCategory = (id: string) => {
+  const toggleCategory = (id: string) => {
     let updatedSelection;
     if (selectedCategoryIds.includes(id)) {
       updatedSelection = selectedCategoryIds.filter(catId => catId !== id);
@@ -35,7 +37,10 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({onCategorySelect}) =
       updatedSelection = [...selectedCategoryIds, id];
     }
     setSelectedCategoryIds(updatedSelection);
-    const result = updatedSelection.length === 1 ? updatedSelection[0] : updatedSelection.join(',');
+    const result =
+      updatedSelection.length === 1
+        ? updatedSelection[0]
+        : updatedSelection.join(',');
     onCategorySelect(result);
   };
 
@@ -53,7 +58,8 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({onCategorySelect}) =
         title="Category"
         onPress={() => setShowCates(!showCates)}
         iconLeft={showCates ? <ChevUp /> : <ChevDown />}
-        titleStyle={{ fontFamily: 'Gilroy-SemiBold', fontSize: 17 }}
+        titleStyle={{ fontFamily: 'Gilroy-SemiBold' }}
+        size={17}
       />
       <View style={{ display: showCates ? 'flex' : 'none' }}>
         <View
@@ -72,10 +78,10 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({onCategorySelect}) =
             renderItem={({ item, index }) => (
               <View style={{ width: '33%', padding: 3 }}>
                 <LabeledCheckbox
-                 size={14}
-                 label={item.name} 
-                    onPress={() => toggleCategory(item.id)}
-                 />
+                  size={14}
+                  label={item.name}
+                  onPress={() => toggleCategory(item.id)}
+                />
               </View>
             )}
           />

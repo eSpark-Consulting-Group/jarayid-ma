@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TextProps, StyleSheet, DimensionValue } from 'react-native';
 import useTheme from '../theme/useTheme';
+import { useFontSize } from '../context/FontSizeContext';
 
 interface HeaderTextProps extends TextProps {
   text?: string;
@@ -26,19 +27,20 @@ const HeaderText: React.FC<HeaderTextProps> = ({
   children,
   style,
   fontFamily = 'Gilroy-Medium',
-  size,
+  size = 14,
   color,
   theme,
   ...rest
 }) => {
   const content = children ?? text ?? '';
+  const { fontSizeValue } = useFontSize(); // <- use fontSizeValue
 
   return (
     <Text
       style={[
         styles.defaultText,
         {
-          fontSize: size || 14,
+          fontSize: size + fontSizeValue,
           fontFamily: fontFamily,
           color: color || (theme && theme.colors.text),
         },
