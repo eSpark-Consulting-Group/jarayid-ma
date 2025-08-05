@@ -42,7 +42,8 @@ const FAQScreen: React.FC = () => {
       <View style={{ paddingHorizontal: 20 }}>
         <CustomText
           fontFamily="Gilroy-SemiBold"
-          style={{ fontSize: 23, marginBottom: 20 }}
+          style={{ marginBottom: 20 }}
+          size={23}
         >
           Frequently Asked Questions
         </CustomText>

@@ -53,15 +53,17 @@ const CountryCategories: React.FC<CountryCategoriesProps> = ({ theme }) => {
         </View>
       ) : (
         <View style={{ paddingVertical: 10, gap: 20 }}>
+          {/* need to handle font size */}
           <ButtonGradient
             title={selectedCountry.name}
             gradientStyle={styles.button}
             color={['#007BFF', '#004A99']}
             iconLeft={<ArrowRight style={{ marginHorizontal: 20 }} />}
-            textStyle={{ fontSize: 18, marginHorizontal: 20 }}
+            textStyle={{ marginHorizontal: 20 }}
             onPress={() => setSelectedCountry(null)}
             theme={theme}
             isHeader
+            size={18}
           />
           {COUNTRY_CATEGORIES_DATA.map((item, index) => (
             <View key={index}>

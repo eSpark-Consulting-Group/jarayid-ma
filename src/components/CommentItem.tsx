@@ -40,7 +40,9 @@ const CommentItem: React.FC<CommentItemProps> = ({
             >
               @{name}
             </CustomText>
-            <CustomText style={styles.time}>{time}</CustomText>
+            <CustomText style={styles.time} size={12}>
+              {time}
+            </CustomText>
           </View>
           <CustomText
             fontFamily="Gilroy-Medium"
@@ -85,11 +87,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: '#94A3B8',
   },
-  avatarText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
-  },
+
   messageBlock: {
     flex: 1,
   },
@@ -100,12 +98,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   message: {
-    fontSize: 14,
     // color: '#383535',
   },
   time: {
     color: '#9DA3B4',
-    fontSize: 12,
   },
   actionRow: {
     flexDirection: 'row',

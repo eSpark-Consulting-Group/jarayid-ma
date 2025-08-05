@@ -184,7 +184,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
 
         <View style={styles.addComment}>
           <View style={styles.avatar}>
-            <CustomText style={styles.avatarText}>
+            <CustomText style={styles.avatarText} size={16}>
               {getInitials(user?.name || 'John Doe')}
             </CustomText>
           </View>
@@ -268,7 +268,6 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: '#fff',
-    fontSize: 16,
     fontWeight: '700',
   },
   sendBtn: {

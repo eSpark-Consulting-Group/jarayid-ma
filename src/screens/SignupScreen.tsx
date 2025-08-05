@@ -68,7 +68,8 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
     setPassword(text);
     setErrors(prev => {
       const newErrors = { ...prev };
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
       if (passwordRegex.test(text)) {
         delete newErrors.password;
       }
@@ -107,11 +108,13 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
       newErrors.email = 'Invalid email format';
     }
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
     if (!password) {
       newErrors.password = 'At least 8 characters';
     } else if (!passwordRegex.test(password)) {
-      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character';
+      newErrors.password =
+        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character';
     }
 
     if (!confirmPassword) {
@@ -187,13 +190,18 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 },
               ]}
             >
-              <CustomText fontFamily="Gilroy-Bold" style={styles.title}>
+              <CustomText
+                fontFamily="Gilroy-Bold"
+                size={28}
+                style={styles.title}
+              >
                 Create account
               </CustomText>
               <CustomText
                 fontFamily="Gilroy-Regular"
                 color={theme.dark ? '#999' : '#666'}
                 style={styles.subtitle}
+                size={16}
               >
                 Let's get you started sharing your links!
               </CustomText>
@@ -241,9 +249,12 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               />
               <CustomText
                 style={styles.passwordNote}
+                size={12}
                 color={theme.dark ? '#999' : '#666'}
               >
-                Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character
+                Password must contain at least 8 characters, including one
+                uppercase letter, one lowercase letter, one number, and one
+                special character
               </CustomText>
               <CustomButton
                 title="Create new account"
@@ -252,14 +263,13 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               />
               <GoogleButton onPress={handleGoogleSignup} />
               <View style={styles.linkContainer}>
-                <CustomText
-                  style={styles.linkText}
-                  color={theme.dark ? '#999' : '#666'}
-                >
+                <CustomText size={14} color={theme.dark ? '#999' : '#666'}>
                   Already have an account?{' '}
                 </CustomText>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                  <CustomText style={styles.link}>Login</CustomText>
+                  <CustomText size={14} style={styles.link}>
+                    Login
+                  </CustomText>
                 </TouchableOpacity>
               </View>
             </View>
@@ -294,16 +304,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   title: {
-    fontSize: 28,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
     marginBottom: 32,
     lineHeight: 22,
   },
   passwordNote: {
-    fontSize: 12,
     marginBottom: 20,
   },
   linkContainer: {
@@ -311,11 +318,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-  linkText: {
-    fontSize: 14,
-  },
+
   link: {
-    fontSize: 14,
     color: '#4A90E2',
     fontWeight: '500',
   },

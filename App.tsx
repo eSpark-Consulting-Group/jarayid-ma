@@ -14,6 +14,7 @@ import RootNavigation from './src/navigation/index';
 import { store } from './src/redux/store';
 import { ThemeProvider } from './src/context/ThemeContext';
 import ToastConfig from './src/utils/toastConfig';
+import { FontSizeProvider } from './src/context/FontSizeContext';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,17 +25,19 @@ function App() {
       <View style={styles.container}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <ThemeProvider>
-          <Provider store={store}>
-            <MenuProvider
-              style={{ flex: 1 }}
-              customStyles={{
-                backdrop: { backgroundColor: '#000', opacity: 0.5 },
-              }}
-            >
-              <RootNavigation />
-              <ToastConfig />
-            </MenuProvider>
-          </Provider>
+          <FontSizeProvider>
+            <Provider store={store}>
+              <MenuProvider
+                style={{ flex: 1 }}
+                customStyles={{
+                  backdrop: { backgroundColor: '#000', opacity: 0.5 },
+                }}
+              >
+                <RootNavigation />
+                <ToastConfig />
+              </MenuProvider>
+            </Provider>
+          </FontSizeProvider>
         </ThemeProvider>
       </View>
     </SafeAreaProvider>

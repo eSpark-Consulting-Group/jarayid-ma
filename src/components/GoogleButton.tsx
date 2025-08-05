@@ -20,7 +20,9 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ onPress }) => {
     >
       <View style={styles.content}>
         <Image source={googleIcon} style={styles.icon} />
-        <CustomText style={styles.text}>Continue with Google</CustomText>
+        <CustomText size={16} style={styles.text}>
+          Continue with Google
+        </CustomText>
       </View>
     </TouchableOpacity>
   );
@@ -42,7 +44,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   text: {
-    fontSize: 16,
     fontWeight: '500',
   },
 });
