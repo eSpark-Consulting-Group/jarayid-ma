@@ -143,6 +143,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
               <View key={key}>
                 <CustomTile
                   {...tile}
+                  data={tile}
                   isSaved={tileState.isSaved}
                   onImagePress={() =>
                     navigation.navigate('Article', { article: tile })

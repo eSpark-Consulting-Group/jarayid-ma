@@ -82,5 +82,16 @@
 		<string>Mondia-Thin.otf</string>
 		<string>Mondia-ExtraBold.otf</string>
 	</array>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>fb</string>
+    <string>instagram</string>
+    <string>twitter</string>
+    <string>tiktoksharesdk</string>
+    <string>whatsapp</string>
+    <string>youtube</string>
+    <string>sms</string>
+
+  </array>
 </dict>
 </plist>

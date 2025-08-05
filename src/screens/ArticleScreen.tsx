@@ -121,6 +121,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
       <View key={key}>
         <CustomTile
           {...tile}
+          data={tile}
           isSaved={tileState.isSaved}
           onImagePress={() => console.log('Image pressed')}
           onCommentPress={() => console.log('Comment')}
@@ -176,9 +177,9 @@ const ArticleScreen: React.FC<ArticleScreenProps> = () => {
         <View style={styles.header}>
           <CustomText fontFamily="Gilroy-Bold">Add Comments</CustomText>
           <CustomText fontFamily="Gilroy-Bold" color="#007BFF">
-            {articleData.comments.length == 1
-              ? articleData.comments.length + ' ' + 'Comment'
-              : articleData.comments.length + ' ' + 'Comments'}
+            {articleData?.comments?.length == 1
+              ? articleData.comments?.length + ' ' + 'Comment'
+              : articleData.comments?.length + ' ' + 'Comments'}
           </CustomText>
         </View>
 

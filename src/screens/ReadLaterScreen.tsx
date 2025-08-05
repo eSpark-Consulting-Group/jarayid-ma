@@ -15,6 +15,7 @@ import {
   readLater,
   ReadLaterServiceItem,
 } from '../services/readLaterService';
+import { Article } from '../types';
 
 const ReadLaterScreen: React.FC = () => {
   const theme = useTheme();
@@ -93,6 +94,7 @@ const ReadLaterScreen: React.FC = () => {
           renderItem={({ item }) => (
             <CustomTile
               {...item}
+              data={item as unknown as Article}
               isSaved={true}
               onImagePress={() => {}}
               onCommentPress={() => console.log('Comment')}
