@@ -29,7 +29,7 @@ interface SelectLanguageProps {}
 
 const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
   const navigation = useNavigation<RootStackNavigationProp<'SelectLanguage'>>();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(
@@ -91,7 +91,7 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
             ]}
           >
             <CustomText fontFamily="Gilroy-Bold" size={28} style={styles.title}>
-              Choose Language
+              {i18n.t('screens.chooseLanguage.title')}
             </CustomText>
             <CustomText
               fontFamily="Gilroy-Regular"
@@ -103,21 +103,26 @@ const SelectLanguageScreen: React.FC<SelectLanguageProps> = ({}) => {
             </CustomText>
 
             <CustomSelector
-              label={'Select Language'}
-              placeholder={'Select Language'}
+              label={t('screens.chooseLanguage.label')}
+              placeholder={t('screens.chooseLanguage.label')}
               options={languageOptions}
               onSelect={handleSelect}
               selectedValue={selectedLanguage}
               searchable={true}
-              modalTitle="Select Language"
+              modalTitle={t('screens.chooseLanguage.label')}
             />
             <CustomButton
-              title="Select"
+              title={t('screens.chooseLanguage.buttonText')}
               disabled={!selectedLanguage}
-              onPress={() => {
-                i18n.changeLanguage(selectedLanguage);
-                dispatch(setLanguage(selectedLanguage || 'en'));
-                navigation.navigate('Home');
+              onPress={async () => {
+                if (selectedLanguage) {
+                  setLoading(true);
+                  await i18n.changeLanguage(selectedLanguage);
+                  await AsyncStorage.setItem('appLanguage', selectedLanguage); // <--- important
+                  dispatch(setLanguage(selectedLanguage));
+                  setLoading(false);
+                  navigation.navigate('Home');
+                }
               }}
               loading={loading}
             />

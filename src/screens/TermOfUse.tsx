@@ -4,11 +4,13 @@ import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
 import { getStaticPage } from '../services/staticServices';
+import { useTranslation } from 'react-i18next';
 
 const TermOfUse: React.FC = () => {
   const theme = useTheme();
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const fetchStaticContent = async () => {
     try {
@@ -41,7 +43,7 @@ const TermOfUse: React.FC = () => {
           size={23}
           style={{ marginBottom: 20 }}
         >
-          Terms of Use
+          {t('screens.termsOfuse.title')}
         </CustomText>
         <View
           style={[

@@ -6,11 +6,7 @@ export const TABS_COUNTRIES = [
   { id: 5, name: 'Jordan' },
   { id: 6, name: 'Yemen' },
 ];
-export const TABS_CATEGORIES = [
-  { id: '1', name: 'Economy' },
-  { id: '2', name: 'Sports' },
-  { id: '3', name: 'Politics' },
-];
+// export
 
 export const TILES_DATA = [
   {
@@ -84,13 +80,6 @@ export const COMMENTS_DATA = [
     likeCount: 23,
     dislikeCount: 0,
   },
-];
-
-export const FONT_SIZES = [
-  // { name: 'Small', size: 15 },
-  { name: 'Small', size: 14, value: -2 },
-  { name: 'Medium', size: 17, value: 0 },
-  { name: 'Large', size: 20, value: 2 },
 ];
 
 export const NO_THUMBNAIL_URL =

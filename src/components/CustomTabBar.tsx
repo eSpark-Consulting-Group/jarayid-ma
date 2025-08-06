@@ -9,6 +9,7 @@ import {
 } from '../assets';
 import CustomText from './CustomText';
 import useTheme from '../theme/useTheme';
+import { useTranslation } from 'react-i18next';
 
 interface CustomTabBarProps {
   state: any;
@@ -22,22 +23,24 @@ const CustomTabBar: React.FC<CustomTabBarProps> = ({
   navigation,
 }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
+
   const getTabConfig = (routeName: string) => {
     switch (routeName) {
       case 'Notification':
         return {
           iconName: 'notifications',
-          label: 'Notification',
+          label: t('tabBar.notifications'),
         };
       case 'Home':
         return {
           iconName: 'home',
-          label: 'Home',
+          label: t('tabBar.home'),
         };
       case 'Search':
         return {
           iconName: 'chat',
-          label: 'Search',
+          label: t('tabBar.search'),
         };
       default:
         return {

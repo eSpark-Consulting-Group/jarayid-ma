@@ -4,12 +4,14 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import googleIcon from '../assets/images/google.png';
 import useTheme from '../theme/useTheme';
 import CustomText from './CustomText';
+import { useTranslation } from 'react-i18next';
 interface GoogleButtonProps {
   onPress: () => void;
 }
 
 const GoogleButton: React.FC<GoogleButtonProps> = ({ onPress }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   return (
     <TouchableOpacity
       style={[
@@ -21,7 +23,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ onPress }) => {
       <View style={styles.content}>
         <Image source={googleIcon} style={styles.icon} />
         <CustomText size={16} style={styles.text}>
-          Continue with Google
+          {t('screens.signup.googleSignupButton')}
         </CustomText>
       </View>
     </TouchableOpacity>

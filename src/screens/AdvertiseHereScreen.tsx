@@ -3,9 +3,12 @@ import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { CustomInput, ScreenTitle } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
 import { useTheme } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const AdvertiseHereScreen: React.FC = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
@@ -15,10 +18,10 @@ const AdvertiseHereScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.innerContainer}>
-          <ScreenTitle title="Advertise Here" />
+          <ScreenTitle title={t('screens.advertiseHere.title')} />
           <CustomInput
-            label="Name"
-            placeholder="Enter your Name "
+            label={t('screens.advertiseHere.name')}
+            placeholder={t('screens.advertiseHere.namePlaceholder')}
             onChangeText={() => {}}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -27,8 +30,8 @@ const AdvertiseHereScreen: React.FC = () => {
           />
 
           <CustomInput
-            label="Business Name"
-            placeholder="Enter your Business Name"
+            label={t('screens.advertiseHere.businessName')}
+            placeholder={t('screens.advertiseHere.businessNamePlaceholder')}
             onChangeText={() => {}}
             keyboardType="default"
             autoCapitalize="none"
@@ -36,8 +39,8 @@ const AdvertiseHereScreen: React.FC = () => {
             bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
-            label="Website"
-            placeholder="Enter your Website"
+            label={t('screens.advertiseHere.website')}
+            placeholder={t('screens.advertiseHere.websitePlaceholder')}
             onChangeText={() => {}}
             keyboardType="default"
             autoCapitalize="none"
@@ -45,8 +48,8 @@ const AdvertiseHereScreen: React.FC = () => {
             bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
-            label="Email Account"
-            placeholder="Enter your Email"
+            label={t('screens.advertiseHere.email')}
+            placeholder={t('screens.advertiseHere.emailPlaceholder')}
             onChangeText={() => {}}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -54,8 +57,8 @@ const AdvertiseHereScreen: React.FC = () => {
             bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
-            label="Contact Number"
-            placeholder="Enter your Contact"
+            label={t('screens.advertiseHere.phone')}
+            placeholder={t('screens.advertiseHere.phonePlaceholder')}
             onChangeText={() => {}}
             keyboardType="number-pad"
             autoCapitalize="none"
@@ -63,8 +66,8 @@ const AdvertiseHereScreen: React.FC = () => {
             bgColor={theme.dark ? '#1e1e1e' : '#EAF4FF'}
           />
           <CustomInput
-            label="Country"
-            placeholder="Enter you Country Name"
+            label={t('screens.advertiseHere.country')}
+            placeholder={t('screens.advertiseHere.countryPlaceholder')}
             onChangeText={() => {}}
             keyboardType="default"
             autoCapitalize="none"
@@ -73,7 +76,7 @@ const AdvertiseHereScreen: React.FC = () => {
           />
 
           <ButtonGradient
-            title="Submit"
+            title={t('screens.advertiseHere.buttonText')}
             style={styles.buttonStyle}
             gradientStyle={styles.gradientStyle}
             onPress={() => console.log('AdvertiseHere Updated')}

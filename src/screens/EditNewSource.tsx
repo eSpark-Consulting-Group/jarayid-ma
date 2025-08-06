@@ -10,11 +10,12 @@ import {
   NewSourceFilterParams,
   NewsSource,
 } from '../services/editNewSource';
+import { useTranslation } from 'react-i18next';
 
 const EditNewSource: React.FC = () => {
   const navigation = useNavigation<MainTabNavigationProp<'EditNewSource'>>();
   const theme = useTheme();
-
+  const { t } = useTranslation();
   const [sources, setSources] = useState<NewsSource[]>([]);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const EditNewSource: React.FC = () => {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <ScreenTitle title="Edit News Source" />
+      <ScreenTitle title={t('screens.editNewsSource.title')} />
       <CategorySelector
         onCategorySelect={categoryID =>
           fetchSources(categoryID ? { categoryId: categoryID } : {})
@@ -56,7 +57,7 @@ const EditNewSource: React.FC = () => {
       />
 
       <ButtonGradient
-        title="Save"
+        title={t('screens.editNewsSource.button')}
         onPress={() => {
           navigation.goBack();
         }}

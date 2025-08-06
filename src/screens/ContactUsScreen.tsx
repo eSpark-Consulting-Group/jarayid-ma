@@ -13,6 +13,7 @@ import ButtonGradient from '../components/ButtonGradient';
 import useTheme from '../theme/useTheme';
 import { contactUs } from '../services/contactusService';
 import { showToast } from '../utils/showToast';
+import { useTranslation } from 'react-i18next';
 
 const ContactUsScreen: React.FC = () => {
   const theme = useTheme();
@@ -25,15 +26,21 @@ const ContactUsScreen: React.FC = () => {
   const [country, setCountry] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useTranslation();
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!name.trim()) newErrors.name = 'Name is required';
-    if (!businessName.trim()) newErrors.businessName = 'Business name is required';
-    if (!contactNumber.trim() && contactNumber?.length < 5) newErrors.contactNumber = 'Contact number must be at least 5 characters long';
-    if (!email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Email is invalid';
-    if (!country.trim()) newErrors.country = 'Country is required';
-    if (!message.trim() && message?.length < 10) newErrors.message = 'Message must be at least 10 characters long';
+    if (!name.trim()) newErrors.name = t('screens.contactUs.nameRequired');
+    if (!businessName.trim())
+      newErrors.businessName = t('screens.contactUs.businessNameRequired');
+    if (!contactNumber.trim() && contactNumber?.length < 5)
+      newErrors.contactNumber = t('screens.contactUs.phoneRequired');
+    if (!email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      newErrors.email = t('screens.contactUs.emailRequired');
+    if (!country.trim())
+      newErrors.country = t('screens.contactUs.countryRequired');
+    if (!message.trim() && message?.length < 10)
+      newErrors.message = t('screens.contactUs.messageRequired');
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -68,7 +75,10 @@ const ContactUsScreen: React.FC = () => {
         showToast('Failed to contact. Please try again later.', 'error');
       }
     } catch (error: any) {
-      showToast(error?.message ?? 'An error occurred while sending your message.', 'error');
+      showToast(
+        error?.message ?? 'An error occurred while sending your message.',
+        'error',
+      );
     } finally {
       setLoading(false);
     }
@@ -83,11 +93,11 @@ const ContactUsScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.innerContainer}>
-          <ScreenTitle title="Contact Us" />
+          <ScreenTitle title={t('screens.contactUs.title')} />
 
           <CustomInput
-            label="Name"
-            placeholder="Enter your Name"
+            label={t('screens.contactUs.name')}
+            placeholder={t('screens.contactUs.namePlaceholder')}
             value={name}
             onChangeText={setName}
             keyboardType="default"
@@ -97,8 +107,8 @@ const ContactUsScreen: React.FC = () => {
             error={errors.name}
           />
           <CustomInput
-            label="Business Name"
-            placeholder="Enter your Business Name"
+            label={t('screens.contactUs.businessName')}
+            placeholder={t('screens.contactUs.businessNamePlaceholder')}
             value={businessName}
             onChangeText={setBusinessName}
             keyboardType="default"
@@ -108,8 +118,8 @@ const ContactUsScreen: React.FC = () => {
             error={errors.businessName}
           />
           <CustomInput
-            label="Contact"
-            placeholder="Enter your Contact"
+            label={t('screens.contactUs.phone')}
+            placeholder={t('screens.contactUs.phonePlaceholder')}
             value={contactNumber}
             onChangeText={setContactNumber}
             keyboardType="phone-pad"
@@ -119,8 +129,8 @@ const ContactUsScreen: React.FC = () => {
             error={errors.contactNumber}
           />
           <CustomInput
-            label="Email"
-            placeholder="Enter your Email"
+            label={t('screens.contactUs.email')}
+            placeholder={t('screens.contactUs.emailPlaceholder')}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -130,8 +140,8 @@ const ContactUsScreen: React.FC = () => {
             error={errors.email}
           />
           <CustomInput
-            label="Country"
-            placeholder="Enter your Country Name"
+            label={t('screens.contactUs.country')}
+            placeholder={t('screens.contactUs.countryPlaceholder')}
             value={country}
             onChangeText={setCountry}
             keyboardType="default"
@@ -141,8 +151,8 @@ const ContactUsScreen: React.FC = () => {
             error={errors.country}
           />
           <CustomInput
-            label="Message"
-            placeholder="Enter your Message Here"
+            label={t('screens.contactUs.message')}
+            placeholder={t('screens.contactUs.messagePlaceholder')}
             value={message}
             onChangeText={setMessage}
             keyboardType="default"
@@ -161,7 +171,7 @@ const ContactUsScreen: React.FC = () => {
             />
           ) : (
             <ButtonGradient
-              title="Submit"
+              title={t('screens.contactUs.buttonText')}
               style={styles.buttonStyle}
               gradientStyle={styles.gradientStyle}
               onPress={handleSubmit}

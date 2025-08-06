@@ -8,6 +8,7 @@ import useTheme from '../theme/useTheme';
 import { fetchAllCategories } from '../services/homeService';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { useTranslation } from 'react-i18next';
 
 interface CategorySelectorProps {
   onCategorySelect: (categoryId: string) => void;
@@ -20,7 +21,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
   const theme = useTheme();
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
   const { categories } = useSelector((state: RootState) => state.home);
-
+  const { t } = useTranslation();
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -55,7 +56,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
           },
         ]}
         titleColor={theme.dark ? '#e2e2e2' : '#000'}
-        title="Category"
+        title={t('screens.editNewsSource.category')}
         onPress={() => setShowCates(!showCates)}
         iconLeft={showCates ? <ChevUp /> : <ChevDown />}
         titleStyle={{ fontFamily: 'Gilroy-SemiBold' }}

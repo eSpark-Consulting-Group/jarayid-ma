@@ -3,9 +3,11 @@ import { View, StyleSheet } from 'react-native';
 import SubscriptionCard from '../components/SubscriptionCard';
 import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
+import { useTranslation } from 'react-i18next';
 
 const SubscriptionScreen: React.FC = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View
@@ -16,19 +18,21 @@ const SubscriptionScreen: React.FC = () => {
         size={23}
         style={styles.headerText}
       >
-        Subscribe Jarayid Plus
+        {t('screens.subscription.title')}
       </CustomText>
       <View style={styles.cardsContainer}>
         <SubscriptionCard
-          title="Basic Subscription"
-          description="Get Ad Free Experience While you are Reading your Favourite articles."
+          title={t('screens.subscription.cardTitle')}
+          description={t('screens.subscription.cardDescription')}
           price="$9.99"
           onPress={() => console.log('Upgrade Now clicked!')}
+          buttonLabel={t('screens.subscription.buttonLabel')}
         />
         <SubscriptionCard
-          title="Basic Subscription"
-          description="Get Ad Free Experience While you are Reading your Favourite articles."
+          title={t('screens.subscription.cardTitle')}
+          description={t('screens.subscription.cardDescription')}
           price="$9.99"
+          buttonLabel={t('screens.subscription.buttonLabel')}
           onPress={() => console.log('Upgrade Now clicked!')}
         />
       </View>
