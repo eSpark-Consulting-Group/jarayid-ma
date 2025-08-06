@@ -16,11 +16,13 @@ import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
 import { HeaderLogo, HeaderLogoDark } from '../assets';
 import { forgotPassword } from '../services/authService';
+import { useTranslation } from 'react-i18next';
 
 interface ForgotPasswordEmailProps {}
 
 const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const navigation =
     useNavigation<RootStackNavigationProp<'ForgotPasswordEmail'>>();
@@ -49,9 +51,9 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
     const newErrors: { email?: string } = {};
 
     if (!email) {
-      newErrors.email = "Can't be empty";
+      newErrors.email = t('screens.forgotPassword.errors.emptyEmail');
     } else if (!email.includes('@')) {
-      newErrors.email = 'Invalid email format';
+      newErrors.email = t('screens.forgotPassword.errors.invalidEmail');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -69,12 +71,15 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
       } else {
         setErrors(prev => ({
           ...prev,
-          email: response.message || 'Something went wrong',
+          email:
+            response.message ||
+            t('screens.forgotPassword.errors.somethingWrong'),
         }));
       }
     } catch (err: any) {
       const message =
-        err?.response?.data?.message || 'An error occurred. Please try again.';
+        err?.response?.data?.message ||
+        t('screens.forgotPassword.errors.generic');
       setErrors(prev => ({ ...prev, email: message }));
     } finally {
       setLoading(false);
@@ -107,7 +112,7 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
             ]}
           >
             <CustomText fontFamily="Gilroy-Bold" size={28} style={styles.title}>
-              Forgot Password
+              {t('screens.forgotPassword.title')}
             </CustomText>
             <CustomText
               fontFamily="Gilroy-Regular"
@@ -115,13 +120,13 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
               style={styles.subtitle}
               size={16}
             >
-              Let’s get you started sharing your links!
+              {t('screens.forgotPassword.subtitle')}
             </CustomText>
 
             <CustomInput
-              label="Email address"
+              label={t('screens.forgotPassword.emailLabel')}
               iconName="email"
-              placeholder="e.g. alex@email.com"
+              placeholder={t('screens.forgotPassword.emailPlaceholder')}
               value={email}
               onChangeText={handleEmailChange}
               keyboardType="email-address"
@@ -131,7 +136,7 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
             />
 
             <CustomButton
-              title={'Send Code'}
+              title={t('screens.forgotPassword.button')}
               onPress={handleForgot}
               loading={loading}
             />
@@ -142,7 +147,7 @@ const ForgotPasswordEmail: React.FC<ForgotPasswordEmailProps> = ({}) => {
                   style={styles.linkText}
                   color={theme.dark ? '#999' : '#666'}
                 >
-                  Try Another way?
+                  {t('screens.forgotPassword.tryAnotherWay')}
                 </CustomText>
               </TouchableOpacity>
             </View>

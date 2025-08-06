@@ -15,6 +15,8 @@ const languageDetectorPlugin = {
     try {
       const storedLang = await AsyncStorage.getItem('appLanguage');
       if (storedLang) {
+        console.log('Detected stored language:', storedLang);
+
         callback(storedLang);
       } else {
         const deviceLang =
@@ -23,8 +25,8 @@ const languageDetectorPlugin = {
               NativeModules.SettingsManager?.settings?.AppleLanguages?.[0]
             : NativeModules.I18nManager?.localeIdentifier;
 
-        const fallback = deviceLang?.stentsWith('ar') ? 'ar' : 'en';
-        callback(fallback);
+        const fallback = deviceLang?.startsWith('ar') ? 'ar' : 'en';
+        callback(fallback || 'en'); // <-- ensures it's always defined
       }
     } catch (error) {
       console.warn('Failed to detect language:', error);

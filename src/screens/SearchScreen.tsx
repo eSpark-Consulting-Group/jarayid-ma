@@ -12,6 +12,7 @@ import { Article } from '../types';
 
 import useTheme from '../theme/useTheme';
 import { getArticles } from '../services/articleService';
+import { useTranslation } from 'react-i18next';
 
 const LIMIT = 6;
 
@@ -23,6 +24,7 @@ const SearchScreen: React.FC = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const { t } = useTranslation();
 
   const renderFooter = () => {
     if (!isFetchingMore) return null;
@@ -97,7 +99,7 @@ const SearchScreen: React.FC = () => {
         size={23}
         style={styles.headerText}
       >
-        Search
+        {t('screens.search.title')}
       </CustomText>
 
       <View style={styles.inputContainer}>

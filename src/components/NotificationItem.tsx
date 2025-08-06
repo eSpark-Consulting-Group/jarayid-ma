@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Entypo'; // For 3 dots icon
 import CustomText from './CustomText';
 import ButtonGradient from './ButtonGradient';
 import useTheme from '../theme/useTheme';
+import { useTranslation } from 'react-i18next';
 
 interface NotificationItemProps {
   initials: string;
@@ -22,6 +23,8 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   onOptionsPress,
 }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       {/* Avatar + Message */}
@@ -41,7 +44,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           </CustomText>
           <ButtonGradient
             onPress={() => {}}
-            title="View"
+            title={t('screens.notifications.buttonText')}
             gradientStyle={styles.viewButton}
           />
         </View>

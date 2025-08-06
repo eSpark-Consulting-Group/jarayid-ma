@@ -8,19 +8,25 @@ import {
   ScreenTitle,
 } from '../components';
 import useTheme from '../theme/useTheme';
+import { useTranslation } from 'react-i18next';
 
 const NotificationSettings: React.FC = () => {
   const [selectedPriority, setSelectedPriority] = useState<string>('Low');
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <ScreenTitle title="Notification Settings" />
-      <CategorySelector />
+      <ScreenTitle title={t('screens.notificationSettings.title')} />
+      <CategorySelector onCategorySelect={() => {}} />
       <View style={{ flexDirection: 'row', gap: 10 }}>
-        {['Low', 'Medium', 'High'].map((item, index) => (
+        {[
+          t('screens.notificationSettings.low'),
+          t('screens.notificationSettings.medium'),
+          t('screens.notificationSettings.high'),
+        ].map((item, index) => (
           <CustomButton
             key={index}
             style={{
@@ -47,15 +53,15 @@ const NotificationSettings: React.FC = () => {
         ))}
       </View>
       <View style={{ flexDirection: 'row', marginVertical: 20, gap: 3 }}>
-        <CustomText text="You Will Receive" />
+        <CustomText text={t('screens.notificationSettings.lowMessage')} />
         <CustomText
           fontFamily="Gilroy-SemiBold"
           text={`${
-            selectedPriority == 'Low'
+            selectedPriority == t('screens.notificationSettings.low')
               ? 3
-              : selectedPriority == 'Medium'
+              : selectedPriority == t('screens.notificationSettings.medium')
               ? 2
-              : selectedPriority == 'High'
+              : selectedPriority == t('screens.notificationSettings.high')
               ? 1
               : 3
           } news alerts per day`}

@@ -26,6 +26,9 @@
   "screens": {
     "home": {
       "title": "Home Screen",
+      "economyCategory": "Economy",
+      "sportsCategory": "Sports",
+      "politicsCategory": "Politics",
       "text": {
         "categories": "Categories",
         "subcategories": "Subcategories",
@@ -54,6 +57,200 @@
       "commentPlaceholder": "Add a comment...",
       "mostRead": "Most Read",
       "aiNotice": "Notice: This is an AI-Generated Summary and may be sometimes inaccurate"
+    },
+    "chooseLanguage": {
+      "title": "Choose Language",
+      "label": "Select Language",
+      "buttonText": "Select"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "buttonText": "View"
+    },
+    "search": {
+      "title": "Search"
+    },
+    "editProfile": {
+      "name": "Name",
+      "namePlaceholder": "Enter your Name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your Email",
+      "phone": "Mobile Number",
+      "phonePlaceholder": "Enter your Mobile Number",
+      "country": "Country",
+      "countryPlaceholder": "Enter your Country",
+      "buttonText": "Save Changes",
+      "nameRequired": "Name can't be empty",
+      "countryRequired": "Country can't be empty",
+      "toastSuccess": "Profile updated successfully",
+      "toastFailure": "Failed to update profile"
+    },
+    "advertiseHere": {
+      "title": "Advertise Here",
+      "name": "Name",
+      "namePlaceholder": "Enter your Name",
+      "businessName": "Business Name",
+      "businessNamePlaceholder": "Enter your Business Name",
+      "website": "Website",
+      "websitePlaceholder": "Enter your Website",
+      "email": "Email",
+      "emailPlaceholder": "Enter your Email",
+      "phone": "Mobile Number",
+      "phonePlaceholder": "Enter your Mobile Number",
+      "country": "Country",
+      "countryPlaceholder": "Enter your Country",
+      "buttonText": "Submit"
+    },
+    "rateModal": {
+      "title1": "How's your",
+      "title2": " experience so far?",
+      "label": "We'd Love to know"
+    },
+    "socialMediaModal": {
+      "title": "Jarayid Social Media",
+      "facebook": "Facebook",
+      "whatsapp": "WhatsApp",
+      "instagram": "Instagram",
+      "youtube": "YouTube",
+      "tiktok": "TikTok",
+      "threads": "Threads"
+    },
+    "fontSizeModal": {
+      "title": "Adjust Font Size",
+      "label": "Select Font Size",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions"
+    },
+    "termsOfuse": {
+      "title": "Terms of Use"
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy"
+    },
+    "editNewsSource": {
+      "title": "Edit News Source",
+      "category": "Category",
+      "button": "Save"
+    },
+    "notificationSettings": {
+      "title": "Notification Settings",
+      "category": "Category",
+      "low": "Low",
+      "lowMessage": "You will receive",
+      "medium": "Medium",
+      "mediumMessage": "You will receive",
+      "high": "High",
+      "highMessage": "You will receive"
+    },
+    "subscription": {
+      "title": "Subscribe Jarayid Plus",
+      "cardTitle": "Basic Subscription",
+      "cardDescription": "Get Ad Free Experience While you are Reading your Favourite articles.",
+      "price": "$9.99",
+      "buttonLabel": "Upgrade Now"
+    },
+    "contactUs": {
+      "title": "Contact Us",
+      "name": "Name",
+      "namePlaceholder": "Enter your Name",
+      "businessName": "Business Name",
+      "businessNamePlaceholder": "Enter your Business Name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your Email",
+      "phone": "Mobile Number",
+      "phonePlaceholder": "Enter your Mobile Number",
+      "country": "Country",
+      "countryPlaceholder": "Enter your Country",
+      "message": "Message",
+      "messagePlaceholder": "Enter your Message",
+      "buttonText": "Submit",
+      "nameRequired": "Name is required",
+      "businessNameRequired": "Business name is required",
+      "emailRequired": "Email is invalid",
+      "phoneRequired": "Contact number must be at least 5 characters long",
+      "countryRequired": "Country is required",
+      "messageRequired": "Message must be at least 10 characters long"
+    },
+    "logout": {
+      "title": "Are you sure you want to logout?",
+      "message": "You will be logged out of your account.",
+      "confirmButton": "Logout",
+      "cancelButton": "Cancel"
+    },
+    "signup": {
+      "title": "Create account",
+      "subtitle": "Let's get you started sharing your links!",
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g. Alex Johnson",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "e.g. alex@email.com",
+      "passwordLabel": "Create password",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "At least 8 characters",
+      "passwordNote": "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character",
+      "createAccountButton": "Create new account",
+      "googleSignupButton": "Continue with Google",
+      "alreadyHaveAccount": "Already have an account? ",
+      "loginLink": "Login",
+      "errors": {
+        "emptyName": "Can't be empty",
+        "emptyEmail": "Can't be empty",
+        "invalidEmail": "Invalid email format",
+        "emptyPassword": "At least 8 characters",
+        "invalidPassword": "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+        "emptyConfirmPassword": "At least 8 characters",
+        "passwordsDontMatch": "Passwords don't match"
+      },
+
+      "toasts": {
+        "success": "Signup successful!",
+        "fail": "Signup failed. Please try again."
+      }
+    },
+    "login": {
+      "title": "Login",
+      "subtitle": "Add your details below to get back into the app",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "e.g. alex@email.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "buttonText": "Login",
+      "noAccount": "Don't have an account? ",
+      "signupLink": "Create account",
+      "errors": {
+        "emptyEmail": "Can't be empty",
+        "invalidEmail": "Invalid email format",
+        "emptyPassword": "Please check again"
+      },
+      "toasts": {
+        "success": "Login successful!",
+        "fail": "Login failed. Please try again."
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "subtitle": "Let’s get you started sharing your links!",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "e.g. alex@email.com",
+      "button": "Send Code",
+      "tryAnotherWay": "Try another way?",
+      "errors": {
+        "emptyEmail": "Can't be empty",
+        "invalidEmail": "Invalid email format",
+        "generic": "An error occurred. Please try again.",
+        "somethingWrong": "Something went wrong"
+      }
     }
+  },
+  "tabBar": {
+    "home": "Home",
+    "search": "Search",
+    "notifications": "Notification"
   }
 }

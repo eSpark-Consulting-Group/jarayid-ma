@@ -26,6 +26,9 @@
   "screens": {
     "home": {
       "title": "الشاشة الرئيسية",
+      "economyCategory": "الاقتصاد",
+      "sportsCategory": "الرياضة",
+      "politicsCategory": "السياسة",
       "text": {
         "categories": "الفئات",
         "subcategories": "الفئات الفرعية",
@@ -54,6 +57,199 @@
       "commentPlaceholder": "أضف تعليقًا...",
       "mostRead": "الأكثر قراءة",
       "aiNotice": "ملاحظة: هذا ملخص تم إنشاؤه بواسطة الذكاء الاصطناعي وقد يكون غير دقيق أحيانًا"
+    },
+    "chooseLanguage": {
+      "title": "اختر اللغة",
+      "label": "اختر اللغة",
+      "buttonText": "اختيار"
+    },
+    "notifications": {
+      "title": "الإشعارات",
+      "buttonText": "عرض"
+    },
+    "search": {
+      "title": "بحث"
+    },
+    "editProfile": {
+      "name": "الاسم",
+      "namePlaceholder": "أدخل اسمك",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "phone": "رقم الجوال",
+      "phonePlaceholder": "أدخل رقم جوالك",
+      "country": "البلد",
+      "countryPlaceholder": "أدخل بلدك",
+      "buttonText": "حفظ التغييرات",
+      "nameRequired": "الاسم لا يمكن أن يكون فارغًا",
+      "countryRequired": "البلد لا يمكن أن يكون فارغًا",
+      "toastSuccess": "تم تحديث الملف الشخصي بنجاح",
+      "toastFailure": "فشل في تحديث الملف الشخصي"
+    },
+    "advertiseHere": {
+      "title": "أعلن هنا",
+      "name": "الاسم",
+      "namePlaceholder": "أدخل اسمك",
+      "businessName": "اسم العمل",
+      "businessNamePlaceholder": "أدخل اسم عملك",
+      "website": "الموقع الإلكتروني",
+      "websitePlaceholder": "أدخل موقعك الإلكتروني",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "phone": "رقم الجوال",
+      "phonePlaceholder": "أدخل رقم جوالك",
+      "country": "البلد",
+      "countryPlaceholder": "أدخل بلدك",
+      "buttonText": "إرسال"
+    },
+    "rateModal": {
+      "title1": "كيف كانت",
+      "title2": " تجربتك حتى الآن؟",
+      "label": "نود أن نعرف"
+    },
+    "socialMediaModal": {
+      "title": "Jarayid Social Media",
+      "facebook": "Facebook",
+      "whatsapp": "WhatsApp",
+      "instagram": "Instagram",
+      "youtube": "YouTube",
+      "tiktok": "TikTok",
+      "threads": "Threads"
+    },
+    "fontSizeModal": {
+      "title": "تعديل حجم الخط",
+      "label": "اختر حجم الخط",
+      "small": "صغير",
+      "medium": "متوسط",
+      "large": "كبير"
+    },
+    "faq": {
+      "title": "الأسئلة الشائعة"
+    },
+    "termsOfuse": {
+      "title": "شروط الاستخدام"
+    },
+    "privacyPolicy": {
+      "title": "سياسة الخصوصية"
+    },
+    "editNewsSource": {
+      "title": "تعديل مصدر الأخبار",
+      "category": "الفئة",
+      "button": "حفظ"
+    },
+    "notificationSettings": {
+      "title": "إعدادات الإشعارات",
+      "category": "الفئة",
+      "low": "منخفض",
+      "lowMessage": "سوف تتلقى",
+      "medium": "متوسط",
+      "mediumMessage": "سوف تتلقى",
+      "high": "مرتفع",
+      "highMessage": "سوف تتلقى"
+    },
+    "subscription": {
+      "title": "اشترك في جريد بلس",
+      "cardTitle": "الاشتراك الأساسي",
+      "cardDescription": "احصل على تجربة خالية من الإعلانات أثناء قراءة مقالاتك المفضلة.",
+      "price": "$9.99",
+      "buttonLabel": "ترقية الآن"
+    },
+    "contactUs": {
+      "title": "اتصل بنا",
+      "name": "الاسم",
+      "namePlaceholder": "أدخل اسمك",
+      "businessName": "اسم العمل",
+      "businessNamePlaceholder": "أدخل اسم عملك",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "phone": "رقم الجوال",
+      "phonePlaceholder": "أدخل رقم جوالك",
+      "country": "البلد",
+      "countryPlaceholder": "أدخل بلدك",
+      "message": "الرسالة",
+      "messagePlaceholder": "أدخل رسالتك",
+      "buttonText": "إرسال",
+      "nameRequired": "الاسم مطلوب",
+      "businessNameRequired": "اسم العمل مطلوب",
+      "emailRequired": "البريد الإلكتروني غير صالح",
+      "phoneRequired": "رقم الجوال يجب أن يكون على الأقل 5 أحرف",
+      "countryRequired": "البلد مطلوب",
+      "messageRequired": "الرسالة يجب أن تكون على الأقل 10 أحرف"
+    },
+    "logout": {
+      "title": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+      "message": "سيتم تسجيل خروجك من حسابك.",
+      "confirmButton": "تسجيل الخروج",
+      "cancelButton": "إلغاء"
+    },
+    "signup": {
+      "title": "إنشاء حساب",
+      "subtitle": "لنبدأ في مشاركة روابطك!",
+      "nameLabel": "الاسم",
+      "namePlaceholder": "مثال: أليكس جونسون",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "مثال: alex@email.com",
+      "passwordLabel": "إنشاء كلمة المرور",
+      "passwordPlaceholder": "على الأقل 8 أحرف",
+      "confirmPasswordLabel": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "على الأقل 8 أحرف",
+      "passwordNote": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، بما في ذلك حرف كبير، حرف صغير، رقم، وحرف خاص",
+      "createAccountButton": "إنشاء حساب جديد",
+      "googleSignupButton": "التسجيل باستخدام Google",
+      "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول",
+      "errors": {
+        "emptyName": "لا يمكن أن يكون فارغًا",
+        "emptyEmail": "لا يمكن أن يكون فارغًا",
+        "invalidEmail": "تنسيق بريد إلكتروني غير صالح",
+        "emptyPassword": "على الأقل 8 أحرف",
+        "invalidPassword": "يجب أن تحتوي كلمة المرور على حرف كبير، حرف صغير، رقم، وحرف خاص على الأقل",
+        "emptyConfirmPassword": "على الأقل 8 أحرف",
+        "passwordsDontMatch": "كلمات المرور غير متطابقة"
+      },
+      "toasts": {
+        "success": "تم التسجيل بنجاح!",
+        "fail": "فشل التسجيل. يرجى المحاولة مرة أخرى."
+      }
+    },
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "أدخل بياناتك للعودة إلى التطبيق",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "مثال: alex@email.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "forgotPassword": "هل نسيت كلمة المرور؟",
+      "buttonText": "تسجيل الدخول",
+      "noAccount": "ليس لديك حساب؟",
+      "signupLink": "إنشاء حساب",
+      "errors": {
+        "emptyEmail": "لا يمكن أن يكون فارغًا",
+        "invalidEmail": "تنسيق البريد الإلكتروني غير صالح",
+        "emptyPassword": "يرجى التحقق مرة أخرى"
+      },
+      "toasts": {
+        "success": "تم تسجيل الدخول بنجاح!",
+        "fail": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى."
+      }
+    },
+    "forgotPassword": {
+      "title": "نسيت كلمة المرور",
+      "subtitle": "لنبدأ بمشاركة روابطك!",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "مثال: alex@email.com",
+      "button": "إرسال الرمز",
+      "tryAnotherWay": "هل تود تجربة طريقة أخرى؟",
+      "errors": {
+        "emptyEmail": "لا يمكن أن يكون فارغًا",
+        "invalidEmail": "تنسيق البريد الإلكتروني غير صالح",
+        "generic": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+        "somethingWrong": "حدث خطأ ما"
+      }
     }
+  },
+  "tabBar": {
+    "home": "الرئيسية",
+    "search": "بحث",
+    "notifications": "الإشعارات"
   }
 }

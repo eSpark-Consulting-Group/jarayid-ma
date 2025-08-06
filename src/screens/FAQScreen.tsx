@@ -5,6 +5,7 @@ import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
 import AccordionItem from '../components/AccordionItem';
 import { getStaticPage } from '../services/staticServices';
+import { useTranslation } from 'react-i18next';
 
 interface FAQItem {
   id: string;
@@ -16,6 +17,7 @@ const FAQScreen: React.FC = () => {
   const theme = useTheme();
   const [faqs, setFaqs] = useState<FAQItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const fetchFaqs = async () => {
     try {
@@ -45,7 +47,7 @@ const FAQScreen: React.FC = () => {
           style={{ marginBottom: 20 }}
           size={23}
         >
-          Frequently Asked Questions
+          {t('screens.faq.title')}
         </CustomText>
 
         {!loading &&

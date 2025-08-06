@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import HeaderText from './HeaderText';
 import Modal from 'react-native-modal';
+import { useTranslation } from 'react-i18next';
 interface Props {
   visible: boolean;
   onSelect: (rating: number) => void;
@@ -17,6 +18,7 @@ const ExperienceRatingModal: React.FC<Props> = ({
   onClose,
   theme,
 }) => {
+  const { t } = useTranslation();
   return (
     <Modal
       isVisible={visible}
@@ -46,7 +48,8 @@ const ExperienceRatingModal: React.FC<Props> = ({
             style={styles.title}
             size={26}
           >
-            How’s your{'\n'}experience so far?
+            {t('screens.rateModal.title1')} {'\n'}
+            {t('screens.rateModal.title2')}
           </HeaderText>
           <HeaderText
             theme={theme}
@@ -55,7 +58,7 @@ const ExperienceRatingModal: React.FC<Props> = ({
             style={styles.subtitle}
             size={17}
           >
-            We’d love to know!
+            {t('screens.rateModal.label')}
           </HeaderText>
           <View style={styles.emojiRow}>
             {emojis.map((emoji, index) => (

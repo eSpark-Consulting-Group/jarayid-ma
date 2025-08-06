@@ -10,7 +10,7 @@ import {
   CustomTile,
   NewsCardList,
 } from '../components';
-import { TABS_CATEGORIES } from '../constants';
+// import { TABS_CATEGORIES } from '../constants';
 import { HomeStackNavigationProp } from '../navigation/navigation';
 import CustomImageSlider from '../components/CustomImageSlider';
 import { fetchAllCategories } from '../services/homeService';
@@ -38,6 +38,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [tileStates, setTileStates] = useState<
     Record<string, { isSaved: boolean }>
   >({});
+
+  const TABS_CATEGORIES = [
+    { id: '1', name: t('screens.home.economyCategory') },
+    { id: '2', name: t('screens.home.sportsCategory') },
+    { id: '3', name: t('screens.home.politicsCategory') },
+  ];
 
   const [selectedSubCategory, setSelectedSubCategory] = useState<
     (typeof TABS_CATEGORIES)[0]

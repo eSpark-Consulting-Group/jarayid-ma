@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 
-import CustomText from './CustomText';
 import ScreenTitle from './ScreenTitle';
 import CustomButton from './CustomButton';
 import { ChevDown, ChevUp } from '../assets';
-import { FONT_SIZES } from '../constants';
 import HeaderText from './HeaderText';
 import { useFontSize } from '../context/FontSizeContext';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   visible: boolean;
@@ -25,6 +24,7 @@ const FontSizeModal: React.FC<Props> = ({
 }) => {
   const [showSizes, setShowSizes] = useState(false);
   const { setFontSizeValue } = useFontSize(); // <- use setter
+  const { t } = useTranslation();
 
   const handleFontSizeChange = (value: number) => {
     setFontSizeValue(value); // <- set global font size adjustment
@@ -37,6 +37,11 @@ const FontSizeModal: React.FC<Props> = ({
     setShowSizes(false);
     onCancel();
   };
+  const FONT_SIZES = [
+    { name: t('screens.fontSizeModal.small'), size: 14, value: -2 },
+    { name: t('screens.fontSizeModal.medium'), size: 17, value: 0 },
+    { name: t('screens.fontSizeModal.large'), size: 20, value: 2 },
+  ];
 
   return (
     <Modal
@@ -52,7 +57,7 @@ const FontSizeModal: React.FC<Props> = ({
       >
         <View style={styles.handle} />
         <View style={{ alignItems: 'center' }}>
-          <ScreenTitle title="Adjust Font Size" />
+          <ScreenTitle title={t('screens.fontSizeModal.title')} />
           <CustomButton
             style={[
               styles.sizesBtn,
@@ -62,7 +67,7 @@ const FontSizeModal: React.FC<Props> = ({
               },
             ]}
             titleColor={theme.dark ? '#e2e2e2' : '#000'}
-            title="Select Font Size"
+            title={t('screens.fontSizeModal.label')}
             onPress={() => setShowSizes(!showSizes)}
             iconLeft={showSizes ? <ChevUp /> : <ChevDown />}
             titleStyle={{ fontFamily: 'Gilroy-SemiBold' }}

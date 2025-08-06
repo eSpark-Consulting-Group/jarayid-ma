@@ -20,6 +20,7 @@ import {
 import { CustomInput } from '../components';
 import ButtonGradient from '../components/ButtonGradient';
 import { showToast } from '../utils/showToast';
+import { useTranslation } from 'react-i18next';
 
 const ProfileScreen: React.FC = () => {
   const theme = useTheme();
@@ -30,7 +31,12 @@ const ProfileScreen: React.FC = () => {
   const [country, setCountry] = useState('');
   const [image, setImage] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; country?: string; number?: string }>({});
+  const [errors, setErrors] = useState<{
+    name?: string;
+    country?: string;
+    number?: string;
+  }>({});
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchUserProfile();
@@ -54,8 +60,8 @@ const ProfileScreen: React.FC = () => {
   const handleEditProfile = async () => {
     // Validation for required fields
     const newErrors: { name?: string; country?: string; number?: string } = {};
-    if (!name) newErrors.name = "Name can't be empty";
-    if (!country) newErrors.country = "Country can't be empty";
+    if (!name) newErrors.name = t('screens.editProfile.nameRequired');
+    if (!country) newErrors.country = t('screens.editProfile.countryRequired');
     // if (!number) newErrors.number = "Mobile Number can't be empty";
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {
@@ -73,10 +79,13 @@ const ProfileScreen: React.FC = () => {
     setLoading(false);
 
     if (result.success && result.data) {
-      showToast('Profile updated successfully.', 'success');
+      showToast(t('screens.editProfile.toastSuccess'), 'success');
       console.log('Profile updated successfully.');
     } else {
-      showToast(result?.error?.message || 'Failed to update profile.', 'error');
+      showToast(
+        result?.error?.message || t('screens.editProfile.toastFailure'),
+        'error',
+      );
       console.log('Failed to update profile screen:', result);
     }
   };
@@ -113,11 +122,12 @@ const ProfileScreen: React.FC = () => {
           </TouchableOpacity>
 
           <CustomInput
-            label="Name"
-            placeholder="Enter your Name"
+            label={t('screens.editProfile.name')}
+            placeholder={t('screens.editProfile.namePlaceholder')}
             onChangeText={text => {
               setName(text);
-              if (errors.name && text) setErrors(prev => ({ ...prev, name: undefined }));
+              if (errors.name && text)
+                setErrors(prev => ({ ...prev, name: undefined }));
             }}
             value={name}
             keyboardType="default"
@@ -129,8 +139,8 @@ const ProfileScreen: React.FC = () => {
           />
 
           <CustomInput
-            label="Email"
-            placeholder="Enter your Email"
+            label={t('screens.editProfile.email')}
+            placeholder={t('screens.editProfile.emailPlaceholder')}
             onChangeText={text => setEmail(text)}
             value={email}
             editable={false}
@@ -141,11 +151,12 @@ const ProfileScreen: React.FC = () => {
           />
 
           <CustomInput
-            label="Mobile Number"
-            placeholder="Enter your Mobile Number"
+            label={t('screens.editProfile.phone')}
+            placeholder={t('screens.editProfile.phonePlaceholder')}
             onChangeText={text => {
               setNumber(text);
-              if (errors.number && text) setErrors(prev => ({ ...prev, number: undefined }));
+              if (errors.number && text)
+                setErrors(prev => ({ ...prev, number: undefined }));
             }}
             value={number}
             editable={false}
@@ -158,11 +169,12 @@ const ProfileScreen: React.FC = () => {
           />
 
           <CustomInput
-            label="Country"
-            placeholder="Enter your Country"
+            label={t('screens.editProfile.country')}
+            placeholder={t('screens.editProfile.countryPlaceholder')}
             onChangeText={text => {
               setCountry(text);
-              if (errors.country && text) setErrors(prev => ({ ...prev, country: undefined }));
+              if (errors.country && text)
+                setErrors(prev => ({ ...prev, country: undefined }));
             }}
             value={country}
             keyboardType="default"
@@ -181,7 +193,7 @@ const ProfileScreen: React.FC = () => {
             />
           ) : (
             <ButtonGradient
-              title="Save Changes"
+              title={t('screens.editProfile.buttonText')}
               style={styles.buttonStyle}
               gradientStyle={styles.gradientStyle}
               onPress={handleEditProfile}

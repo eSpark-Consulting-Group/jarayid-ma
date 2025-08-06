@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderText from './HeaderText';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   visible: boolean;
@@ -17,6 +18,8 @@ const LogoutConfirmationModal: React.FC<Props> = ({
   onConfirm,
   theme,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Modal
       isVisible={visible}
@@ -42,15 +45,14 @@ const LogoutConfirmationModal: React.FC<Props> = ({
           color={theme.dark ? theme.colors.text : '#000'}
           size={19}
         >
-          Are you sure you want to Logout?
+          {t('screens.logout.title')}
         </HeaderText>
         <HeaderText
           theme={theme}
           fontFamily="Gilroy-SemiBold"
           style={styles.subtitle}
         >
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard
+          {t('screens.logout.message')}
         </HeaderText>
 
         <View style={styles.buttonRow}>
@@ -67,7 +69,7 @@ const LogoutConfirmationModal: React.FC<Props> = ({
               style={styles.cancelText}
               size={15}
             >
-              Cancel
+              {t('screens.logout.cancelButton')}
             </HeaderText>
           </TouchableOpacity>
           <TouchableOpacity style={styles.logoutBtn} onPress={onConfirm}>
@@ -77,7 +79,7 @@ const LogoutConfirmationModal: React.FC<Props> = ({
               size={15}
               fontFamily="Gilroy-SemiBold"
             >
-              Logout
+              {t('screens.logout.confirmButton')}
             </HeaderText>
           </TouchableOpacity>
         </View>

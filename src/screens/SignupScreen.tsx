@@ -22,6 +22,7 @@ import { signup } from '../services/authService';
 import { setUser } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
 import { showToast } from '../utils/showToast';
+import { useTranslation } from 'react-i18next';
 
 interface SignupScreenProps {}
 
@@ -39,7 +40,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
     password?: string;
     confirmPassword?: string;
   }>({});
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleNameChange = (text: string) => {
@@ -99,28 +100,29 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
     } = {};
 
     if (!name) {
-      newErrors.name = "Can't be empty";
+      newErrors.name = t('screens.signup.errors.emptyName');
     }
 
     if (!email) {
-      newErrors.email = "Can't be empty";
+      newErrors.email = t('screens.signup.errors.emptyEmail');
     } else if (!email.includes('@')) {
-      newErrors.email = 'Invalid email format';
+      newErrors.email = t('screens.signup.errors.invalidEmail');
     }
 
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
     if (!password) {
-      newErrors.password = 'At least 8 characters';
+      newErrors.password = t('screens.signup.errors.emptyPassword');
     } else if (!passwordRegex.test(password)) {
-      newErrors.password =
-        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character';
+      newErrors.password = t('screens.signup.errors.invalidPassword');
     }
 
     if (!confirmPassword) {
-      newErrors.confirmPassword = 'At least 8 characters';
+      newErrors.confirmPassword = t(
+        'screens.signup.errors.emptyConfirmPassword',
+      );
     } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords don't match";
+      newErrors.confirmPassword = t('screens.signup.errors.passwordsDontMatch');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -144,14 +146,14 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
         await AsyncStorage.setItem('accessToken', res?.data?.token);
         navigation.replace('SelectLanguage');
         setLoading(false);
-        showToast('Signup successful!', 'success');
+        showToast(t('screens.signup.toasts.success'), 'success');
       } else {
         setLoading(false);
-        showToast(res?.message || 'Signup failed. Please try again.', 'error');
+        showToast(res?.message || t('screens.signup.toasts.fail'), 'error');
       }
     } catch (error) {
       setLoading(false);
-      showToast('Signup failed. Please try again.', 'error');
+      showToast(t('screens.signup.toasts.fail'), 'error');
       console.error('Signup error:', error);
     }
   };
@@ -195,7 +197,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 size={28}
                 style={styles.title}
               >
-                Create account
+                {t('screens.signup.title')}
               </CustomText>
               <CustomText
                 fontFamily="Gilroy-Regular"
@@ -203,12 +205,12 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 style={styles.subtitle}
                 size={16}
               >
-                Let's get you started sharing your links!
+                {t('screens.signup.subtitle')}
               </CustomText>
               <CustomInput
-                label="Name"
+                label={t('screens.signup.nameLabel')}
                 iconName="badge"
-                placeholder="e.g. Alex Johnson"
+                placeholder={t('screens.signup.namePlaceholder')}
                 value={name}
                 onChangeText={handleNameChange}
                 keyboardType="name-phone-pad"
@@ -217,9 +219,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 hasError={!!errors.name}
               />
               <CustomInput
-                label="Email address"
+                label={t('screens.signup.emailLabel')}
                 iconName="email"
-                placeholder="e.g. alex@email.com"
+                placeholder={t('screens.signup.emailPlaceholder')}
                 value={email}
                 onChangeText={handleEmailChange}
                 keyboardType="email-address"
@@ -228,9 +230,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 hasError={!!errors.email}
               />
               <CustomInput
-                label="Create password"
+                label={t('screens.signup.passwordLabel')}
                 iconName="lock"
-                placeholder="At least 8 characters"
+                placeholder={t('screens.signup.passwordPlaceholder')}
                 value={password}
                 onChangeText={handlePasswordChange}
                 secureTextEntry
@@ -238,9 +240,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 hasError={!!errors.password}
               />
               <CustomInput
-                label="Confirm password"
+                label={t('screens.signup.confirmPasswordLabel')}
                 iconName="lock"
-                placeholder="At least 8 characters"
+                placeholder={t('screens.signup.confirmPasswordPlaceholder')}
                 value={confirmPassword}
                 onChangeText={handleConfirmPasswordChange}
                 secureTextEntry
@@ -252,23 +254,22 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 size={12}
                 color={theme.dark ? '#999' : '#666'}
               >
-                Password must contain at least 8 characters, including one
-                uppercase letter, one lowercase letter, one number, and one
-                special character
+                {t('screens.signup.passwordNote')}
               </CustomText>
               <CustomButton
-                title="Create new account"
+                title={t('screens.signup.createAccountButton')}
                 onPress={handleSignup}
                 loading={loading}
               />
               <GoogleButton onPress={handleGoogleSignup} />
+              {/* need to handle position change due to language */}
               <View style={styles.linkContainer}>
                 <CustomText size={14} color={theme.dark ? '#999' : '#666'}>
-                  Already have an account?{' '}
+                  {t('screens.signup.alreadyHaveAccount')}
                 </CustomText>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                   <CustomText size={14} style={styles.link}>
-                    Login
+                    {t('screens.signup.loginLink')}
                   </CustomText>
                 </TouchableOpacity>
               </View>

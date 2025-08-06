@@ -20,11 +20,13 @@ import { login } from '../services/authService';
 import { setUser } from '../redux/slices/authSlice';
 import useTheme from '../theme/useTheme';
 import { showToast } from '../utils/showToast';
+import { useTranslation } from 'react-i18next';
 
 interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const navigation = useNavigation<RootStackNavigationProp<'Login'>>();
   const [email, setEmail] = useState('muhammadahsanty@gmail.com');
@@ -63,13 +65,13 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
     const newErrors: { email?: string; password?: string } = {};
 
     if (!email) {
-      newErrors.email = "Can't be empty";
+      newErrors.email = t('screens.login.errors.emptyEmail');
     } else if (!email.includes('@')) {
-      newErrors.email = 'Invalid email format';
+      newErrors.email = t('screens.login.errors.invalidEmail');
     }
 
     if (!password) {
-      newErrors.password = 'Please check again';
+      newErrors.password = t('screens.login.errors.emptyPassword');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -96,16 +98,16 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
         );
         navigation.replace('Home');
         setLoading(false);
-        showToast('Login successful!', 'success');
+        showToast(t('screens.login.toasts.success'), 'success');
       } else {
         setLoading(false);
         console.error('Login failed:', res?.message);
-        showToast(res?.message || 'Login failed. Please try again.', 'error');
+        showToast(res?.message || t('screens.login.toasts.fail'), 'error');
       }
     } catch (err) {
       setLoading(false);
       console.log('Login error:', err);
-      showToast('Login failed. Please try again.', 'error');
+      showToast(t('screens.login.toasts.fail'), 'error');
     }
   };
 
@@ -135,7 +137,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
             ]}
           >
             <CustomText fontFamily="Gilroy-Bold" size={28} style={styles.title}>
-              Login
+              {t('screens.login.title')}
             </CustomText>
             <CustomText
               fontFamily="Gilroy-Regular"
@@ -143,12 +145,12 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               style={styles.subtitle}
               size={16}
             >
-              Add your details below to get back into the app
+              {t('screens.login.subtitle')}
             </CustomText>
             <CustomInput
-              label="Email address"
+              label={t('screens.login.emailLabel')}
               iconName="email"
-              placeholder="e.g. alex@email.com"
+              placeholder={t('screens.login.emailPlaceholder')}
               value={email}
               onChangeText={handleEmailChange}
               keyboardType="email-address"
@@ -157,9 +159,9 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               hasError={!!errors.email}
             />
             <CustomInput
-              label="Password"
+              label={t('screens.login.passwordLabel')}
               iconName="lock"
-              placeholder="Enter your password"
+              placeholder={t('screens.login.passwordPlaceholder')}
               value={password}
               onChangeText={handlePasswordChange}
               secureTextEntry
@@ -171,23 +173,26 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
               style={styles.forgotPasswordContainer}
             >
               <CustomText style={styles.forgotPasswordText}>
-                Forgot password?
+                {t('screens.login.forgotPassword')}
               </CustomText>
             </TouchableOpacity>
             <CustomButton
-              title="Login"
+              title={t('screens.login.buttonText')}
               onPress={handleLogin}
               loading={loading}
             />
+            {/* need to handle position change */}
             <View style={styles.linkContainer}>
               <CustomText
                 style={styles.linkText}
                 color={theme.dark ? '#999' : '#666'}
               >
-                Don't have an account?{' '}
+                {t('screens.login.noAccount')}
               </CustomText>
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                <CustomText style={styles.link}>Create account</CustomText>
+                <CustomText style={styles.link}>
+                  {t('screens.login.signupLink')}
+                </CustomText>
               </TouchableOpacity>
             </View>
           </View>

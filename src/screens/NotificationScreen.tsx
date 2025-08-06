@@ -4,9 +4,11 @@ import { CustomText } from '../components';
 import useTheme from '../theme/useTheme';
 
 import NotificationItem from '../components/NotificationItem';
+import { useTranslation } from 'react-i18next';
 
 const NotificationScreen: React.FC = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <SafeAreaView
@@ -17,7 +19,7 @@ const NotificationScreen: React.FC = () => {
         size={23}
         style={{ marginBottom: 10, paddingHorizontal: 20 }}
       >
-        Notifications
+        {t('screens.notifications.title')}
       </CustomText>
 
       <FlatList
