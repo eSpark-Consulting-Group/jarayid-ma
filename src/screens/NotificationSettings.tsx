@@ -53,7 +53,7 @@ const NotificationSettings: React.FC = () => {
         ))}
       </View>
       <View style={{ flexDirection: 'row', marginVertical: 20, gap: 3 }}>
-        <CustomText text="You Will Receive" />
+        <CustomText text={t('screens.notificationSettings.lowMessage')} />
         <CustomText
           fontFamily="Gilroy-SemiBold"
           text={`${

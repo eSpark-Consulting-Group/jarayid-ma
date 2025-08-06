@@ -136,6 +136,16 @@
       "category": "الفئة",
       "button": "حفظ"
     },
+    "notificationSettings": {
+      "title": "إعدادات الإشعارات",
+      "category": "الفئة",
+      "low": "منخفض",
+      "lowMessage": "سوف تتلقى",
+      "medium": "متوسط",
+      "mediumMessage": "سوف تتلقى",
+      "high": "مرتفع",
+      "highMessage": "سوف تتلقى"
+    },
     "subscription": {
       "title": "اشترك في جريد بلس",
       "cardTitle": "الاشتراك الأساسي",

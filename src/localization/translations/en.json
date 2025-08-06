@@ -140,11 +140,11 @@
       "title": "Notification Settings",
       "category": "Category",
       "low": "Low",
-      "lowMessage": "You will receive 3 news alerts per day",
+      "lowMessage": "You will receive",
       "medium": "Medium",
-      "mediumMessage": "You will receive 2 news alerts per day",
+      "mediumMessage": "You will receive",
       "high": "High",
-      "highMessage": "You will receive 1 news alert per day"
+      "highMessage": "You will receive"
     },
     "subscription": {
       "title": "Subscribe Jarayid Plus",
